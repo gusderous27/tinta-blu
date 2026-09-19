@@ -186,6 +186,8 @@ body.sin-sesion{padding-bottom:0}
 .reporte-opcion{display:flex; align-items:center; gap:.5rem; min-height:36px; font-size:.95rem}
 .fila-mod{display:flex; gap:1.25rem; flex-wrap:wrap; align-items:center}
 .aviso-suspension{background:var(--sheet); border-left:4px solid #9B2C2C; padding:.75rem 1rem; margin:0 0 1.25rem; font-size:.95rem}
+.redes-vista{font-size:.9rem; color:var(--muted); margin:-.25rem 0 1rem}
+.redes-vista .redes{margin:.25rem 0 0}
 .fill-label{display:block; font-weight:600; margin:1rem 0 .4rem}
 .brand{font-family:"Special Elite","Courier New",monospace; font-size:clamp(2rem,8vw,2.6rem); line-height:1.1; margin:0; background:none; border:0; padding:0; cursor:pointer; display:inline-flex; align-items:center; gap:.3em; color:var(--text)}
 .b-blu{color:var(--ink); padding:0 .12em; background-image:linear-gradient(var(--mark),var(--mark)); background-repeat:no-repeat; background-size:100% 55%; background-position:0 90%}
@@ -609,12 +611,13 @@ en otro balcón           (5)</div>
         <input class="h-input" id="p-email" readonly>
       </div>
       <h2 class="block-title">Redes sociales</h2>
-      <p class="note" style="margin-top:0">Opcional. Aparecen junto a tus textos en el muro.</p>
+      <p class="note" style="margin-top:0">Opcional. Aparecen junto a tus textos en el muro. Podés pegar el link completo o escribir solo tu usuario: la app guarda el usuario y arma el link sola.</p>
       <div class="field"><label class="fill-label" for="r-instagram">Instagram</label><input class="h-input" id="r-instagram" maxlength="60" autocomplete="off" placeholder="@usuario"></div>
       <div class="field"><label class="fill-label" for="r-x">X (Twitter)</label><input class="h-input" id="r-x" maxlength="60" autocomplete="off" placeholder="@usuario"></div>
       <div class="field"><label class="fill-label" for="r-tiktok">TikTok</label><input class="h-input" id="r-tiktok" maxlength="60" autocomplete="off" placeholder="@usuario"></div>
       <div class="field"><label class="fill-label" for="r-facebook">Facebook</label><input class="h-input" id="r-facebook" maxlength="80" autocomplete="off" placeholder="usuario"></div>
       <div class="field"><label class="fill-label" for="r-web">Blog o sitio web</label><input class="h-input" id="r-web" maxlength="200" autocomplete="off" placeholder="https://"></div>
+      <div class="redes-vista" id="p-redes-vista" aria-live="polite"></div>
       <div class="actions"><button class="btn btn-primary" id="p-guardar">Guardar perfil</button></div>
       <p class="note" id="p-nota" aria-live="polite"></p>
     </div>
@@ -921,7 +924,7 @@ const REDES = [
   { k:"tiktok", label:"TikTok", url:h => "https://www.tiktok.com/@" + h },
   { k:"facebook", label:"Facebook", url:h => "https://facebook.com/" + h }
 ];
-const limpiarHandle = v => (v || "").trim().replace(/^https?:\/\/[^/]+\//i, "").replace(/^@/, "").split(/[/?#]/)[0].replace(/[^A-Za-z0-9._-]/g, "").slice(0, 60);
+const limpiarHandle = v => (v || "").trim().replace(/^(https?:\/\/)?(www\.|m\.|mobile\.)?[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}\//i, "").replace(/^@/, "").split(/[/?#]/)[0].replace(/[^A-Za-z0-9._-]/g, "").slice(0, 60);
 function limpiarWeb(v){
   v = (v || "").trim(); if (!v) return "";
   if (!/^https?:\/\//i.test(v)) v = "https://" + v;
@@ -1576,6 +1579,13 @@ function renderMis(){
 
 /* ================= Perfil ================= */
 const RED_IDS = { instagram:"r-instagram", x:"r-x", tiktok:"r-tiktok", facebook:"r-facebook", web:"r-web" };
+function vistaRedes(){
+  const box = $("p-redes-vista"); box.textContent = "";
+  const r = {}; Object.entries(RED_IDS).forEach(([k, id]) => { r[k] = $(id).value; });
+  const links = linksRedes(r);
+  if (links) { box.append("Así van a aparecer en el muro (tocalos para probarlos):"); box.append(links); }
+}
+Object.values(RED_IDS).forEach(id => $(id).addEventListener("input", vistaRedes));
 let fotoPendiente = undefined;   // undefined: sin cambios · null: quitar · {blob, vista}: nueva
 function pintarAvatarPerfil(){
   const box = $("p-avatar"); box.textContent = "";
@@ -1616,6 +1626,7 @@ async function renderPerfil(){
   $("p-email").value = yo.email || "";
   const r = miPerfil?.redes || {};
   Object.entries(RED_IDS).forEach(([k, id]) => { $(id).value = r[k] || ""; });
+  vistaRedes();
   fotoPendiente = undefined;
   pintarAvatarPerfil();
   $("p-nota").textContent = "";
@@ -1805,7 +1816,7 @@ function limpiarPantalla(){
   ["muro-lista","mis-lista","post-body","p-avatar","alias-row","admin-lista"].forEach(id => { $(id).textContent = ""; });
   ["p-alias","p-email","r-instagram","r-x","r-tiktok","r-facebook","r-web","text","h1","h2","h3",
    "g-titulo","g-logline","g-personaje","g-actos","g-escenas","share-alias-input","c-texto"].forEach(id => { const e = $(id); if (e) e.value = ""; });
-  ["p-stats","p-nota","streak","mis-estado","muro-estado","w-saved-msg","saved","share-note","h-note","g-saved","note","prompt","kind","genre","twist","origin","mini-prompt","mini-twist","h-prompt"].forEach(id => { const e = $(id); if (e) e.textContent = ""; });
+  ["p-stats","p-nota","p-redes-vista","streak","mis-estado","muro-estado","w-saved-msg","saved","share-note","h-note","g-saved","note","prompt","kind","genre","twist","origin","mini-prompt","mini-twist","h-prompt"].forEach(id => { const e = $(id); if (e) e.textContent = ""; });
   $("muro-vacio").hidden = true;
   $("perfil-form").hidden = true;
   VISTAS.forEach(x => $("v-" + x).hidden = true);
