@@ -1425,7 +1425,7 @@ async function renderPost(){
   cargarComentarios(p, lista, titulo);
 }
 async function cargarComentarios(p, lista, titulo){
-  const { data, error } = await sb.from("comentarios").select("id, texto, created_at, autor, perfil:profiles(alias, foto_url)").eq("post_id", p.id).order("created_at", { ascending:true });
+  const { data, error } = await sb.from("comentarios").select("id, texto, created_at, autor, perfil:profiles!comentarios_autor_fkey(alias, foto_url)").eq("post_id", p.id).order("created_at", { ascending:true });
   if (error) { lista.textContent = ""; lista.append(el("p", "note", "No se pudieron cargar los comentarios.")); return; }
   titulo.textContent = data.length ? `Comentarios (${data.length})` : "Comentarios";
   lista.textContent = "";
@@ -1755,7 +1755,7 @@ async function renderAdmin(){
   if (!esAdmin) { nota.textContent = "Esta sección es solo para administradores."; return; }
   nota.textContent = "Cargando reportes…";
   const { data, error } = await sb.from("reportes")
-    .select("id, motivo, detalle, created_at, post_id, comentario_id, reportero:profiles!reportes_autor_fkey(alias), post:posts(id, texto, tipo, autor, perfil:profiles(alias, suspendido)), comentario:comentarios(id, texto, post_id, autor, perfil:profiles(alias, suspendido))")
+    .select("id, motivo, detalle, created_at, post_id, comentario_id, reportero:profiles!reportes_autor_fkey(alias), post:posts!reportes_post_id_fkey(id, texto, tipo, autor, perfil:profiles!posts_autor_fkey(alias, suspendido)), comentario:comentarios!reportes_comentario_id_fkey(id, texto, post_id, autor, perfil:profiles!comentarios_autor_fkey(alias, suspendido))")
     .eq("estado", "pendiente").order("created_at", { ascending:false }).limit(200);
   if (error) { console.error(error); nota.textContent = "No se pudieron cargar los reportes."; return; }
   nota.textContent = data.length ? "" : "No hay reportes pendientes. Todo tranquilo por el muro.";
