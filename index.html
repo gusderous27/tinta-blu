@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tinta Blu — consignas de escritura creativa</title>
+<meta name="description" content="Tinta Blu: consignas de taller para destrabar la escritura. Escribí, guardá y compartí tus textos con otros escritores.">
+<meta name="theme-color" content="#22306B">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✒️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=Courier+Prime&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E6EAE1; --sheet:#F7F8F4; --ink:#22306B; --text:#262A33;
+  --muted:#5E6570; --mark:#F0D64A; --on-mark:#262A33; --rule:#CBD1C6;
+  --serif:"Young Serif", Georgia, "Times New Roman", serif;
+  --read:"Newsreader", Georgia, "Times New Roman", serif;
+  --sans:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#151A2B; --sheet:#1D2338; --ink:#B4C3FF; --text:#E6E8EE;
+    --muted:#9AA1B2; --mark:#E2C63A; --on-mark:#1A1D26; --rule:#2E3552;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#151A2B; --sheet:#1D2338; --ink:#B4C3FF; --text:#E6E8EE;
+  --muted:#9AA1B2; --mark:#E2C63A; --on-mark:#1A1D26; --rule:#2E3552;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--paper); color:var(--text); font-family:var(--sans);
+  font-size:1rem; line-height:1.5; min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px; margin:0 auto; padding:1.25rem 1.25rem 3rem}
+header{display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:2rem}
+.tabs{display:none}
+.tab{background:none; border:0; padding:.5rem 0; margin-bottom:-1px; color:var(--muted); font-weight:500; border-bottom:3px solid transparent}
+.tab[aria-selected="true"]{color:var(--ink); font-weight:600; border-bottom-color:var(--mark)}
+.genre{font-size:.9rem; color:var(--muted); margin-left:.35rem}
+/* Guion */
+.guide h2{font-family:var(--serif); font-weight:400; color:var(--ink); font-size:1.4rem; margin:2.25rem 0 .5rem}
+.guide h2:first-of-type{margin-top:0}
+.guide p, .guide li{max-width:62ch}
+.guide ol{padding-left:1.2rem} .guide li{margin-bottom:.5rem}
+.intro{font-family:var(--read); font-size:1.2rem; line-height:1.55; color:var(--text); margin:0 0 2rem}
+.sp{background:var(--sheet); border:1px solid var(--rule); border-radius:4px; padding:1.5rem 1.25rem; overflow-x:auto;
+  font-family:"Courier Prime","Courier New",Courier,monospace; font-size:.95rem; line-height:1.5; white-space:pre; color:var(--text)}
+.fill{width:100%; min-height:6rem; background:var(--sheet); color:var(--text); border:1px solid var(--rule); border-radius:4px; padding:.9rem; font-family:var(--read); font-size:1.05rem; line-height:1.5; resize:vertical}
+.fill:focus{outline:none; border-color:var(--ink)}
+.h-prompt{font-family:var(--read); font-size:1.1rem; color:var(--ink); min-height:1.2em; margin:0 0 1rem}
+.h-lines{display:flex; flex-direction:column; gap:.6rem}
+.h-line{display:flex; align-items:center; gap:.75rem}
+.h-input{flex:1; min-width:0; background:var(--sheet); color:var(--text); border:1px solid var(--rule); border-radius:4px; padding:.75rem .9rem; font-family:var(--read); font-size:1.1rem}
+.h-input:focus{outline:none; border-color:var(--ink)}
+.h-count{font-variant-numeric:tabular-nums; font-size:.9rem; color:var(--muted); min-width:3.6em; text-align:right}
+.h-count.ok{color:var(--ink); font-weight:600}
+.h-saved{font-family:var(--read); white-space:pre-line; line-height:1.6; border-top:1px dashed var(--rule); padding:1rem 0 .25rem; margin:0}
+.h-saved small{display:block; font-family:var(--sans); color:var(--muted); font-size:.82rem; margin-top:.3rem}
+.muro-head{display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:1rem}
+.muro-title{font-family:var(--serif); font-weight:400; color:var(--ink); font-size:1.6rem; margin:0}
+.select{background:var(--sheet); color:var(--text); border:1px solid var(--rule); border-radius:999px; padding:.55rem 1rem; font:inherit; font-size:.92rem; min-height:44px}
+.alias-row{display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; font-size:.92rem; color:var(--muted); margin-bottom:1.5rem}
+.alias-row b{color:var(--text)}
+.alias-row .h-input{flex:0 1 14rem; font-size:1rem; padding:.55rem .8rem}
+.post-card{background:var(--sheet); border:1px solid var(--rule); border-radius:4px 16px 4px 4px; padding:1.25rem 1.25rem 1rem; margin-bottom:1rem}
+.meta{font-size:.88rem; color:var(--muted); margin:.5rem 0 0}
+.meta b{color:var(--text); font-weight:600}
+.excerpt{font-family:var(--read); font-size:1.05rem; line-height:1.6; white-space:pre-line; margin:.75rem 0; overflow-wrap:anywhere}
+.card-foot{display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; font-size:.9rem; color:var(--muted)}
+.stars{color:var(--ink); letter-spacing:.08em}
+.readmore{background:none; border:0; color:var(--ink); font-weight:600; padding:.5rem 0; min-height:44px}
+.full{font-family:var(--read); font-size:1.12rem; line-height:1.75; white-space:pre-wrap; overflow-wrap:anywhere; margin:1.25rem 0 2rem}
+.consigna-mini{font-size:.92rem; color:var(--muted); font-style:italic; margin:.75rem 0 0}
+.block-title{font-family:var(--serif); font-weight:400; color:var(--ink); font-size:1.25rem; margin:2rem 0 .5rem}
+.star-row{display:flex; gap:.1rem; align-items:center}
+.star-btn{background:none; border:0; font-size:1.9rem; line-height:1; color:var(--muted); min-width:44px; min-height:44px; padding:0}
+.star-btn.on{color:var(--ink)}
+.comment{border-top:1px dashed var(--rule); padding:.9rem 0}
+.comment p{margin:.3rem 0 0; white-space:pre-wrap; overflow-wrap:anywhere}
+.share{margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--rule)}
+.danger{background:none; border:0; color:var(--muted); text-decoration:underline; padding:.5rem 0; min-height:44px; font-size:.9rem}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.bottom-nav{position:fixed; left:0; right:0; bottom:0; z-index:20; background:var(--sheet); border-top:1px solid var(--rule); padding-bottom:env(safe-area-inset-bottom)}
+.bottom-nav ul{list-style:none; margin:0 auto; padding:0; max-width:640px; display:grid; grid-template-columns:repeat(4, minmax(0,1fr))}
+.nav-btn{width:100%; min-height:64px; background:none; border:0; color:var(--muted); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:.75rem; font-weight:500; padding:6px 0}
+.nav-btn svg{width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+.nav-btn[aria-current="page"]{color:var(--ink); font-weight:600}
+.nav-btn[aria-current="page"] svg{stroke-width:2.2}
+.nav-btn[aria-current="page"] span{background-image:linear-gradient(var(--mark),var(--mark)); background-repeat:no-repeat; background-size:100% 40%; background-position:0 95%; padding:0 .2em}
+.sheet-menu{position:fixed; left:0; right:0; bottom:calc(64px + env(safe-area-inset-bottom)); z-index:19; display:flex; justify-content:center; padding:0 1rem}
+.sheet-menu .inner{width:100%; max-width:420px; background:var(--sheet); border:1px solid var(--rule); border-radius:18px 18px 4px 4px; padding:.75rem; box-shadow:0 -8px 24px rgba(20,24,40,.12)}
+.sheet-menu h2{font-family:var(--serif); font-weight:400; font-size:1.1rem; color:var(--ink); margin:.25rem .5rem .5rem}
+.menu-item{width:100%; text-align:left; background:none; border:0; border-radius:10px; padding:.8rem .75rem; min-height:56px; color:var(--text); display:flex; flex-direction:column; gap:2px}
+.menu-item:hover, .menu-item:focus-visible{background:var(--paper)}
+.menu-item b{font-weight:600; font-size:1rem}
+.menu-item small{color:var(--muted); font-size:.85rem}
+.scrim{position:fixed; inset:0; z-index:18; background:rgba(20,24,40,.25); border:0; padding:0}
+.page-title{font-family:var(--serif); font-weight:400; color:var(--ink); font-size:1.6rem; margin:0 0 1.25rem}
+.item-actions{display:flex; gap:1.25rem; flex-wrap:wrap}
+.field{margin-bottom:1rem}
+.field .h-input{width:100%}
+.h-input[readonly]{color:var(--muted); background:transparent}
+.redes{display:flex; gap:1rem; flex-wrap:wrap; font-size:.9rem; margin:.4rem 0 0}
+.redes a{color:var(--ink); font-weight:600}
+.script-area{width:100%; min-height:50vh; resize:vertical; background:var(--sheet); color:var(--text); border:1px solid var(--rule); border-radius:4px; padding:1rem; font-family:"Courier Prime","Courier New",Courier,monospace; font-size:1rem; line-height:1.5}
+.script-area:focus{outline:none; border-color:var(--ink)}
+.saved-msg{color:var(--ink); font-weight:500; margin:.75rem 0 0; min-height:1.5em}
+#share-box{margin-top:0; padding-top:0; border-top:0}
+.author{display:flex; align-items:center; gap:.6rem; margin:.6rem 0 0}
+.author .meta{margin:0}
+.avatar{flex:none; border-radius:50%; object-fit:cover; background:var(--ink); color:var(--sheet); display:inline-flex; align-items:center; justify-content:center; font-weight:600; overflow:hidden}
+.avatar-edit{display:flex; align-items:center; gap:1.25rem; margin-bottom:1.5rem; flex-wrap:wrap}
+.avatar-btns{display:flex; flex-direction:column; align-items:flex-start; gap:.25rem}
+.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+.avatar-btns:focus-within label{outline:3px solid var(--mark); outline-offset:3px}
+#splash{position:fixed; inset:0; z-index:100; background:var(--paper); display:flex; align-items:center; justify-content:center; padding:2rem; transition:opacity .45s ease, transform .45s ease; cursor:pointer}
+#splash.out{opacity:0; transform:translateY(-14px); pointer-events:none}
+.sp-inner{display:flex; flex-direction:column; align-items:center; gap:1.25rem}
+.sp-logo{font-family:"Special Elite","Courier New",monospace; font-size:clamp(2.8rem,13vw,4.2rem); line-height:1.1; color:var(--text); display:flex; align-items:center; gap:.3em; min-height:1.2em}
+.sp-blu{color:var(--ink); padding:0 .12em; background-image:linear-gradient(var(--mark),var(--mark)); background-repeat:no-repeat; background-size:0 55%; background-position:0 90%; transition:background-size .5s ease-out}
+.sp-blu.on{background-size:100% 55%}
+.sp-slogan{font-family:var(--read); font-style:italic; font-size:clamp(1.05rem,4.4vw,1.25rem); color:var(--muted); margin:0; text-align:center; opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease}
+.sp-slogan.show{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){ #splash, .sp-blu, .sp-slogan{transition:none} }
+.orden-wrap{display:inline-flex; align-items:center; gap:.3rem; font-size:.82rem; color:var(--muted)}
+.select-min{appearance:none; -webkit-appearance:none; border:0; background-color:transparent; color:var(--ink); font:inherit; font-size:.85rem; font-weight:600; padding:.3rem 1.1rem .3rem .1rem; min-height:40px; cursor:pointer;
+  background-image:linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:calc(100% - 7px) 55%, calc(100% - 3px) 55%; background-size:4px 4px; background-repeat:no-repeat}
+.select-min:focus-visible{outline:2px solid var(--mark); outline-offset:2px; border-radius:4px}
+.vacio{display:flex; flex-direction:column; align-items:center; text-align:center; padding:2.5rem 1rem 1rem}
+.vacio .note{margin:.25rem 0 1.25rem}
+.maquina{width:min(62vw,220px); height:auto; margin-bottom:1.25rem}
+.maquina-cursor{animation:blink 1.1s steps(1) infinite}
+.vacio-titulo{font-family:var(--serif); color:var(--ink); font-size:1.35rem; margin:0}
+@media (prefers-reduced-motion: reduce){ .maquina-cursor{animation:none} }
+body.cargando .wrap, body.cargando .bottom-nav, body.sin-sesion .wrap, body.sin-sesion .bottom-nav{display:none !important}
+body.sin-sesion{padding-bottom:0}
+.login{min-height:100vh; min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:2rem 1.25rem}
+.login-inner{display:flex; flex-direction:column; align-items:center; gap:1.5rem; text-align:center; max-width:560px}
+.login .sp-slogan{opacity:1; transform:none}
+.google-btn{display:inline-flex; align-items:center; gap:.75rem; background:var(--sheet); color:var(--text); border:1px solid var(--rule); border-radius:999px; padding:.9rem 1.5rem; font-weight:600; font-size:1rem; min-height:52px; margin-top:.5rem}
+.google-btn:hover{border-color:var(--ink)}
+.google-btn svg{width:20px; height:20px}
+.login-intro{font-family:var(--read); font-size:min(1.05rem, calc((100vw - 2.5rem) / 30)); color:var(--text); margin:0; line-height:1.55}
+.login-intro span{display:block; white-space:nowrap}
+.legal{font-size:.82rem; color:var(--muted); max-width:34ch; margin:0}
+.legal a, .perfil-legal a{color:var(--ink)}
+.perfil-legal{font-size:.85rem; color:var(--muted); margin-top:1rem}
+.perfil-top{display:flex; justify-content:space-between; align-items:baseline; gap:1rem; margin-bottom:1.25rem}
+.perfil-top .page-title{margin:0}
+.baja{margin-top:3rem; padding-top:1rem; border-top:1px dashed var(--rule)}
+.baja-panel{background:var(--sheet); border:1px solid var(--rule); border-radius:8px; padding:1rem 1.1rem; margin-top:.5rem; font-size:.95rem}
+.baja-panel p{margin:.3rem 0}
+.btn-peligro{background:#9B2C2C; border-color:#9B2C2C; color:#fff}
+.email-link{background:none; border:0; padding:.5rem; min-height:44px; color:var(--muted); font:inherit; font-size:.92rem; text-decoration:underline; text-underline-offset:3px; cursor:pointer; margin-top:-.75rem}
+.email-link:hover{color:var(--ink)}
+.email-form{display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem; width:100%; max-width:360px; margin-top:-.5rem}
+.email-form .h-input{flex:1 1 200px; font-size:1rem; padding:.65rem .9rem}
+.email-ayuda{flex-basis:100%; margin:0; font-size:.82rem; color:var(--muted)}
+.auth-paso{display:flex; flex-direction:column; align-items:center; gap:1.25rem; width:100%}
+.auth-botones{display:flex; flex-direction:column; gap:.75rem; width:100%; max-width:300px}
+.auth-botones .btn{width:100%; padding:.95rem 1.4rem}
+.auth-caja{max-width:360px; text-align:left; align-items:stretch; gap:.9rem}
+.auth-titulo{font-family:var(--serif); font-weight:400; color:var(--ink); font-size:1.5rem; margin:0; text-align:center}
+.auth-texto{margin:0; font-family:var(--read); font-size:1.02rem; text-align:center}
+.auth-caja .google-btn{justify-content:center; margin-top:0; width:100%}
+.separador{display:flex; align-items:center; gap:.75rem; color:var(--muted); font-size:.85rem}
+.separador::before, .separador::after{content:""; flex:1; height:1px; background:var(--rule)}
+.auth-form{display:flex; flex-direction:column; gap:.4rem}
+.auth-form .h-input{width:100%; font-size:1rem; padding:.7rem .9rem; font-family:var(--sans)}
+.auth-form .btn{margin-top:.6rem; width:100%}
+.auth-label{font-weight:600; font-size:.9rem; margin-top:.35rem}
+.auth-ayuda{margin:.1rem 0 0; font-size:.82rem; color:var(--muted)}
+.mostrar{display:flex; align-items:center; gap:.45rem; font-size:.88rem; color:var(--muted); margin-top:.35rem; min-height:32px}
+.codigo-input{font-size:1.4rem !important; letter-spacing:.3em; text-align:center}
+.alterna{margin:0; text-align:center; font-size:.92rem; color:var(--muted)}
+.auth-caja .email-link{margin-top:-.25rem; align-self:center}
+#a-volver{margin:0}
+.fill-label{display:block; font-weight:600; margin:1rem 0 .4rem}
+.brand{font-family:"Special Elite","Courier New",monospace; font-size:clamp(2rem,8vw,2.6rem); line-height:1.1; margin:0; background:none; border:0; padding:0; cursor:pointer; display:inline-flex; align-items:center; gap:.3em; color:var(--text)}
+.b-blu{color:var(--ink); padding:0 .12em; background-image:linear-gradient(var(--mark),var(--mark)); background-repeat:no-repeat; background-size:100% 55%; background-position:0 90%}
+.b-cursor{width:.09em; height:.9em; background:var(--ink); display:inline-block; margin-left:-.15em; animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .b-blu, :root:not([data-theme="light"]) .sp-blu.on{color:var(--on-mark)}}
+:root[data-theme="dark"] .b-blu, :root[data-theme="dark"] .sp-blu.on{color:var(--on-mark)}
+@media (prefers-reduced-motion: reduce){.b-cursor{animation:none}}
+.streak{font-size:.9rem; color:var(--muted)}
+.streak b{color:var(--text); font-weight:600}
+
+.date{font-family:var(--serif); color:var(--ink); font-size:clamp(1.35rem,5vw,1.7rem); line-height:1.2; margin:0 0 .75rem; font-weight:400}
+.lead{font-size:1.1rem; color:var(--muted); margin:0 0 2.5rem; max-width:34ch}
+
+button{font:inherit; cursor:pointer}
+.btn{
+  border-radius:999px; padding:.85rem 1.4rem; font-weight:600; font-size:1rem;
+  border:2px solid var(--ink); transition:transform .12s ease, background .15s ease;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--ink); color:var(--sheet)}
+.btn-ghost{background:transparent; color:var(--ink)}
+.btn-big{font-size:1.15rem; padding:1.1rem 2rem}
+:focus-visible{outline:3px solid var(--mark); outline-offset:3px}
+
+/* Consigna */
+.sheet{background:var(--sheet); border-radius:4px 22px 4px 4px; padding:1.75rem 1.5rem 1.5rem; border:1px solid var(--rule)}
+.kind{display:inline; font-weight:600; font-size:.95rem; color:var(--on-mark);
+  background-image:linear-gradient(var(--mark),var(--mark)); background-repeat:no-repeat;
+  background-size:100% 70%; background-position:0 85%; padding:0 .2em}
+.reveal .kind{animation:sweep .6s .1s ease-out both}
+@keyframes sweep{from{background-size:0 70%}to{background-size:100% 70%}}
+.prompt{font-family:var(--read); font-weight:400; font-size:clamp(1.2rem,4.8vw,1.45rem); line-height:1.5; color:var(--text); margin:1rem 0 1.5rem; font-weight:400}
+.twist{margin:0 0 .4rem; color:var(--text)}
+.twist span, .time span{color:var(--muted)}
+.time{margin:0; color:var(--text)}
+.actions{display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.75rem}
+.note{font-size:.9rem; color:var(--muted); margin-top:1rem}
+
+/* Escritura */
+.mini{border-left:4px solid var(--mark); padding:.2rem 0 .2rem .9rem; margin-bottom:1.25rem}
+.mini p{margin:0; font-family:var(--read); font-size:1.05rem; line-height:1.4}
+.mini small{display:block; color:var(--muted); margin-top:.35rem; font-size:.88rem}
+.bar{display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:.75rem; flex-wrap:wrap}
+.clock{font-family:var(--serif); font-size:1.6rem; color:var(--ink); font-variant-numeric:tabular-nums}
+.clock.done{color:var(--muted)}
+.btn-sm{padding:.5rem 1rem; font-size:.92rem}
+textarea{
+  width:100%; min-height:55vh; resize:vertical; background:var(--sheet); color:var(--text);
+  border:1px solid var(--rule); border-radius:4px; padding:1.25rem;
+  font-family:var(--read); font-size:1.15rem; line-height:1.75;
+  background-image:linear-gradient(transparent calc(1.75em - 1px), var(--rule) 1px);
+  background-size:100% 1.75em; background-attachment:local; background-position:0 1.25rem;
+}
+textarea:focus{outline:none; border-color:var(--ink)}
+.foot{display:flex; justify-content:space-between; font-size:.9rem; color:var(--muted); margin-top:.6rem}
+.toast{margin:.75rem 0 0; color:var(--ink); font-weight:500; min-height:1.5em}
+.back{background:none; border:0; color:var(--ink); padding:0; font-weight:600; margin-bottom:1.5rem}
+.hist{display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; color:var(--muted); font-size:.9rem}
+.linkbtn{background:none; border:0; padding:.3rem 0; color:var(--ink); font-weight:600}
+.linkbtn:disabled{color:var(--rule); cursor:default}
+.origin{margin:1.25rem 0 0; padding-top:1rem; border-top:1px dashed var(--rule); font-size:.9rem; color:var(--muted)}
+.loading{font-family:var(--serif); font-size:1.3rem; color:var(--ink); margin:2rem 0}
+.sheet.dim{opacity:.35}
+.btn:disabled{opacity:.5; cursor:wait}
+[hidden]{display:none !important}
+@media (prefers-reduced-motion: reduce){ .reveal .kind{animation:none} .btn{transition:none} }
+</style>
+</head>
+<body class="cargando">
+<div id="splash" aria-hidden="true">
+  <div class="sp-inner">
+    <div class="sp-logo"><span id="sp-tinta"></span><span class="sp-blu" id="sp-blu" hidden></span><span class="b-cursor"></span></div>
+    <p class="sp-slogan" id="sp-slogan">Que la magia te encuentre escribiendo.</p>
+  </div>
+</div>
+
+<section id="login" class="login" hidden>
+  <div class="login-inner">
+    <div class="sp-logo"><span>tinta</span><span class="sp-blu on">blu</span><span class="b-cursor" aria-hidden="true"></span></div>
+    <p class="sp-slogan">Que la magia te encuentre escribiendo.</p>
+
+    <!-- Paso 1: bienvenida -->
+    <div class="auth-paso" id="auth-inicio">
+      <p class="login-intro"><span>Consignas de taller para destrabar la escritura.</span><span>Escribí, guardá tus textos y compartilos con otros escritores.</span></p>
+      <div class="auth-botones">
+        <button class="btn btn-primary" id="a-ir-login">Iniciar sesión</button>
+        <button class="btn btn-ghost" id="a-ir-registro">Registrarte</button>
+      </div>
+    </div>
+
+    <!-- Paso 2: iniciar sesión o registrarse -->
+    <div class="auth-paso auth-caja" id="auth-panel" hidden>
+      <h1 class="auth-titulo" id="auth-titulo">Iniciar sesión</h1>
+      <button class="google-btn" id="login-google">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        <span id="google-txt">Continuar con Google</span>
+      </button>
+      <div class="separador"><span>o con tu email</span></div>
+      <form class="auth-form" id="auth-form" novalidate>
+        <label class="auth-label" for="a-email">Email</label>
+        <input class="h-input" type="email" id="a-email" autocomplete="email" inputmode="email" placeholder="tu@email.com">
+        <label class="auth-label" for="a-pass">Contraseña</label>
+        <input class="h-input" type="password" id="a-pass" autocomplete="current-password">
+        <div id="a-pass2-wrap" hidden>
+          <label class="auth-label" for="a-pass2">Repetí la contraseña</label>
+          <input class="h-input" type="password" id="a-pass2" autocomplete="new-password">
+          <p class="auth-ayuda">Mínimo 8 caracteres.</p>
+        </div>
+        <label class="mostrar"><input type="checkbox" id="a-mostrar"> Mostrar contraseña</label>
+        <button type="submit" class="btn btn-primary" id="a-enviar">Entrar</button>
+      </form>
+      <button class="email-link" id="a-olvide">¿Olvidaste tu contraseña?</button>
+      <p class="alterna"><span id="a-alterna-txt">¿No tenés cuenta?</span> <button class="linkbtn" id="a-alterna">Registrate</button></p>
+    </div>
+
+    <!-- Paso 3: código de verificación -->
+    <form class="auth-paso auth-caja auth-form" id="auth-codigo" hidden novalidate>
+      <h1 class="auth-titulo">Revisá tu email</h1>
+      <p class="auth-texto" id="codigo-txt"></p>
+      <label class="auth-label" for="a-codigo">Código</label>
+      <input class="h-input codigo-input" id="a-codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456">
+      <div id="rec-wrap" hidden>
+        <label class="auth-label" for="a-nueva">Contraseña nueva</label>
+        <input class="h-input" type="password" id="a-nueva" autocomplete="new-password">
+        <label class="auth-label" for="a-nueva2">Repetí la contraseña nueva</label>
+        <input class="h-input" type="password" id="a-nueva2" autocomplete="new-password">
+        <p class="auth-ayuda">Mínimo 8 caracteres.</p>
+      </div>
+      <button type="submit" class="btn btn-primary" id="a-confirmar">Confirmar</button>
+      <button type="button" class="email-link" id="a-reenviar">No me llegó: reenviar el código</button>
+    </form>
+
+    <!-- Olvidé mi contraseña -->
+    <form class="auth-paso auth-caja auth-form" id="auth-olvide" hidden novalidate>
+      <h1 class="auth-titulo">Recuperar contraseña</h1>
+      <p class="auth-texto">Escribí el email de tu cuenta y te mandamos un código para crear una contraseña nueva.</p>
+      <label class="auth-label" for="o-email">Email</label>
+      <input class="h-input" type="email" id="o-email" autocomplete="email" inputmode="email" placeholder="tu@email.com">
+      <button type="submit" class="btn btn-primary" id="o-enviar">Enviarme el código</button>
+    </form>
+
+    <button class="back" id="a-volver" hidden>‹ Volver</button>
+    <p class="note" id="login-nota" aria-live="polite"></p>
+    <p class="legal">Al continuar aceptás las <a href="/terminos">condiciones del servicio</a> y la <a href="/privacidad">política de privacidad</a>.</p>
+  </div>
+</section>
+<div class="wrap">
+  <header>
+    <button class="brand" id="home-link" aria-label="Tinta Blu, volver al inicio"><span class="b-tinta">tinta</span> <span class="b-blu">blu</span><span class="b-cursor" aria-hidden="true"></span></button>
+    <div class="streak" id="streak"></div>
+  </header>
+
+  <!-- Muro -->
+  <section id="v-muro">
+    <div class="muro-head">
+      <h1 class="muro-title">Lo que se está escribiendo</h1>
+      <label class="orden-wrap" for="orden"><span>Ordenar por</span>
+      <select class="select-min" id="orden">
+        <option value="recientes">Más recientes</option>
+        <option value="valorados">Mejor valorados</option>
+        <option value="votados">Más votados</option>
+      </select></label>
+    </div>
+    <div class="alias-row" id="alias-row" hidden></div>
+    <p class="note" id="muro-estado" aria-live="polite">Cargando publicaciones…</p>
+    <div class="vacio" id="muro-vacio" hidden>
+      <svg class="maquina" viewBox="0 0 200 170" aria-hidden="true">
+        <rect x="58" y="8" width="84" height="66" rx="2" fill="var(--sheet)" stroke="var(--rule)" stroke-width="2"/>
+        <rect x="70" y="30" width="34" height="5" rx="1" fill="var(--mark)"/>
+        <rect class="maquina-cursor" x="107" y="24" width="3" height="13" fill="var(--ink)"/>
+        <rect x="38" y="64" width="124" height="14" rx="7" fill="var(--ink)"/>
+        <circle cx="32" cy="71" r="8" fill="var(--ink)"/>
+        <circle cx="168" cy="71" r="8" fill="var(--ink)"/>
+        <path d="M34 80 H166 L182 148 a8 8 0 0 1 -8 10 H26 a8 8 0 0 1 -8 -10 Z" fill="var(--ink)"/>
+        <g fill="var(--sheet)">
+          <circle cx="50" cy="98" r="5"/><circle cx="66" cy="98" r="5"/><circle cx="82" cy="98" r="5"/><circle cx="98" cy="98" r="5"/><circle cx="114" cy="98" r="5"/><circle cx="130" cy="98" r="5"/><circle cx="146" cy="98" r="5"/>
+          <circle cx="57" cy="115" r="5"/><circle cx="73" cy="115" r="5"/><circle cx="89" cy="115" r="5"/><circle cx="105" cy="115" r="5"/><circle cx="121" cy="115" r="5"/><circle cx="137" cy="115" r="5"/>
+          <circle cx="64" cy="132" r="5"/><circle cx="80" cy="132" r="5"/><circle cx="96" cy="132" r="5"/><circle cx="112" cy="132" r="5"/><circle cx="128" cy="132" r="5"/>
+          <rect x="70" y="144" width="60" height="6" rx="3"/>
+        </g>
+      </svg>
+      <p class="vacio-titulo">La hoja todavía está en blanco.</p>
+      <p class="note">Nadie compartió un texto todavía. ¿Escribís el primero?</p>
+      <button class="btn btn-primary btn-sm" id="vacio-crear">Nueva consigna</button>
+    </div>
+    <div id="muro-lista"></div>
+  </section>
+
+  <!-- Publicación -->
+  <section id="v-post" hidden>
+    <button class="back" id="post-back">‹ Volver al muro</button>
+    <div id="post-body"></div>
+  </section>
+
+  <!-- Inicio -->
+  <section id="v-home" hidden>
+    <h1 class="date" id="date"></h1>
+    <p class="lead" id="lead">Cada vez que entrás, una consigna nueva de taller.</p>
+    <button class="btn btn-primary btn-big" id="go">Ejercicio del día</button>
+  </section>
+
+  <!-- Consigna -->
+  <section id="v-prompt" hidden>
+    <nav class="hist" aria-label="Consignas anteriores">
+      <button class="linkbtn" id="prev">‹ Anterior</button>
+      <span id="pos"></span>
+      <button class="linkbtn" id="next">Siguiente ›</button>
+    </nav>
+    <p class="loading" id="loading" hidden>Buscando una consigna de taller…</p>
+    <article class="sheet" id="sheet">
+      <span class="kind" id="kind"></span> <span class="genre" id="genre"></span>
+      <p class="prompt" id="prompt"></p>
+      <p class="twist"><span>Vuelta de tuerca:</span> <em id="twist"></em></p>
+      <p class="time"><span>Tiempo sugerido:</span> <b id="mins"></b> minutos</p>
+      <p class="origin" id="origin"></p>
+    </article>
+    <div class="actions">
+      <button class="btn btn-primary" id="start">Empezar a escribir</button>
+      <button class="btn btn-ghost" id="other">Nueva consigna</button>
+    </div>
+    <p class="note" id="note" aria-live="polite"></p>
+  </section>
+
+  <!-- Escritura -->
+  <section id="v-write" hidden>
+    <button class="back" id="back">Ver la consigna</button>
+    <div class="mini"><p id="mini-prompt"></p><small id="mini-twist"></small></div>
+    <div class="bar">
+      <span class="clock" id="clock" aria-live="polite">10:00</span>
+      <div style="display:flex; gap:.5rem">
+        <button class="btn btn-primary btn-sm" id="timer-btn">Arrancar reloj</button>
+        <button class="btn btn-ghost btn-sm" id="reset-btn">Reiniciar</button>
+      </div>
+    </div>
+    <label for="text" style="position:absolute;left:-9999px">Tu texto</label>
+    <textarea id="text" placeholder="Empezá por la primera frase que se te ocurra. Después se corrige."></textarea>
+    <div class="foot"><span id="words">0 palabras</span><span id="saved"></span></div>
+    <p class="toast" id="toast" aria-live="polite"></p>
+    <div class="actions" style="margin-top:1rem">
+      <button class="btn btn-primary btn-sm" id="w-save">Guardar</button>
+      <button class="btn btn-ghost btn-sm" id="share-open">Compartir en el muro</button>
+    </div>
+    <p class="saved-msg" id="w-saved-msg" aria-live="polite"></p>
+    <div class="share" id="share-box" hidden>
+      <div id="share-form" hidden>
+        <div id="share-alias" hidden>
+          <label class="fill-label" for="share-alias-input">Elegí tu nombre de usuario</label>
+          <input class="h-input" id="share-alias-input" maxlength="30" autocomplete="off">
+        </div>
+        <p class="note">Se publica con tu nombre de usuario y la fecha. Quienes entren al muro van a poder leerlo, valorarlo y comentarlo.</p>
+        <div class="actions" style="margin-top:.75rem">
+          <button class="btn btn-primary btn-sm" id="share-go">Publicar</button>
+          <button class="btn btn-ghost btn-sm" id="share-cancel">Cancelar</button>
+        </div>
+      </div>
+      <p class="note" id="share-note" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Guion -->
+  <section id="v-guion" hidden>
+    <h1 class="page-title">Guión</h1>
+    <div class="field">
+      <label class="fill-label" for="g-titulo">Título provisorio</label>
+      <input class="h-input" id="g-titulo" maxlength="120" autocomplete="off" placeholder="Sin título">
+    </div>
+    <div class="guide">
+      <p class="intro">Un guión no se escribe de corrido: se construye de afuera hacia adentro. Primero la idea en una frase, después la estructura, recién al final las escenas.</p>
+
+      <h2>1. La idea en una frase</h2>
+      <p>Antes de escribir una escena, tenés que poder contar tu película en una sola oración: la <b>logline</b>. Tiene que decir quién es el protagonista, qué quiere y qué se lo impide.</p>
+      <p>Fórmula: <em>Cuando [algo pasa], [un personaje] tiene que [objetivo] antes de que [obstáculo o consecuencia].</em></p>
+      <label class="fill-label" for="g-logline">Tu logline</label>
+      <textarea class="fill" id="g-logline" placeholder="Cuando su padre muere, un kiosquero tímido tiene que hacerse cargo del club de barrio antes de que lo rematen."></textarea>
+
+      <h2>2. El personaje: lo que quiere y lo que necesita</h2>
+      <p>Lo que <b>quiere</b> es su objetivo visible: ganar, escapar, recuperar a alguien. Lo que <b>necesita</b> es lo que tiene que aprender o cambiar por dentro. La historia es el camino entre las dos cosas.</p>
+      <label class="fill-label" for="g-personaje">Tu protagonista quiere… y necesita…</label>
+      <textarea class="fill" id="g-personaje"></textarea>
+
+      <h2>3. La estructura en tres actos</h2>
+      <p>Es el modelo más usado, popularizado por Syd Field en <em>El libro del guión</em>. En un largometraje de unos 100 minutos:</p>
+      <ol>
+        <li><b>Planteo (primer cuarto):</b> presentás el mundo y al personaje. Termina con un hecho que lo obliga a actuar: el detonante.</li>
+        <li><b>Confrontación (la mitad):</b> persigue su objetivo y todo se complica. Por la mitad hay un giro que cambia el juego, y cerca del final del acto, el peor momento.</li>
+        <li><b>Resolución (último cuarto):</b> el enfrentamiento final. Consigue o no lo que quería, pero algo cambió en él.</li>
+      </ol>
+      <label class="fill-label" for="g-actos">Tu detonante, tu giro del medio y tu final</label>
+      <textarea class="fill" id="g-actos"></textarea>
+
+      <h2>4. La escaleta</h2>
+      <p>Antes de escribir diálogos, hacé una lista de escenas, una línea por escena: dónde pasa y qué cambia. Si una escena no cambia nada, sobra. Recién cuando la escaleta funciona, pasás a escribir.</p>
+
+      <h2>5. El formato</h2>
+      <p>El guión tiene un formato estándar. Una página equivale a un minuto de pantalla, más o menos. Se escribe en Courier de 12 puntos y siempre en presente: solo lo que se ve y se escucha.</p>
+<div class="sp">INT. KIOSCO DEL CLUB - NOCHE
+
+Luces a medio apagar. MARTÍN (40), campera
+del club, cuenta monedas sobre el mostrador.
+Golpean la persiana.
+
+                    MARTÍN
+          Está cerrado.
+
+                    VOZ (O.S.)
+          Ya sé. Por eso vengo.
+
+Martín deja las monedas. No se mueve.</div>
+      <ol>
+        <li><b>Encabezado de escena:</b> INT. o EXT. (interior o exterior), el lugar y DÍA o NOCHE.</li>
+        <li><b>Acción:</b> lo que vemos, en presente y breve. Cuando un personaje aparece por primera vez, va en mayúsculas con su edad.</li>
+        <li><b>Diálogo:</b> el nombre del personaje centrado y en mayúsculas, y abajo lo que dice. (O.S.) indica que habla fuera de cuadro.</li>
+      </ol>
+      <p>Para escribir con el formato armado sin pelearte con los márgenes, podés usar programas como Celtx o WriterDuet, o el estándar de la industria, Final Draft.</p>
+
+      <h2>Tu primer ejercicio</h2>
+      <p>Escribí una sola escena de dos páginas como máximo: dos personajes, un lugar, y uno de los dos quiere algo que el otro no le quiere dar. Nadie puede decir en voz alta qué es lo que quiere.</p>
+      <h2>Tu guión</h2>
+      <p>Cuando tengas la escaleta, escribí acá las escenas con el formato de arriba.</p>
+      <label class="fill-label" for="g-escenas" style="position:absolute;left:-9999px">Escenas del guión</label>
+      <textarea class="script-area" id="g-escenas" placeholder="INT. COCINA - NOCHE"></textarea>
+      <div class="actions"><button class="btn btn-primary btn-sm" id="g-save">Guardar</button></div>
+      <p class="saved-msg" id="g-saved" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Haiku -->
+  <section id="v-haiku" hidden>
+    <div class="guide">
+      <h1 class="page-title">Haiku</h1>
+      <p class="intro">El haiku es un poema japonés de tres versos que atrapa un instante. No explica ni opina: muestra algo que está pasando ahora, y deja que el lector sienta.</p>
+
+      <h2>1. La forma: 5, 7, 5</h2>
+      <p>Tres versos de 5, 7 y 5 sílabas. En castellano se cuentan como en la métrica: las vocales que se juntan entre palabras pueden unirse en una sola sílaba (sinalefa). Muchos poetas en castellano se permiten alguna sílaba de más o de menos; lo importante es que sea breve.</p>
+
+      <h2>2. Un instante, en presente</h2>
+      <p>El haiku no cuenta una historia: captura un momento. Por eso se escribe en presente y con imágenes concretas, cosas que se pueden ver, oír, oler o tocar. Nada de palabras abstractas como “tristeza”, “amor” o “soledad”: que la emoción aparezca sola.</p>
+
+      <h2>3. La estación</h2>
+      <p>El haiku clásico incluye una palabra que indica la estación del año (el <em>kigo</em>): la helada, las cigarras, las hojas secas, la primera lluvia. Ubica el poema en el tiempo sin decirlo.</p>
+
+      <h2>4. El corte</h2>
+      <p>Casi siempre hay dos imágenes que se tocan, separadas por un corte (el <em>kireji</em> japonés). En castellano ese corte se marca con un guión, dos puntos, o simplemente el salto de verso. El chispazo del haiku está en el encuentro entre las dos imágenes.</p>
+
+      <h2>El más famoso</h2>
+      <p>El haiku de la rana, de Matsuo Bashō (1686). En japonés, y una traducción literal:</p>
+<div class="sp">furu ike ya
+kawazu tobikomu
+mizu no oto
+
+un viejo estanque —
+una rana se zambulle:
+el ruido del agua</div>
+      <p>Mirá la estructura: primero una imagen quieta (el estanque), después el corte, y una acción mínima que la rompe. No dice nada de lo que siente Bashō, y sin embargo se siente el silencio.</p>
+
+      <h2>Dos ejemplos para ver la forma</h2>
+<div class="sp">noche de helada —        (5)
+la bici de mi hermano    (7)
+duerme en el muro        (5)
+
+siesta y cigarras —      (5)
+alguien riega las plantas (7)
+en otro balcón           (5)</div>
+
+      <h2>Tu haiku</h2>
+      <p>Escribí tres versos. El contador de sílabas es aproximado: aplica la sinalefa, pero con algunas palabras puede errar por una. Confiá también en tu oído.</p>
+      <div class="actions" style="margin-top:0; margin-bottom:1rem">
+        <button class="btn btn-ghost btn-sm" id="h-disparador">Dame un disparador</button>
+      </div>
+      <p class="h-prompt" id="h-prompt" aria-live="polite"></p>
+      <div class="h-lines">
+        <label class="h-line"><input class="h-input" id="h1" autocomplete="off" aria-label="Primer verso, 5 sílabas"><span class="h-count" id="c1">0 / 5</span></label>
+        <label class="h-line"><input class="h-input" id="h2" autocomplete="off" aria-label="Segundo verso, 7 sílabas"><span class="h-count" id="c2">0 / 7</span></label>
+        <label class="h-line"><input class="h-input" id="h3" autocomplete="off" aria-label="Tercer verso, 5 sílabas"><span class="h-count" id="c3">0 / 5</span></label>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary btn-sm" id="h-save">Guardar</button>
+      </div>
+      <p class="saved-msg" id="h-note" aria-live="polite"></p>
+      
+    </div>
+  </section>
+  <!-- Mis textos -->
+  <section id="v-mis" hidden>
+    <h1 class="page-title">Mis textos</h1>
+    <p class="note" id="mis-estado"></p>
+    <div id="mis-lista"></div>
+  </section>
+
+  <!-- Perfil -->
+  <section id="v-perfil" hidden>
+    <div class="perfil-top">
+      <h1 class="page-title">Perfil</h1>
+      <button class="linkbtn" id="logout">Cerrar sesión</button>
+    </div>
+    <p class="note" id="perfil-estado"></p>
+    <div id="perfil-form" hidden>
+      <div class="avatar-edit">
+        <div id="p-avatar"></div>
+        <div class="avatar-btns">
+          <label class="btn btn-ghost btn-sm" for="p-foto-input">Subir foto</label>
+          <input type="file" id="p-foto-input" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only">
+          <button class="danger" id="p-foto-quitar" hidden>Quitar foto</button>
+        </div>
+      </div>
+      <div class="field">
+        <label class="fill-label" for="p-alias">Nombre de usuario</label>
+        <input class="h-input" id="p-alias" maxlength="30" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="fill-label" for="p-email">Email de tu cuenta de Google</label>
+        <input class="h-input" id="p-email" readonly>
+      </div>
+      <h2 class="block-title">Redes sociales</h2>
+      <p class="note" style="margin-top:0">Opcional. Aparecen junto a tus textos en el muro.</p>
+      <div class="field"><label class="fill-label" for="r-instagram">Instagram</label><input class="h-input" id="r-instagram" maxlength="60" autocomplete="off" placeholder="@usuario"></div>
+      <div class="field"><label class="fill-label" for="r-x">X (Twitter)</label><input class="h-input" id="r-x" maxlength="60" autocomplete="off" placeholder="@usuario"></div>
+      <div class="field"><label class="fill-label" for="r-tiktok">TikTok</label><input class="h-input" id="r-tiktok" maxlength="60" autocomplete="off" placeholder="@usuario"></div>
+      <div class="field"><label class="fill-label" for="r-facebook">Facebook</label><input class="h-input" id="r-facebook" maxlength="80" autocomplete="off" placeholder="usuario"></div>
+      <div class="field"><label class="fill-label" for="r-web">Blog o sitio web</label><input class="h-input" id="r-web" maxlength="200" autocomplete="off" placeholder="https://"></div>
+      <div class="actions"><button class="btn btn-primary" id="p-guardar">Guardar perfil</button></div>
+      <p class="note" id="p-nota" aria-live="polite"></p>
+    </div>
+    <p class="meta" id="p-stats" style="margin-top:2rem"></p>
+    <p class="perfil-legal"><a href="/privacidad">Privacidad</a> · <a href="/terminos">Condiciones del servicio</a></p>
+    <div class="baja">
+      <button class="danger" id="baja-abrir">Desactivar cuenta</button>
+      <div class="baja-panel" id="baja-panel" hidden>
+        <p><b>¿Seguro que querés desactivar tu cuenta?</b></p>
+        <p>Se van a borrar para siempre tu perfil, todos tus textos, tus publicaciones del muro, tus comentarios y tus valoraciones. No se puede deshacer.</p>
+        <div class="actions" style="margin-top:.75rem">
+          <button class="btn btn-sm btn-peligro" id="baja-confirmar">Sí, borrar mi cuenta</button>
+          <button class="btn btn-ghost btn-sm" id="baja-cancelar">Cancelar</button>
+        </div>
+        <p class="note" id="baja-nota" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<button class="scrim" id="scrim" hidden aria-label="Cerrar menú"></button>
+<div class="sheet-menu" id="crear-menu" hidden>
+  <div class="inner" role="menu" aria-label="Crear">
+    <h2>¿Qué querés escribir?</h2>
+    <button class="menu-item" role="menuitem" id="m-consigna"><b>Nueva consigna</b><small>Te damos un ejercicio de taller</small></button>
+    <button class="menu-item" role="menuitem" id="m-guion"><b>Guión</b><small>De la logline a las escenas</small></button>
+    <button class="menu-item" role="menuitem" id="m-haiku"><b>Haiku</b><small>Tres versos: 5, 7, 5</small></button>
+  </div>
+</div>
+<nav class="bottom-nav" aria-label="Navegación principal">
+  <ul>
+    <li><button class="nav-btn" id="n-inicio" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></button></li>
+    <li><button class="nav-btn" id="n-crear" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Crear</span></button></li>
+    <li><button class="nav-btn" id="n-mis"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h11a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6z"/><path d="M6 3v18M9.5 8h5M9.5 12h5"/></svg><span>Mis textos</span></button></li>
+    <li><button class="nav-btn" id="n-perfil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Perfil</span></button></li>
+  </ul>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+/* Presentación de apertura */
+(function(){
+  const sp = document.getElementById("splash");
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const tinta = document.getElementById("sp-tinta"), blu = document.getElementById("sp-blu"), slogan = document.getElementById("sp-slogan");
+  let terminado = false; const timers = [];
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+  function cerrar(){
+    if (terminado) return; terminado = true;
+    timers.forEach(clearTimeout);
+    sp.classList.add("out");
+    setTimeout(() => sp.remove(), reduce ? 0 : 480);
+  }
+  sp.addEventListener("click", cerrar);
+  if (reduce) {
+    tinta.textContent = "tinta"; blu.hidden = false; blu.textContent = "blu"; blu.classList.add("on"); slogan.classList.add("show");
+    later(cerrar, 1400); return;
+  }
+  const palabra1 = "tinta", palabra2 = "blu";
+  let t = 350;
+  [...palabra1].forEach((ch, i) => { later(() => { tinta.textContent = palabra1.slice(0, i + 1); }, t); t += 95 + (i % 2) * 35; });
+  t += 160;
+  later(() => { blu.hidden = false; }, t);
+  [...palabra2].forEach((ch, i) => { later(() => { blu.textContent = palabra2.slice(0, i + 1); }, t); t += 110; });
+  later(() => blu.classList.add("on"), t + 120);
+  later(() => slogan.classList.add("show"), t + 500);
+  later(cerrar, t + 1900);
+})();
+const TECNICAS = [
+  {tipo:"Binomio fantástico", origen:"Gianni Rodari, Gramática de la fantasía", como:"Dos palabras sin relación entre sí (sustantivos concretos) se unen con una preposición y de ese choque nace la historia.",
+   fb:{p:"Elegí estas dos palabras: “perro” y “armario”. Probá las combinaciones: el perro con armario, el armario del perro, el perro en el armario. Quedate con la que más te intrigue y contá esa historia.", t:"Ninguna de las dos palabras puede aparecer en la primera frase.", m:15}},
+  {tipo:"¿Qué pasaría si…?", origen:"Gianni Rodari, Gramática de la fantasía (la hipótesis fantástica)", como:"Se formula una pregunta que altera una regla de la realidad cotidiana y se narran sus consecuencias.",
+   fb:{p:"¿Qué pasaría si una mañana tu ciudad amaneciera sin la letra ese en ningún cartel? Contá el primer día.", t:"Contalo desde alguien que no lo nota enseguida.", m:15}},
+  {tipo:"Ejercicios de estilo", origen:"Raymond Queneau, Ejercicios de estilo", como:"Una anécdota mínima y banal se reescribe varias veces en estilos distintos.",
+   fb:{p:"Anécdota: alguien pierde el colectivo por segundos y el chofer lo mira sin frenar. Escribila tres veces: como parte médico, como carta de amor y como noticia deportiva.", t:"Cada versión, máximo 80 palabras.", m:15}},
+  {tipo:"Lipograma", origen:"OuLiPo; Georges Perec, La disparition", como:"Se escribe un texto prohibiéndose una letra.",
+   fb:{p:"Contá una despedida en un andén sin usar la letra “a”.", t:"Que se note la emoción, no la dificultad.", m:12}},
+  {tipo:"Me acuerdo", origen:"Joe Brainard, I Remember; Georges Perec, Je me souviens", como:"Una serie de recuerdos breves, cada uno empezando con 'Me acuerdo…', concretos y cotidianos.",
+   fb:{p:"Escribí al menos veinte frases que empiecen con “Me acuerdo…”, sobre la casa donde creciste.", t:"Nada de grandes momentos: solo detalles chicos.", m:10}},
+  {tipo:"Instrucciones", origen:"Julio Cortázar, Historias de cronopios y de famas", como:"Se escriben instrucciones minuciosas para un acto cotidiano, con una mirada extrañada o poética.",
+   fb:{p:"Escribí las instrucciones para esperar a alguien que llega tarde.", t:"En tono de manual técnico, pero que se filtre una emoción.", m:10}},
+  {tipo:"Escritura libre", origen:"Natalie Goldberg, El gozo de escribir", como:"Se escribe sin parar durante un tiempo fijo, sin corregir ni tachar, a partir de un disparador.",
+   fb:{p:"Disparador: “Lo que nunca dije en voz alta es…”. Escribí sin detenerte.", t:"Prohibido borrar. Si te trabás, repetí la última palabra hasta destrabarte.", m:10}},
+  {tipo:"Economía", origen:"Ursula K. Le Guin, Steering the Craft", como:"Ejercicios de restricción formal sobre la frase: oraciones muy cortas, una sola oración larguísima, o narrar sin adjetivos ni adverbios.",
+   fb:{p:"Narrá una pelea en una cocina sin usar ni un adjetivo ni un adverbio.", t:"Que el lector sepa quién tiene razón sin que lo digas.", m:12}},
+  {tipo:"Mirada contaminada", origen:"John Gardner, The Art of Fiction", como:"Se describe un lugar a través de un personaje atravesado por una emoción fuerte, sin nombrar la emoción ni su causa.",
+   fb:{p:"Describí una plaza vista por alguien que acaba de recibir una muy mala noticia.", t:"No menciones la noticia, ni la tristeza, ni a la persona.", m:12}},
+  {tipo:"Iceberg", origen:"Ernest Hemingway, la teoría del iceberg (“Colinas como elefantes blancos”)", como:"Una escena de diálogo donde el conflicto real nunca se nombra, solo se intuye.",
+   fb:{p:"Dos hermanos ordenan la casa de su madre. Hablan de qué hacer con los muebles.", t:"El verdadero conflicto no se dice nunca.", m:12}},
+  {tipo:"Varias versiones", origen:"Ryūnosuke Akutagawa, “En el bosque” (el efecto Rashomon)", como:"Un mismo hecho narrado por varios testigos cuyas versiones no coinciden.",
+   fb:{p:"Un choque menor en una esquina, contado por el conductor, la peatona y el kiosquero.", t:"Una sola versión puede ser la verdadera, y no digas cuál.", m:15}},
+  {tipo:"Minificción", origen:"Augusto Monterroso, “El dinosaurio”", como:"Un relato completo en una sola línea o muy pocas palabras, con elipsis y sugerencia.",
+   fb:{p:"Escribí cinco cuentos completos de una sola línea cada uno sobre una mudanza.", t:"Cada uno, menos de veinte palabras.", m:8}},
+  {tipo:"Cuento al revés", origen:"Gianni Rodari, Gramática de la fantasía (equivocar las historias)", como:"Se toma un cuento tradicional y se altera: se invierte el punto de vista, se cambian roles o se lo traslada a otra época.",
+   fb:{p:"Contá Caperucita Roja desde el lobo, que es el único que dice la verdad.", t:"Ambientala en el barrio donde vivís.", m:12}},
+  {tipo:"Écfrasis", origen:"Tradición clásica de la écfrasis", como:"Se escribe a partir de una imagen: una foto, un cuadro, un objeto visto con atención.",
+   fb:{p:"Buscá una foto vieja de tu familia y escribí lo que pasó cinco minutos después de que la sacaran.", t:"Solo contá lo que la foto no muestra.", m:12}},
+  {tipo:"Crónica de observación", origen:"La tradición de la crónica y los talleres de Hebe Uhart", como:"Salir a observar y escuchar gente real, y escribir con lo visto y oído, sin inventar.",
+   fb:{p:"Sentate media hora en un bar, una fila o una sala de espera. Escribí lo que viste y escuchaste.", t:"Incluí al menos una frase tal como la dijo alguien.", m:20}},
+  {tipo:"Cuestionario de personaje", origen:"El cuestionario de Proust, usado en talleres para construir personajes", como:"Se construye un personaje respondiendo preguntas íntimas y luego se lo pone en una escena.",
+   fb:{p:"Inventá un personaje y respondé por él: ¿cuál es su idea de la felicidad?, ¿qué le da miedo?, ¿qué defecto perdona? Después, escribí una escena donde se equivoque.", t:"Las respuestas no pueden aparecer en la escena.", m:15}},
+  {tipo:"Flujo de conciencia", origen:"Virginia Woolf y James Joyce", como:"Se narra el pensamiento de un personaje tal como fluye, con asociaciones y saltos, en un momento concreto.",
+   fb:{p:"Los pensamientos de alguien durante los tres minutos que tarda el ascensor en llegar.", t:"Una sola oración, sin puntos.", m:10}},
+  {tipo:"El objeto que habla", origen:"Consigna clásica de taller: la personificación", como:"Un objeto cotidiano narra en primera persona algo que presenció.",
+   fb:{p:"El colchón de una pensión cuenta a sus últimos tres dueños.", t:"Que el objeto tenga un favorito.", m:10}},
+
+  /* El camino del artista — Julia Cameron. Ejercicios de exploración personal:
+     la IA los adapta con fidelidad al libro, sin inventar ejercicios nuevos. */
+  {tipo:"Páginas matutinas", origen:"Julia Cameron, El camino del artista", cameron:true, como:"Tres páginas de escritura libre, a mano, apenas te levantás: todo lo que pase por la cabeza, sin releer ni corregir. No son 'escritura', son un vaciado de la mente.",
+   fb:{p:"Escribí tres páginas seguidas con todo lo que tengas en la cabeza ahora mismo, aunque sea “no sé qué escribir”.", t:"Si podés, hacelo a mano en un cuaderno. No las releas por ahora.", m:30}},
+  {tipo:"Vidas imaginarias", origen:"Julia Cameron, El camino del artista", cameron:true, como:"Si pudieras vivir otras cinco vidas, ¿qué serías en cada una? Luego se busca qué pequeña parte de esas vidas se puede traer a la actual.",
+   fb:{p:"Si pudieras vivir otras cinco vidas, ¿qué serías en cada una? Escribí un párrafo por vida.", t:"Terminá eligiendo un gesto de una de esas vidas que puedas hacer esta semana.", m:15}},
+  {tipo:"Carta a los ocho años", origen:"Julia Cameron, El camino del artista", cameron:true, como:"Imaginarse con ochenta años y escribirle una carta a uno mismo de chico, con lo que esa persona mayor querría decirle.",
+   fb:{p:"Imaginate con ochenta años. Desde ahí, escribile una carta a tu versión de ocho años.", t:"Contale algo que te hubiera gustado escuchar a esa edad.", m:15}},
+  {tipo:"Galería de monstruos", origen:"Julia Cameron, El camino del artista", cameron:true, como:"Identificar a las personas o momentos que dañaron tu confianza creativa (una crítica, una burla) y escribir sobre ellos, a veces en forma de carta.",
+   fb:{p:"Recordá un comentario que hirió tu confianza creativa. Contá la escena con detalle y después escribile una carta a quien lo dijo.", t:"No hace falta enviarla. Escribila con total libertad.", m:15}},
+  {tipo:"Afirmaciones y objeciones", origen:"Julia Cameron, El camino del artista", cameron:true, como:"Escribir una afirmación positiva sobre tu creatividad varias veces y anotar las objeciones negativas que aparecen al hacerlo, para después responderlas.",
+   fb:{p:"Escribí diez veces: “Soy una persona creativa y mi escritura vale la pena”. Anotá al costado cada objeción que te surja.", t:"Al final, respondé la objeción más fuerte como si defendieras a un amigo.", m:12}},
+  {tipo:"Lista de placeres", origen:"Julia Cameron, El camino del artista", cameron:true, como:"Hacer una lista rápida de veinte cosas que disfrutás hacer y ver cuándo fue la última vez que hiciste cada una.",
+   fb:{p:"Anotá veinte cosas que disfrutás hacer, grandes o chiquitas. Al lado de cada una, cuándo fue la última vez que la hiciste.", t:"Escribí rápido, sin pensar si son “importantes”.", m:10}},
+  {tipo:"Cita con el artista", origen:"Julia Cameron, El camino del artista", cameron:true, como:"Una salida semanal a solas, planificada, para nutrir la creatividad: un museo, una ferretería, una caminata. Después se escribe sobre la experiencia.",
+   fb:{p:"Pensá una cita a solas con vos para esta semana: un lugar que te dé curiosidad. Escribí qué esperás encontrar ahí y por qué nunca fuiste.", t:"Después de ir, volvé a esta consigna y escribí qué encontraste de verdad.", m:10}},
+  /* Juan Sklar */
+  {tipo:"Apagar al corrector", g:"Ficción o no ficción", origen:"Juan Sklar, taller El Cuaderno Azul", como:"Escribir rápido y jugando, silenciando la parte crítica de la cabeza que no te deja arrancar; esa voz sirve después, para corregir, no al principio.",
+   fb:{p:"Escribí una historia que empiece con “No debería contar esto, pero…”. Rápido, sin frenar.", t:"Si aparece la voz que dice “esto está mal”, anotala entre paréntesis y seguí.", m:10}},
+  {tipo:"Tirada al azar", g:"Poesía", origen:"Juan Sklar (su ritual para sentarse a escribir: una tirada de tarot y un poema sin sentido)", como:"Como calentamiento, sacar al azar cartas o imágenes y escribir un poema sin sentido a partir de ellas.",
+   fb:{p:"Si tenés un mazo de tarot, sacá tres cartas. Si no, abrí un libro tres veces al azar y anotá el primer sustantivo de cada página. Con eso, escribí un poema sin sentido.", t:"Prohibido que tenga lógica.", m:8}},
+  {tipo:"Cartas al futuro", g:"No ficción", origen:"Juan Sklar, Cartas al hijo", como:"Cartas escritas hoy para que alguien querido las lea dentro de muchos años.",
+   fb:{p:"Escribile una carta a alguien que quieras, para que la lea dentro de veinte años.", t:"Contale algo de hoy que seguramente para entonces ya no exista.", m:12}},
+  {tipo:"Desde una historia conocida", g:"Ficción", origen:"Juan Sklar, “El Power Ranger rojo”", como:"Inventar una historia nueva tomando como base una historia que ya todos conocen (una serie, una película, un dibujito, un cuento, un mito): se usan sus personajes, su mundo o su premisa como punto de partida para contar algo propio.",
+   fb:{p:"Elegí una serie o un dibujito que hayas visto de chico. Usalo como base para inventar una historia nueva: qué le pasa a uno de sus personajes fuera de lo que mostraba la pantalla.", t:"Que se reconozca la historia original, pero que lo que cuentes sea tuyo.", m:15}},
+
+  /* Hernán Casciari */
+  {tipo:"Anécdota mejorada", g:"No ficción (con licencias)", origen:"Hernán Casciari, Taller de Anécdotas Mejoradas", como:"Contar una anécdota real y mejorarla: ir al grano desde la primera línea, con conflicto, sin explicar de más. Regla de la CH: que no sea solamente un chiste, un chasco ni un chisme.",
+   fb:{p:"Contá algo que te pasó arriba de un taxi, un colectivo o un avión.", t:"Regla de la CH: que no sea solo un chiste, un chasco ni un chisme. Arrancá en el conflicto.", m:15}},
+  {tipo:"Imitar para encontrar tu voz", g:"Ficción o no ficción", origen:"Hernán Casciari, consejos de escritura", como:"Escribir una página imitando descaradamente la prosa de un autor que leíste mucho, sobre algo trivial. Al releer, las frases que no se parecen a él son tu estilo.",
+   fb:{p:"Elegí un escritor que hayas leído mucho. Contá lo que hiciste ayer a la tarde imitando descaradamente su prosa.", t:"Después releé y subrayá las frases que no se parecen a él: esas son tuyas.", m:12}},
+  {tipo:"Cuento contra reloj", g:"Ficción", origen:"Hernán Casciari, Cuentos contra reloj", como:"Un cuento con tema impuesto por otros, sin pensarlo antes ni cambiar la consigna, escrito con tiempo límite y leído en voz alta al final.",
+   fb:{p:"Tema impuesto: un velorio, una heladera y un loro. Escribí el cuento ya, sin planificar.", t:"No podés cambiar ninguno de los tres elementos. Al terminar, leelo en voz alta.", m:30}},
+
+  /* Paul Auster */
+  {tipo:"Historias verdaderas", g:"No ficción", origen:"Paul Auster, National Story Project (Creía que mi padre era Dios)", como:"Historias reales y breves que desafían lo esperable, que parecen inventadas pero pasaron.",
+   fb:{p:"Contá algo que te haya pasado de verdad y que parezca inventado.", t:"Máximo una página. No expliques qué significa.", m:12}},
+  {tipo:"Coincidencias", g:"No ficción", origen:"Paul Auster, El cuaderno rojo", como:"Registrar coincidencias reales y extrañas, contadas con precisión y sin buscarles explicación.",
+   fb:{p:"Escribí sobre la coincidencia más extraña que te haya tocado vivir.", t:"Contala con precisión de escribano. Nada de conclusiones.", m:12}},
+  {tipo:"La misma esquina", g:"No ficción", origen:"Paul Auster, “El cuento de Navidad de Auggie Wren” y la película Smoke", como:"Observar el mismo lugar a la misma hora, día tras día, para descubrir lo que cambia.",
+   fb:{p:"Mirá por la misma ventana a la misma hora y escribí lo que ves. Mañana, repetilo.", t:"Buscá lo que cambió, por mínimo que sea.", m:10}},
+  {tipo:"Diario del cuerpo", g:"No ficción", origen:"Paul Auster, Diario de invierno", como:"Memorias contadas en segunda persona a través del cuerpo: cicatrices, golpes, sensaciones.",
+   fb:{p:"Elegí una cicatriz o una marca de tu cuerpo y contá su historia.", t:"En segunda persona, tratándote de “vos” todo el tiempo.", m:12}},
+
+  /* Pedro Mairal */
+  {tipo:"Contárselo a alguien", g:"Ficción", origen:"Pedro Mairal, La uruguaya", como:"Una narración en primera persona dirigida a un 'vos' que no es el lector sino alguien cercano al narrador (una pareja, un amigo, un hermano), con tono franco, como una confesión o explicación de lo que pasó.",
+   fb:{p:"Un personaje le cuenta a su pareja qué pasó realmente el día que dijo que se había quedado sin batería.", t:"Hablale todo el tiempo a ese “vos”, como si estuviera enfrente escuchando.", m:15}},
+  {tipo:"Todo en un día", g:"Ficción", origen:"Pedro Mairal, La uruguaya (una historia que transcurre en menos de un día)", como:"Contar una historia que empieza y termina dentro de un mismo día, usando el límite de tiempo como motor.",
+   fb:{p:"Alguien viaja a otra ciudad a hacer un trámite y tiene que volver esa misma noche. Contá ese día.", t:"Marcá la hora en al menos tres momentos del texto.", m:15}},
+  {tipo:"El que no quiere contar", g:"Ficción", origen:"Pedro Mairal, sobre el origen de Los nuevos", como:"Dar vuelta la situación habitual: en vez de un narrador que quiere contar algo, un personaje al que obligan a contar algo que no quiere contar, y que se resiste mientras habla.",
+   fb:{p:"Alguien tiene que escribir un texto para la escuela, el trabajo o un juzgado sobre algo que pasó, y no quiere contarlo.", t:"Que se resista todo el texto, pero que al lector se le escape de a poco qué pasó.", m:15}},
+  {tipo:"Primero la voz", g:"Ficción", origen:"Pedro Mairal, sobre la escritura de Los nuevos", como:"Arrancar sin trama, dejando hablar a un personaje hasta encontrar su voz (su tono, sus palabras, su enojo o su humor); la historia aparece después.",
+   fb:{p:"Dejá hablar a un personaje que está muy enojado con alguien. Todavía no sabés quién es ni qué le pasó: escribí lo que dice.", t:"No lo describas: que todo lo sepamos por cómo habla.", m:10}},
+  {tipo:"Espacio y sentidos", g:"Ficción o no ficción", origen:"Pedro Mairal, taller La escritura en movimiento", como:"Ejercicio de observación: hacer que un texto cobre vida a través del espacio donde pasa y de los cinco sentidos.",
+   fb:{p:"Elegí un lugar donde estuviste hoy y escribí una escena que pase ahí.", t:"Que aparezcan los cinco sentidos, y que el olfato aparezca primero.", m:12}},
+
+  /* Mundial de Escritura (Chasco Club / Santiago Llach) */
+  {tipo:"Carta que nunca enviarías", g:"Ficción o no ficción", origen:"Mundial de Escritura 2021, consigna del día 1", como:"Escribir un mail o una carta que nunca enviarías: porque es imposible, por vergüenza o porque no podés llegar a esa persona.",
+   fb:{p:"Escribí un mail que nunca vas a mandar. Elegí a quién: alguien que ya no está, alguien que te daría vergüenza, alguien a quien no podés encontrar.", t:"Que el asunto del mail sea la primera línea del texto.", m:15}},
+  {tipo:"Palabra obtenida", g:"Ficción o no ficción", origen:"Mundial de Escritura 2020, consigna de Frank Báez", como:"Obtener un sustantivo a través de un pequeño ejercicio previo (un juego, un azar, una respuesta) y escribir un texto a partir de esa palabra.",
+   fb:{p:"Pensá en la última persona que te escribió hoy. Tomá la tercera palabra de su mensaje; si no es un sustantivo, seguí hasta el primero que aparezca. Esa palabra es tu tema.", t:"La palabra tiene que aparecer una sola vez, y recién al final.", m:15}},
+  {tipo:"Ensayo sobre un lugar", g:"No ficción", origen:"Mundial de Escritura 2025", como:"Un ensayo personal breve a partir de un lugar significativo: una ciudad natal, una casa, un viaje, un rincón.",
+   fb:{p:"Escribí un ensayo breve sobre un lugar que te importa: tu ciudad natal, una casa donde viviste o un viaje que te cambió algo.", t:"Empezá por un detalle físico del lugar, no por lo que sentís.", m:20}},
+  {tipo:"Traducción libre", g:"Poesía", origen:"Mundial de Traducción 2022 (Mundial de Escritura)", como:"Traducir un poema de otro idioma aunque no lo sepas bien, apropiándotelo: una versión o un cover libre, que juega con los sonidos y lo que creés que dice.",
+   fb:{p:"Buscá un poema corto en un idioma que no domines (inglés, portugués, italiano) y hacé tu propia versión en castellano, como un cover libre.", t:"Adiviná lo que no entiendas. Que suene bien vale más que la exactitud.", m:15}},
+
+  /* Haiku */
+  {tipo:"Haiku", g:"Poesía", origen:"Matsuo Bashō y la tradición japonesa del haiku", como:"Poema breve de tres versos (5, 7 y 5 sílabas) que captura un instante concreto de la naturaleza o lo cotidiano, en presente, con una referencia a la estación y un corte entre dos imágenes.",
+   fb:{p:"Mirá por la ventana durante un minuto. Escribí tres haikus sobre algo que veas moverse.", t:"Nada de sentimientos nombrados: solo lo que se ve y se escucha.", m:10}},
+
+  /* Mundial de Escritura: consignas de escritores invitados */
+  {tipo:"Diálogo en el baño", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Nick Hornby (Reino Unido)", como:"Una conversación entre dos desconocidos del mismo género en un baño público: en los mingitorios si es un baño de hombres, en los cubículos si es de mujeres. Hacia el final, uno de los dos se entera de algo del otro (un secreto, una debilidad o una tristeza). El diálogo tiene que avanzar de forma creíble.",
+   fb:{p:"Dos desconocidos se cruzan en el baño de un bar y empiezan a hablar sin verse la cara. Escribí esa conversación.", t:"Al final, uno tiene que haberse enterado de un secreto, una debilidad o una tristeza del otro.", m:15}},
+  {tipo:"Titular de diario", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Almudena Sánchez (España)", como:"Una historia de ficción que nace de un titular de diario que te llame la atención.",
+   fb:{p:"Entrá a un diario online, elegí el titular más raro que encuentres y escribí la historia que imaginás detrás.", t:"No uses nada de la noticia real más allá del titular.", m:15}},
+  {tipo:"Antes, durante y después", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Guadalupe Nettel (México), a partir de la idea de Cortázar de que el cuento se parece a la fotografía", como:"Elegir una foto muy elocuente y narrar lo que pasó antes, durante y después de esa imagen, sin hablar de la foto: es solo el punto de partida.",
+   fb:{p:"Elegí una foto que te diga mucho, tuya o de cualquier lado, y contá qué pasó antes, en ese momento y después.", t:"La foto no puede aparecer en el texto.", m:15}},
+  {tipo:"El extraterrestre varado", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Un pequeño extraterrestre quedó varado en el patio de la escuela porque su nave se quedó sin combustible estelar, y solo vos podés verlo. Describirlo, contar cómo se conocieron y la aventura para conseguir el combustible, que resulta ser algo muy común en la Tierra.",
+   fb:{p:"Un extraterrestre chiquito quedó varado en el patio de tu escuela y solo vos lo ves. Describilo, contá cómo se conocieron y cómo consiguieron el combustible para su nave.", t:"El combustible tiene que ser algo que haya en cualquier cocina.", m:15}},
+  {tipo:"El ritual en crisis", g:"Ficción o no ficción", fiel:true, origen:"Mundial de Escritura, consigna de Katia Adaui (Perú)", como:"Buscar en la memoria un ritual y ponerlo en crisis: qué pasa si se pierde, qué orden se altera. Narrar en primera persona, desde la intimidad, el ritual y su ruptura, con mirada adulta o de la niñez.",
+   fb:{p:"Pensá en un ritual de tu casa o de tu infancia: el mate de la mañana, la comida del domingo, la forma de despedirse. Contalo, y contá el día en que se rompió.", t:"En primera persona y en voz baja, como una confidencia.", m:15}},
+  {tipo:"Dentro de la pantalla", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Mientras jugabas un videojuego o mirabas una película, un rayo de luz sale de la pantalla y te absorbe: tenés que cumplir una misión para salir. Describir ese paisaje, el villano que intenta detenerte, los poderes que descubrís y cómo te librás (o no) del villano.",
+   fb:{p:"Un rayo sale de la pantalla de tu videojuego o película favorita y te absorbe. Para salir tenés que cumplir una misión. Contá el paisaje, el villano y los poderes que descubrís.", t:"Tus poderes tienen que tener algo que ver con algo que hacés en la vida real.", m:15}},
+  {tipo:"El diario del villano", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Encontrar el diario íntimo del villano de un cuento conocido y escribir su versión de la historia: por qué estaba tan enojado, qué pasó realmente ese día que nadie contó.",
+   fb:{p:"Elegí el villano de un cuento clásico (el lobo, el Capitán Garfio, una madrastra) y escribí la página de su diario del día en que pasó todo.", t:"Que al final el lector lo entienda un poco.", m:12}},
+  {tipo:"El capítulo perdido", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Elegir un libro querido y escribir el capítulo perdido que sucede un año después del final: cómo es la vida de los personajes, si apareció un problema nuevo, si se mudaron. Por ejemplo, qué hizo Pinocho cuando fue un chico de verdad y tuvo que ir a una escuela normal.",
+   fb:{p:"Elegí un libro que te guste mucho y escribí qué les pasa a sus personajes un año después del final.", t:"Tiene que aparecer un problema nuevo que el final no resolvió.", m:15}},
+  {tipo:"Después de la fiesta", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Pedro Mairal (Argentina)", como:"Alguien levanta los restos de una fiesta o reunión, grande o chica, que hubo en su casa. Mientras limpia, va repasando lo que pasó y entendiéndolo. Puede ser bueno o malo, pero fue significativo para esa persona.",
+   fb:{p:"Alguien junta vasos y platos a la mañana siguiente de una reunión en su casa. Mientras limpia, entiende algo de lo que pasó anoche.", t:"Que cada cosa que levanta le traiga un momento de la noche.", m:15}},
+  {tipo:"Un recuerdo con giro", g:"No ficción", fiel:true, origen:"Mundial de Escritura", como:"Un texto narrativo que recupere un recuerdo importante como historia completa, con inicio, desarrollo y final, y con un giro que le dé sentido a lo ocurrido: un accidente, un enamoramiento inesperado, un nacimiento, una despedida, un encuentro casual. Que transmita el lugar y las emociones de ese momento.",
+   fb:{p:"Elegí un recuerdo que te haya cambiado algo: una despedida, un encuentro casual, un accidente. Contalo como un cuento, con principio, desarrollo y final.", t:"Que haya un giro que, al final, le dé sentido a todo.", m:20}},
+  {tipo:"Tu metamorfosis", g:"Ficción", fiel:true, origen:"Mundial de Escritura, a partir de La metamorfosis de Franz Kafka", como:"Tomar la primera frase de La metamorfosis de Kafka exactamente como es, pero cambiando el nombre de Gregorio Samsa por el tuyo y el monstruoso insecto por otra cosa (un animal, un payaso, un unicornio, un robot o algo más raro), y seguir la historia.",
+   fb:{p:"Empezá con la primera frase de La metamorfosis de Kafka, pero con tu nombre en lugar de Gregorio Samsa, y amanecé convertido en algo que no sea un insecto: un robot, un unicornio, una heladera.", t:"Respetá la frase original en todo lo demás.", m:15}},
+  {tipo:"La fundación de tu lugar", g:"Ficción o no ficción", fiel:true, origen:"Mundial de Escritura", como:"Contar cómo se fundó tu lugar, con hechos reales o imaginados: quién fue el primer habitante, quién construyó la primera casa, por qué se llama así, cuáles son los primeros mitos de los que todavía se habla.",
+   fb:{p:"Contá cómo se fundó tu pueblo, tu barrio o tu ciudad: el primer habitante, la primera casa, por qué se llama como se llama.", t:"Mezclá un dato real con una leyenda inventada, y que no se note cuál es cuál.", m:20}},
+  {tipo:"El personaje de tu lugar", g:"Ficción o no ficción", fiel:true, origen:"Mundial de Escritura", como:"Contar la vida de alguien sin cuya presencia no podés imaginar tu lugar: una tía, el perro del vecino, el florista, la directora de la escuela, el chismoso, un fantasma. Quién es, dónde nació, hace cuánto vive ahí, qué lo hace especial, cómo es un día en su vida, si es visible o se escabulle.",
+   fb:{p:"Pensá en alguien sin quien tu barrio no sería el mismo: el kiosquero, la vecina que sabe todo, el perro de la esquina. Contá su vida.", t:"Incluí cómo es un día entero de su vida, de la mañana a la noche.", m:15}},
+  {tipo:"Diccionario de tu lugar", g:"Ficción o no ficción", fiel:true, origen:"Mundial de Escritura", como:"Crear un diccionario con palabras propias de tu lugar, tu familia o tu grupo de amigos: usos raros de palabras que existen o palabras inventadas. Primero, la lista con sus definiciones; después, ponerlas a jugar en una escena. Si no se te ocurre ninguna, se pueden inventar.",
+   fb:{p:"Hacé una lista de cinco palabras o expresiones que solo se usan en tu familia o con tus amigos, con su definición. Después escribí una escena donde aparezcan todas.", t:"Si no se te ocurre ninguna, inventalas.", m:15}},
+  {tipo:"Al pie de la letra", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Elegir una expresión cotidiana que no significa lo que dice (\"estoy podrido\", \"está en el horno\") y usarla en sentido literal en un cuento: si elegís \"está en el horno\", tiene que ser alguien que por algún motivo termina adentro de un horno.",
+   fb:{p:"Elegí una expresión como “se le soltó un tornillo” o “está en el horno” y escribí un cuento donde pase literalmente.", t:"La expresión no puede aparecer escrita hasta la última línea.", m:12}},
+  {tipo:"El día del secreto", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"A partir de los libros que llevan el nombre de su protagonista (Oliver Twist, Tom Sawyer), inventar un personaje con un secreto que nunca reveló y escribir un cuento que empieza o transcurre el día en que lo revela.",
+   fb:{p:"Inventá un personaje con un secreto que nunca le contó a nadie. Escribí el día en que lo revela.", t:"El título del cuento tiene que ser el nombre del personaje.", m:15}},
+  {tipo:"Título prestado", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Escribir un cuento con el título de un libro que existe (por ejemplo: \"Alguien camina sobre tu tumba\", \"La pequeña ciudad donde el tiempo se detuvo\", \"El lanzador de cuchillos\", \"El beso de la mujer araña\", \"El baile y el incendio\", \"Los dos indios alegres\", \"Desayuno de campeones\", \"El mono de hielo\"), sin buscar de qué trata el libro.",
+   fb:{p:"Elegí uno de estos títulos de libros reales: “El lanzador de cuchillos”, “El mono de hielo”, “Desayuno de campeones” o “El baile y el incendio”. Escribí un cuento con ese título.", t:"Prohibido googlear de qué trata el libro original.", m:15}},
+  {tipo:"Diez palabras en orden", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Escribir un cuento a partir de diez palabras que tienen que aparecer en el mismo orden en que se dan (por ejemplo: carta, volcán, socorro, confiar, oreja, horrible, tren, cariñoso, volar, turquesa).",
+   fb:{p:"Escribí un cuento con estas diez palabras: carta, volcán, socorro, confiar, oreja, horrible, tren, cariñoso, volar, turquesa.", t:"Tienen que aparecer en ese mismo orden.", m:15}},
+  {tipo:"Lista de un lugar", g:"No ficción", fiel:true, origen:"Mundial de Escritura", como:"Elegir un lugar que ames o que odies, pero que te importe (donde naciste, donde viviste, un viaje, un lugar soñado: una casa, un pueblo, una playa, un país) y escribir un texto en forma de lista con las razones por las que es importante. Repetir las primeras palabras de cada frase puede funcionar.",
+   fb:{p:"Elegí un lugar que te importe mucho, para bien o para mal, y escribí la lista de razones por las que es importante para vos.", t:"Empezá cada frase igual, por ejemplo: “Porque…”.", m:12}},
+  {tipo:"Agotar una esquina", g:"No ficción", fiel:true, origen:"Mundial de Escritura, a partir de Georges Perec, Tentativa de agotar un lugar parisino", como:"Describir una esquina de la ciudad donde vivís: observar y anotar todo lo que se ve, y tratar de encontrar algo que llame la atención.",
+   fb:{p:"Andá a una esquina de tu ciudad, o mirala desde una ventana, y anotá todo lo que pasa: gente, autos, colores, ruidos.", t:"Cuando algo te llame la atención, detenete y contalo en detalle.", m:15}},
+  {tipo:"Frutas con carácter", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Un cuento protagonizado por una fruta o verdura con una característica humana (una frambuesa caprichosa, una chaucha impaciente), que genere un conflicto o una escena con otras frutas o verduras.",
+   fb:{p:"Una banana celosa descubre que llegó un ananá nuevo a la frutera. Escribí qué pasa.", t:"Que el conflicto sea bien humano.", m:10}},
+  {tipo:"Objeto Warhol", g:"Ficción o no ficción", fiel:true, origen:"Mundial de Escritura, a partir de Andy Warhol", como:"Llevar a la literatura la operación de Andy Warhol, que convirtió objetos de consumo masivo en obras de arte: elegir un objeto de consumo masivo y hacerlo el punto de partida de la narración.",
+   fb:{p:"Elegí un producto que haya en cualquier supermercado (una lata de tomates, un paquete de galletitas) y hacé que toda la historia salga de él.", t:"Tratalo con la solemnidad de una obra de museo.", m:12}},
+  {tipo:"País inventado", g:"Ficción", fiel:true, origen:"Mundial de Escritura", como:"Una aventura en un país inventado: la tierra de los gatos voladores, el país de los viejitos microscópicos. Regla: no vale terminar diciendo que todo fue un sueño.",
+   fb:{p:"Inventá un país con una sola regla absurda (ahí todos caminan hacia atrás, o está prohibido el silencio) y contá una aventura que pase ahí.", t:"Prohibido terminar con “y todo fue un sueño”.", m:15}},
+  {tipo:"Atrapado en el vagón", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Alejandra Costamagna (Chile)", como:"Un personaje atrapado en un vagón del metro (o tren) de la ciudad donde vivís: por qué no puede salir, qué lo llevó a esa situación, en qué está pensando.",
+   fb:{p:"Un personaje queda atrapado en un vagón de subte o de tren de tu ciudad. Contá por qué no puede salir y en qué piensa.", t:"Todo el cuento pasa adentro del vagón.", m:15}},
+  {tipo:"Tu ciudad en el futuro", g:"Ficción", fiel:true, origen:"Mundial de Escritura, a la manera de Ray Bradbury y Philip K. Dick", como:"Contar algo del lugar donde vivís cambiando la perspectiva: imaginar cómo será tu ciudad en el futuro.",
+   fb:{p:"Contá cómo es tu barrio dentro de cien años, a través de un día cualquiera de alguien que vive ahí.", t:"Que algo de hoy haya sobrevivido, aunque ya nadie sepa para qué servía.", m:15}},
+  {tipo:"La foto del fantasma", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Álvaro Bisama (Chile)", como:"En una casa grande y antigua, un fantasma recorre las habitaciones y toma una sola foto. El relato es la descripción de esa foto: qué imagen toma el fantasma y por qué no puede desprenderse de ella.",
+   fb:{p:"Un fantasma recorre una casa vieja y saca una sola foto. Describí esa foto.", t:"Que se entienda, sin decirlo, por qué no puede desprenderse de ella.", m:15}},
+  {tipo:"La vida nocturna secreta", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Santiago Llach (Argentina)", como:"Un chico o una chica descubre que alguien de su familia tiene una vida nocturna secreta: es bombero, superhéroe, o se va a conversar con sus abuelos extraterrestres. Qué hace: si lo cuenta, si sigue espiando, si se lo dice y empiezan a compartir las aventuras.",
+   fb:{p:"Una chica descubre que su abuela sale todas las noches por la ventana. Una noche, la sigue.", t:"Decidí si se lo cuenta a alguien o si se vuelve su cómplice.", m:15}},
+  {tipo:"El ídolo en el espejo", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Andreina Pérez Armas (España)", como:"Cómo se sentiría alguien que se convierte en la persona que siempre tuvo en un altar: una persona se levanta, se mira al espejo y no se reconoce, porque el espejo le devuelve la imagen de su ídolo.",
+   fb:{p:"Alguien se levanta, se mira al espejo y ve la cara de su ídolo. Contá ese día.", t:"Que no todo sea bueno: ser otro tiene un costo.", m:15}},
+  {tipo:"Conexión con la naturaleza", g:"Ficción o no ficción", fiel:true, origen:"Mundial de Escritura, consigna de Jingjing Wang (China)", como:"Relatar una experiencia de conexión con la naturaleza: describir la escena, armar con palabras la imagen de un bosque o del mar, o contar lo que esa experiencia le produjo a un personaje.",
+   fb:{p:"Contá un momento en el que sentiste que eras parte del paisaje: en el mar, en un bosque, bajo una tormenta.", t:"Que la naturaleza se vea en detalle, no como postal.", m:12}},
+  {tipo:"Amar lo que odiás", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Caio Girão (Brasil)", como:"Ejercicio en tres pasos: elegir una palabra que te guste por su sonido o su significado; pensar en algo que odies (vale todo menos una comida o un lugar) e imaginar un personaje que ame eso que odiás; por último, pensar en algo que se interponga entre el personaje y lo que ama.",
+   fb:{p:"Paso 1: elegí una palabra que te guste por cómo suena. Paso 2: pensá algo que odies (que no sea una comida ni un lugar) e inventá un personaje que lo ame. Paso 3: poné algo entre el personaje y lo que ama, y escribí la historia.", t:"La palabra del paso 1 tiene que aparecer en el texto.", m:15}},
+  {tipo:"Mundiales de fútbol", g:"No ficción", fiel:true, origen:"Mundial de Escritura, consigna de Tamara Talesnik", como:"Escribir un párrafo por cada Mundial de fútbol que recuerdes, empezando por el último y yendo hacia atrás. Puede ser sobre fútbol o sobre cualquier otra cosa que pasó ese año, o usar la cronología para contar la historia de un vínculo.",
+   fb:{p:"Escribí un párrafo por cada Mundial de fútbol que recuerdes, del último hacia atrás.", t:"Que no sea solo fútbol: usá los Mundiales para contar la historia de un vínculo.", m:15}},
+  {tipo:"Escribir lo que no sabés", g:"Ficción", fiel:true, origen:"Mundial de Escritura, consigna de Anastasia Hladij", como:"Poner a funcionar la imaginación: escribir sobre una situación de la que no conocés ningún detalle (una cirugía, el rodaje de una película), pero con la convicción de quien sabe de lo que habla.",
+   fb:{p:"Escribí la escena de una cirugía, el rodaje de una película o la cocina de un restaurante de lujo, como si fueras experto.", t:"Nada de dudar: escribí con total convicción.", m:12}},
+  {tipo:"Belleza en el horror", g:"Ficción o no ficción", fiel:true, origen:"Mundial de Escritura", como:"Buscar lo pequeño y bello dentro de los grandes horrores: la belleza en lo rebajado, el detalle, lo insignificante. Con libertad para acercarse a otros géneros y escribir desde el extrañamiento, lo fantástico o lo maravilloso.",
+   fb:{p:"En medio de algo terrible (una guerra, una inundación, una sala de guardia), encontrá un detalle mínimo y hermoso, y escribí sobre él.", t:"Que el horror quede de fondo y el detalle, en primer plano.", m:15}}
+];
+
+
+const GENERO = {
+  "Binomio fantástico":"Ficción","¿Qué pasaría si…?":"Ficción","Ejercicios de estilo":"Ficción o no ficción",
+  "Lipograma":"Ficción o no ficción","Me acuerdo":"No ficción","Instrucciones":"Ficción o no ficción",
+  "Escritura libre":"No ficción","Economía":"Ficción o no ficción","Mirada contaminada":"Ficción",
+  "Iceberg":"Ficción","Varias versiones":"Ficción","Minificción":"Ficción","Cuento al revés":"Ficción",
+  "Écfrasis":"Ficción o no ficción","Crónica de observación":"No ficción","Cuestionario de personaje":"Ficción",
+  "Flujo de conciencia":"Ficción","El objeto que habla":"Ficción"
+};
+const generoDe = t => t.g || GENERO[t.tipo] || (t.cameron ? "No ficción" : "Ficción o no ficción");
+
+const VOC = "aeiouáéíóúü";
+function silabasPalabra(w){
+  w = w.replace(/qu(?=[eéií])/g, "q").replace(/gu(?=[eéií])/g, "g");
+  if (w === "y") return 1;
+  if (/y$/.test(w)) w = w.slice(0, -1) + "i";
+  let n = 0, prev = "";
+  for (const ch of w){
+    if (!VOC.includes(ch)) { prev = ""; continue; }
+    const fuerte = "aeoáéóíú".includes(ch), prevFuerte = "aeoáéóíú".includes(prev);
+    if (!prev || (fuerte && prevFuerte)) n++;
+    prev = ch;
+  }
+  return Math.max(n, 1);
+}
+function silabas(verso){
+  const palabras = verso.toLowerCase().normalize("NFC").match(/[a-záéíóúüñ]+/g) || [];
+  let total = 0, prevTerminaVocal = false;
+  for (const w of palabras){
+    total += silabasPalabra(w);
+    const empieza = w.replace(/^h/, "")[0] || "";
+    const empiezaVocal = VOC.includes(empieza) || w === "y";
+    if (prevTerminaVocal && empiezaVocal) total--;   // sinalefa
+    prevTerminaVocal = VOC.includes(w[w.length - 1]) || /y$/.test(w);
+  }
+  return total;
+}
+
+const DISPARADORES = [
+  "La primera helada sobre algo que olvidaste afuera.",
+  "Un sonido que escuchaste hoy y no pudiste ver de dónde venía.",
+  "La luz de la tarde entrando por una ventana.",
+  "Algo pequeño que se mueve en una plaza.",
+  "La lluvia sobre un techo de chapa.",
+  "Un animal que cruza la calle.",
+  "Las hojas secas en la vereda.",
+  "El vapor de una taza en una mañana fría.",
+  "Una fruta de estación sobre la mesa.",
+  "El silencio justo después de que para un ruido.",
+  "La ropa colgada que se mueve con el viento.",
+  "Un insecto de verano en la noche.",
+  "La primera flor que viste este año.",
+  "Algo que se refleja en un charco."
+];
+const REDES = [
+  { k:"instagram", label:"Instagram", url:h => "https://instagram.com/" + h },
+  { k:"x", label:"X", url:h => "https://x.com/" + h },
+  { k:"tiktok", label:"TikTok", url:h => "https://www.tiktok.com/@" + h },
+  { k:"facebook", label:"Facebook", url:h => "https://facebook.com/" + h }
+];
+const limpiarHandle = v => (v || "").trim().replace(/^https?:\/\/[^/]+\//i, "").replace(/^@/, "").split(/[/?#]/)[0].replace(/[^A-Za-z0-9._-]/g, "").slice(0, 60);
+function limpiarWeb(v){
+  v = (v || "").trim(); if (!v) return "";
+  if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+  try { const u = new URL(v); return (u.protocol === "https:" || u.protocol === "http:") ? u.href : ""; } catch(e) { return ""; }
+}
+
+/* ================= Supabase ================= */
+const SUPABASE_URL = "https://rauwmvxzxzhgsfihahtk.supabase.co";
+const SUPABASE_KEY = "sb_publishable_W1k2eawJmtIQIiPQ2yhUDQ_RmeTs2pF";
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const $ = id => document.getElementById(id);
+function el(tag, cls, text){ const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === "x" ? r : (r & 3 | 8)).toString(16); }));
+const aMs = v => typeof v === "number" ? v : Date.parse(v);
+const fechaDe = v => new Date(aMs(v)).toLocaleDateString("es-AR", { day:"numeric", month:"long", year:"numeric" });
+const estrellas = avg => { const r = Math.round(avg); return "★".repeat(r) + "☆".repeat(5 - r); };
+const coma = x => Number(x).toFixed(1).replace(".", ",");
+function excerpt(t){ t = t || ""; return t.length <= 300 ? t : t.slice(0, 300).replace(/\s+\S*$/, "") + "…"; }
+const dayKey = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+
+/* ================= Estado ================= */
+let yo = null, miPerfil = null;
+let hist = [], pos = -1, haikus = [], guiones = [];
+let freshThisVisit = false;
+const cur = () => hist[pos];
+
+/* ================= Fecha y racha ================= */
+const hoy = new Date();
+const fechaLarga = hoy.toLocaleDateString("es-AR", { weekday:"long", day:"numeric", month:"long" });
+$("date").textContent = fechaLarga.charAt(0).toUpperCase() + fechaLarga.slice(1);
+function racha(){
+  const dias = new Set();
+  const marcar = ms => { if (ms) dias.add(dayKey(new Date(ms))); };
+  hist.forEach(c => { if ((c.text || "").trim()) { marcar(c.creado); marcar(c.editado); } });
+  haikus.forEach(h => { marcar(h.creado); marcar(h.editado); });
+  guiones.forEach(g => { marcar(g.creado); marcar(g.editado); });
+  let n = 0; const d = new Date();
+  if (!dias.has(dayKey(d))) d.setDate(d.getDate() - 1);
+  while (dias.has(dayKey(d))) { n++; d.setDate(d.getDate() - 1); }
+  $("streak").innerHTML = n ? `<b>${n}</b> ${n === 1 ? "día" : "días seguidos"}` : "";
+}
+
+/* ================= Filas de la base <-> objetos ================= */
+function aEscrito(r){ return { id:r.id, tipo:r.tipo || "", g:r.genero || "", p:r.consigna || "", t:r.vuelta || "", m:r.minutos || 10, origen:r.origen || "", text:r.texto || "", postId:r.post_id, creado:aMs(r.created_at), editado:aMs(r.updated_at) }; }
+function aHaiku(r){ const v = (r.datos && Array.isArray(r.datos.versos)) ? r.datos.versos : (r.texto || "").split("\n"); return { id:r.id, v:[v[0] || "", v[1] || "", v[2] || ""], postId:r.post_id, creado:aMs(r.created_at), editado:aMs(r.updated_at) }; }
+function aGuion(r){ const d = r.datos || {}; return { id:r.id, titulo:r.titulo || "", logline:d.logline || "", personaje:d.personaje || "", actos:d.actos || "", escenas:r.texto || "", creado:aMs(r.created_at), editado:aMs(r.updated_at) }; }
+
+async function cargarMisTextos(){
+  const { data, error } = await sb.from("textos").select("*").eq("autor", yo.id).order("created_at", { ascending:true }).limit(2000);
+  if (error) { console.error(error); return false; }
+  hist = data.filter(r => r.clase === "escrito").map(aEscrito);
+  haikus = data.filter(r => r.clase === "haiku").map(aHaiku);
+  guiones = data.filter(r => r.clase === "guion").map(aGuion);
+  pos = hist.length - 1;
+  racha();
+  return true;
+}
+async function guardarEscrito(c){
+  const { error } = await sb.from("textos").upsert({ id:c.id, autor:yo.id, clase:"escrito", tipo:c.tipo, genero:c.g, consigna:c.p, vuelta:c.t, minutos:c.m, origen:c.origen, texto:c.text || "", post_id:c.postId || null });
+  if (error) console.error(error);
+  return !error;
+}
+async function guardarHaiku(h){
+  const { error } = await sb.from("textos").upsert({ id:h.id, autor:yo.id, clase:"haiku", texto:h.v.join("\n"), datos:{ versos:h.v }, post_id:h.postId || null });
+  if (error) console.error(error);
+  return !error;
+}
+async function guardarGuionDB(g){
+  const { error } = await sb.from("textos").upsert({ id:g.id, autor:yo.id, clase:"guion", titulo:g.titulo, texto:g.escenas, datos:{ logline:g.logline, personaje:g.personaje, actos:g.actos } });
+  if (error) console.error(error);
+  return !error;
+}
+async function borrarTextoDB(id){
+  const { error } = await sb.from("textos").delete().eq("id", id);
+  if (error) console.error(error);
+  return !error;
+}
+
+/* ================= Navegación ================= */
+const VISTAS = ["home","prompt","write","guion","haiku","muro","post","mis","perfil"];
+const NAV_DE = { muro:"inicio", post:"inicio", home:"crear", prompt:"crear", write:"crear", guion:"crear", haiku:"crear", mis:"mis", perfil:"perfil" };
+let vistaActual = "muro";
+function marcarNav(n){
+  ["inicio","crear","mis","perfil"].forEach(x => {
+    if (x === n) $("n-" + x).setAttribute("aria-current", "page");
+    else $("n-" + x).removeAttribute("aria-current");
+  });
+}
+function show(v){
+  vistaActual = v;
+  cerrarCrear();
+  marcarNav(NAV_DE[v]);
+  if (v === "write") updateShareUI();
+  if (v === "mis") renderMis();
+  if (v === "perfil") renderPerfil();
+  if (v === "muro") cargarMuro();
+  VISTAS.forEach(x => $("v-" + x).hidden = x !== v);
+  try { window.scrollTo(0, 0); } catch(e) {}
+}
+function abrirCrear(){
+  marcarNav("crear");
+  $("crear-menu").hidden = false; $("scrim").hidden = false;
+  $("n-crear").setAttribute("aria-expanded", "true");
+  $("m-consigna").focus();
+}
+function cerrarCrear(){
+  if (!$("crear-menu").hidden) marcarNav(NAV_DE[vistaActual]);
+  $("crear-menu").hidden = true; $("scrim").hidden = true;
+  $("n-crear").setAttribute("aria-expanded", "false");
+}
+$("home-link").onclick = () => show("muro");
+$("n-inicio").onclick = () => show("muro");
+$("n-crear").onclick = () => $("crear-menu").hidden ? abrirCrear() : cerrarCrear();
+$("n-mis").onclick = () => show("mis");
+$("n-perfil").onclick = () => show("perfil");
+$("scrim").onclick = cerrarCrear;
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("crear-menu").hidden) { cerrarCrear(); $("n-crear").focus(); } });
+$("m-consigna").onclick = () => show("home");
+$("m-guion").onclick = () => nuevoGuion();
+$("m-haiku").onclick = () => nuevoHaiku();
+
+/* ================= Consignas ================= */
+function pickTecnica(){
+  const recientes = hist.slice(-8).map(h => h.tipo);
+  const pool = TECNICAS.filter(t => !recientes.includes(t.tipo));
+  const lista = pool.length ? pool : TECNICAS;
+  return lista[Math.floor(Math.random() * lista.length)];
+}
+function generar(){
+  const tec = pickTecnica();
+  return { tipo:tec.tipo, g:generoDe(tec), origen:tec.origen, p:tec.fb.p, t:tec.fb.t, m:tec.fb.m };
+}
+function renderPrompt(animate){
+  const c = cur();
+  if (!c) return;
+  $("kind").textContent = c.tipo;
+  $("genre").textContent = c.g || "";
+  $("prompt").textContent = c.p;
+  $("twist").textContent = c.t;
+  $("twist").parentElement.hidden = !c.t;
+  $("mins").textContent = c.m;
+  $("origin").textContent = "Técnica: " + c.origen;
+  $("mini-prompt").textContent = c.p;
+  $("mini-twist").textContent = c.t ? "Vuelta de tuerca: " + c.t : "";
+  $("pos").textContent = `${pos + 1} de ${hist.length}`;
+  $("prev").disabled = pos <= 0;
+  $("next").disabled = pos >= hist.length - 1;
+  const s = $("sheet");
+  s.classList.remove("reveal");
+  if (animate) { void s.offsetWidth; s.classList.add("reveal"); }
+  resetTimer();
+}
+async function nueva(){
+  const c = { id:uuid(), ...generar(), text:"", postId:null, creado:Date.now(), editado:Date.now() };
+  hist.push(c); pos = hist.length - 1;
+  freshThisVisit = true;
+  $("note").textContent = "";
+  $("loading").hidden = true; $("sheet").hidden = false;
+  show("prompt");
+  renderPrompt(true);
+  if (!(await guardarEscrito(c))) $("note").textContent = "No se pudo guardar la consigna. Revisá tu conexión.";
+}
+$("go").onclick = () => {
+  if (freshThisVisit && hist.length) { pos = hist.length - 1; show("prompt"); renderPrompt(false); }
+  else nueva();
+};
+$("other").onclick = nueva;
+$("prev").onclick = () => { if (pos > 0) { pos--; $("note").textContent = ""; renderPrompt(true); } };
+$("next").onclick = () => { if (pos < hist.length - 1) { pos++; $("note").textContent = ""; renderPrompt(true); } };
+$("back").onclick = () => { show("prompt"); renderPrompt(false); };
+
+/* ================= Escritura ================= */
+const text = $("text");
+function countWords(){
+  const n = (text.value.trim().match(/\S+/g) || []).length;
+  $("words").textContent = n + (n === 1 ? " palabra" : " palabras");
+  return n;
+}
+function abrirEscritura(){
+  $("share-form").hidden = true; $("share-open").hidden = false; $("share-note").textContent = ""; $("w-saved-msg").textContent = "";
+  show("write");
+  text.value = cur().text || "";
+  countWords();
+  $("saved").textContent = "";
+}
+$("start").onclick = () => { abrirEscritura(); text.focus(); };
+let saveT;
+text.addEventListener("input", () => {
+  const c = cur(); if (!c) return;
+  c.text = text.value; c.editado = Date.now();
+  countWords();
+  $("w-saved-msg").textContent = "";
+  $("saved").textContent = "Guardando…";
+  clearTimeout(saveT);
+  saveT = setTimeout(async () => { $("saved").textContent = (await guardarEscrito(c)) ? "Autoguardado" : "Sin conexión: no se guardó"; racha(); }, 900);
+});
+$("w-save").onclick = async () => {
+  const c = cur();
+  c.text = text.value; c.editado = Date.now();
+  if (!c.text.trim()) { $("w-saved-msg").textContent = "Todavía no escribiste nada para guardar."; return; }
+  clearTimeout(saveT);
+  if (!(await guardarEscrito(c))) { $("w-saved-msg").textContent = "No se pudo guardar. Revisá tu conexión."; return; }
+  let extra = "";
+  if (c.postId) { const { error } = await sb.from("posts").update({ texto:c.text.trim() }).eq("id", c.postId); if (!error) extra = " y se actualizó en el muro"; }
+  $("w-saved-msg").textContent = `Este texto se guardó en Mis textos${extra}.`;
+  $("saved").textContent = "";
+  racha();
+};
+
+/* Reloj */
+let remaining = 0, tick = null;
+const fmt = s => `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+function resetTimer(){
+  clearInterval(tick); tick = null;
+  remaining = (cur()?.m || 10) * 60;
+  $("clock").textContent = fmt(remaining);
+  $("clock").classList.remove("done");
+  $("timer-btn").textContent = "Arrancar reloj";
+  $("toast").textContent = "";
+}
+$("timer-btn").onclick = () => {
+  if (tick) { clearInterval(tick); tick = null; $("timer-btn").textContent = "Seguir"; return; }
+  if (remaining <= 0) resetTimer();
+  $("timer-btn").textContent = "Pausar";
+  text.focus();
+  tick = setInterval(() => {
+    remaining--;
+    $("clock").textContent = fmt(remaining);
+    if (remaining <= 0) {
+      clearInterval(tick); tick = null;
+      $("clock").classList.add("done");
+      $("timer-btn").textContent = "Otra vuelta";
+      $("toast").textContent = "Tiempo. Terminá la frase y soltá la lapicera.";
+    }
+  }, 1000);
+};
+$("reset-btn").onclick = resetTimer;
+
+/* ================= Haiku ================= */
+const META = { h1:5, h2:7, h3:5 };
+["h1","h2","h3"].forEach((id, i) => {
+  $(id).addEventListener("input", () => {
+    const n = $(id).value.trim() ? silabas($(id).value) : 0;
+    const c = $("c" + (i + 1));
+    c.textContent = `${n} / ${META[id]}`;
+    c.classList.toggle("ok", n === META[id]);
+  });
+});
+$("h-disparador").onclick = () => { $("h-prompt").textContent = DISPARADORES[Math.floor(Math.random() * DISPARADORES.length)]; };
+let editandoHaiku = null;
+function limpiarHaiku(){
+  ["h1","h2","h3"].forEach((id, i) => { $(id).value = ""; $("c" + (i + 1)).textContent = `0 / ${META[id]}`; $("c" + (i + 1)).classList.remove("ok"); });
+}
+function nuevoHaiku(){ editandoHaiku = null; limpiarHaiku(); $("h-note").textContent = ""; show("haiku"); }
+function editarHaiku(h){
+  editandoHaiku = h.id; limpiarHaiku();
+  ["h1","h2","h3"].forEach((id, i) => { $(id).value = h.v[i] || ""; $(id).dispatchEvent(new Event("input")); });
+  $("h-note").textContent = ""; show("haiku");
+}
+$("h-save").onclick = async () => {
+  const v = ["h1","h2","h3"].map(id => $(id).value.trim());
+  if (v.some(x => !x)) { $("h-note").textContent = "Faltan versos: el haiku tiene tres."; return; }
+  let h = editandoHaiku && haikus.find(x => x.id === editandoHaiku);
+  if (h) { h.v = v; h.editado = Date.now(); }
+  else { h = { id:uuid(), v, postId:null, creado:Date.now(), editado:Date.now() }; haikus.push(h); }
+  $("h-save").disabled = true;
+  const ok = await guardarHaiku(h);
+  $("h-save").disabled = false;
+  if (!ok) { $("h-note").textContent = "No se pudo guardar. Revisá tu conexión."; return; }
+  if (h.postId) await sb.from("posts").update({ texto:v.join("\n") }).eq("id", h.postId);
+  $("h-note").textContent = "Este haiku se guardó en Mis textos.";
+  editandoHaiku = null; limpiarHaiku(); racha();
+};
+
+/* ================= Guión ================= */
+const G_CAMPOS = { "g-titulo":"titulo", "g-logline":"logline", "g-personaje":"personaje", "g-actos":"actos", "g-escenas":"escenas" };
+let guionActual = null, gT;
+function cargarGuion(g){
+  guionActual = g ? g.id : null;
+  Object.entries(G_CAMPOS).forEach(([id, k]) => { $(id).value = g ? (g[k] || "") : ""; });
+  $("g-saved").textContent = "";
+}
+function nuevoGuion(){ cargarGuion(null); show("guion"); }
+function editarGuion(g){ cargarGuion(g); show("guion"); }
+function guionEnPantalla(){
+  let g = guiones.find(x => x.id === guionActual);
+  if (!g) { g = { id:uuid(), titulo:"", logline:"", personaje:"", actos:"", escenas:"", creado:Date.now() }; guiones.push(g); guionActual = g.id; }
+  Object.entries(G_CAMPOS).forEach(([id, k]) => { g[k] = $(id).value; });
+  g.editado = Date.now();
+  return g;
+}
+Object.keys(G_CAMPOS).forEach(id => {
+  $(id).addEventListener("input", () => {
+    const g = guionEnPantalla();
+    $("g-saved").textContent = "";
+    clearTimeout(gT);
+    gT = setTimeout(() => { guardarGuionDB(g); }, 1000);
+  });
+});
+$("g-save").onclick = async () => {
+  if (Object.keys(G_CAMPOS).every(id => !$(id).value.trim())) { $("g-saved").textContent = "Todavía no escribiste nada para guardar."; return; }
+  clearTimeout(gT);
+  const g = guionEnPantalla();
+  $("g-saved").textContent = (await guardarGuionDB(g)) ? "Este guión se guardó en Mis textos." : "No se pudo guardar. Revisá tu conexión.";
+  racha();
+};
+
+/* ================= Avatares y redes ================= */
+function fotoValida(u){ return typeof u === "string" && u.startsWith(SUPABASE_URL + "/storage/v1/object/public/avatars/"); }
+function avatarEl(nombre, foto, size){
+  if (fotoValida(foto)) {
+    const img = el("img", "avatar"); img.src = foto; img.alt = ""; img.width = size; img.height = size;
+    img.style.width = img.style.height = size + "px"; img.loading = "lazy";
+    return img;
+  }
+  const d = el("span", "avatar", ((nombre || "?")[0] || "?").toUpperCase());
+  d.setAttribute("aria-hidden", "true");
+  d.style.width = d.style.height = size + "px"; d.style.fontSize = Math.round(size * 0.42) + "px";
+  return d;
+}
+function autorLinea(nombre, foto, fecha, size, tag){
+  const row = el("div", "author");
+  const meta = el(tag || "p", "meta"); meta.append(el("b", null, nombre || "Anónimo"), " · " + fechaDe(fecha));
+  row.append(avatarEl(nombre, foto, size), meta);
+  return row;
+}
+function linksRedes(r){
+  if (!r) return null;
+  const box = el("p", "redes");
+  REDES.forEach(({ k, label, url }) => {
+    const h = limpiarHandle(r[k]); if (!h) return;
+    const a = el("a", null, label); a.href = url(h); a.target = "_blank"; a.rel = "noopener noreferrer";
+    box.append(a);
+  });
+  const w = limpiarWeb(r.web);
+  if (w) { const a = el("a", null, "Sitio web"); a.href = w; a.target = "_blank"; a.rel = "noopener noreferrer"; box.append(a); }
+  return box.childNodes.length ? box : null;
+}
+
+/* ================= Muro ================= */
+let posts = [], misVotos = {}, abierto = null, cargandoMuro = false;
+function renderAlias(){
+  const row = $("alias-row");
+  row.textContent = "";
+  if (!yo || (miPerfil && miPerfil.alias)) { row.hidden = true; return; }
+  row.hidden = false;
+  const b = el("button", "linkbtn", "Elegilo en tu perfil");
+  b.onclick = () => show("perfil");
+  row.append("Para publicar y comentar necesitás un nombre de usuario. ", b);
+}
+async function cargarMuro(){
+  if (!yo || cargandoMuro) return;
+  cargandoMuro = true;
+  if (!posts.length) $("muro-estado").textContent = "Cargando publicaciones…";
+  let q = sb.from("muro").select("*").limit(200);
+  const orden = $("orden").value;
+  if (orden === "valorados") q = q.order("promedio", { ascending:false }).order("votos", { ascending:false }).order("created_at", { ascending:false });
+  else if (orden === "votados") q = q.order("votos", { ascending:false }).order("promedio", { ascending:false }).order("created_at", { ascending:false });
+  else q = q.order("created_at", { ascending:false });
+  const [{ data, error }, votos] = await Promise.all([ q, sb.from("votos").select("post_id, estrellas").eq("autor", yo.id) ]);
+  cargandoMuro = false;
+  if (error) { $("muro-estado").textContent = "No se pudo cargar el muro. Revisá tu conexión."; return; }
+  posts = data || [];
+  misVotos = {}; (votos.data || []).forEach(v => { misVotos[v.post_id] = v.estrellas; });
+  renderMuro();
+  if (abierto && vistaActual === "post") renderPost();
+}
+function renderMuro(){
+  const lista = $("muro-lista");
+  lista.textContent = "";
+  $("muro-estado").textContent = "";
+  $("muro-vacio").hidden = posts.length > 0;
+  renderAlias();
+  posts.forEach(p => {
+    const card = el("article", "post-card");
+    const head = el("div");
+    head.append(el("span", "kind", p.tipo || "Texto libre"));
+    if (p.genero) head.append(" ", el("span", "genre", p.genero));
+    const meta = autorLinea(p.alias, p.foto_url, p.created_at, 32);
+    const ex = el("p", "excerpt", excerpt(p.texto));
+    const foot = el("div", "card-foot");
+    const info = el("span");
+    if (p.votos) info.append(el("span", "stars", estrellas(p.promedio)), ` ${coma(p.promedio)} (${p.votos})`);
+    else info.append("Sin valoraciones");
+    info.append(` · ${p.comentarios} ${p.comentarios === 1 ? "comentario" : "comentarios"}`);
+    const more = el("button", "readmore", "Leer completo ›");
+    more.onclick = () => abrirPost(p.id);
+    foot.append(info, more);
+    card.append(head, meta, ex, foot);
+    lista.append(card);
+  });
+}
+$("orden").onchange = cargarMuro;
+$("vacio-crear").onclick = () => show("home");
+
+async function abrirPost(id){
+  abierto = id;
+  if (!posts.find(x => x.id === id)) {
+    const { data } = await sb.from("muro").select("*").eq("id", id).maybeSingle();
+    if (data) posts.push(data);
+  }
+  show("post");
+  renderPost();
+}
+$("post-back").onclick = () => { abierto = null; show("muro"); };
+
+async function renderPost(){
+  const box = $("post-body");
+  const p = posts.find(x => x.id === abierto);
+  box.textContent = "";
+  if (!p) { box.append(el("p", "note", "Esta publicación ya no está en el muro.")); return; }
+  const nota = el("p", "note"); nota.setAttribute("aria-live", "polite");
+  const head = el("div");
+  head.append(el("span", "kind", p.tipo || "Texto libre"));
+  if (p.genero) head.append(" ", el("span", "genre", p.genero));
+  box.append(head, autorLinea(p.alias, p.foto_url, p.created_at, 44));
+  const redes = linksRedes(p.redes); if (redes) box.append(redes);
+  if (p.consigna) box.append(el("p", "consigna-mini", "Consigna: " + p.consigna));
+  box.append(el("div", "full", p.texto));
+
+  // Valoración
+  box.append(el("h2", "block-title", "Valoración"));
+  box.append(el("p", "meta", p.votos ? `${estrellas(p.promedio)}  ${coma(p.promedio)} de 5 · ${p.votos} ${p.votos === 1 ? "voto" : "votos"}` : "Todavía nadie la valoró."));
+  const esMio = p.autor === yo.id;
+  if (!esMio) {
+    const mio = misVotos[p.id];
+    const row = el("div", "star-row");
+    for (let i = 1; i <= 5; i++) {
+      const on = mio && mio >= i;
+      const b = el("button", "star-btn" + (on ? " on" : ""), on ? "★" : "☆");
+      b.setAttribute("aria-label", `${i} ${i === 1 ? "estrella" : "estrellas"}`);
+      b.onclick = async () => {
+        const { error } = await sb.from("votos").upsert({ post_id:p.id, autor:yo.id, estrellas:i }, { onConflict:"post_id,autor" });
+        if (error) { nota.textContent = "No se pudo guardar tu valoración."; return; }
+        await cargarMuro(); renderPost();
+      };
+      row.append(b);
+    }
+    box.append(el("p", "meta", mio ? "Tu valoración (tocá para cambiarla):" : "¿Qué te pareció?"), row);
+  } else {
+    box.append(el("p", "meta", "Es tu texto: lo valoran los demás."));
+  }
+
+  // Comentarios
+  const titulo = el("h2", "block-title", "Comentarios");
+  const lista = el("div", null);
+  box.append(titulo, lista);
+  if (miPerfil && miPerfil.alias) {
+    const lab = el("label", "fill-label", "Dejá un comentario"); lab.htmlFor = "c-texto";
+    const ta = el("textarea", "fill"); ta.id = "c-texto"; ta.maxLength = 2000;
+    const b = el("button", "btn btn-primary btn-sm", "Comentar");
+    b.onclick = async () => {
+      const t = ta.value.trim(); if (!t) return;
+      b.disabled = true;
+      const { error } = await sb.from("comentarios").insert({ post_id:p.id, autor:yo.id, texto:t });
+      b.disabled = false;
+      if (error) { nota.textContent = "No se pudo publicar el comentario."; return; }
+      ta.value = ""; await cargarComentarios(p, lista, titulo); cargarMuro();
+    };
+    const act = el("div", "actions"); act.style.marginTop = ".75rem"; act.append(b);
+    box.append(lab, ta, act);
+  } else {
+    const bb = el("button", "linkbtn", "Elegí tu nombre de usuario en Perfil"); bb.onclick = () => show("perfil");
+    const pp = el("p", "note", "Para comentar necesitás un nombre de usuario. "); pp.append(bb); box.append(pp);
+  }
+  if (esMio) {
+    const del = el("button", "danger", "Borrar mi publicación");
+    del.onclick = async () => {
+      if (!confirm("¿Borrar esta publicación del muro? Tu texto sigue guardado en Mis textos.")) return;
+      const { error } = await sb.from("posts").delete().eq("id", p.id);
+      if (error) { nota.textContent = "No se pudo borrar."; return; }
+      [...hist, ...haikus].forEach(x => { if (x.postId === p.id) x.postId = null; });
+      posts = posts.filter(x => x.id !== p.id);
+      abierto = null; show("muro");
+    };
+    box.append(del);
+  }
+  box.append(nota);
+  cargarComentarios(p, lista, titulo);
+}
+async function cargarComentarios(p, lista, titulo){
+  const { data, error } = await sb.from("comentarios").select("id, texto, created_at, autor, perfil:profiles(alias, foto_url)").eq("post_id", p.id).order("created_at", { ascending:true });
+  if (error) { lista.textContent = ""; lista.append(el("p", "note", "No se pudieron cargar los comentarios.")); return; }
+  titulo.textContent = data.length ? `Comentarios (${data.length})` : "Comentarios";
+  lista.textContent = "";
+  data.forEach(c => {
+    const d = el("div", "comment");
+    d.append(autorLinea(c.perfil?.alias, c.perfil?.foto_url, c.created_at, 28, "span"), el("p", null, c.texto));
+    if (c.autor === yo.id) {
+      const del = el("button", "danger", "Borrar");
+      del.onclick = async () => { const { error } = await sb.from("comentarios").delete().eq("id", c.id); if (!error) { cargarComentarios(p, lista, titulo); cargarMuro(); } };
+      d.append(del);
+    }
+    lista.append(d);
+  });
+}
+
+/* ================= Publicar ================= */
+async function asegurarAlias(nota, valor){
+  if (miPerfil && miPerfil.alias) return true;
+  const nombre = (valor || "").trim().slice(0, 30);
+  if (!nombre) { nota.textContent = "Para publicar, primero elegí tu nombre de usuario en Perfil."; return false; }
+  const { error } = await sb.from("profiles").update({ alias:nombre }).eq("id", yo.id);
+  if (error) { nota.textContent = "No se pudo guardar tu nombre de usuario."; return false; }
+  miPerfil.alias = nombre; renderAlias();
+  return true;
+}
+async function crearPost(textoId, texto, tipo, genero, consigna){
+  const { data, error } = await sb.from("posts").insert({ autor:yo.id, texto_id:textoId, texto, tipo, genero, consigna }).select("id").single();
+  if (error) { console.error(error); return null; }
+  return data.id;
+}
+async function publicarEscrito(c, nota, aliasInput){
+  const texto = (c.text || "").trim();
+  if (!texto) { nota.textContent = "Todavía no escribiste nada para compartir."; return false; }
+  if (!(await asegurarAlias(nota, aliasInput))) return false;
+  if (!(await guardarEscrito(c))) { nota.textContent = "No se pudo guardar el texto."; return false; }
+  if (c.postId) {
+    const { error } = await sb.from("posts").update({ texto }).eq("id", c.postId);
+    if (!error) { nota.textContent = "Actualizado en el muro."; return true; }
+    c.postId = null;
+  }
+  const id = await crearPost(c.id, texto, c.tipo, c.g, c.p);
+  if (!id) { nota.textContent = "No se pudo publicar. Probá de nuevo en un rato."; return false; }
+  c.postId = id; await guardarEscrito(c);
+  nota.textContent = "Publicado en el muro.";
+  return true;
+}
+async function publicarHaiku(h, nota){
+  if (!(await asegurarAlias(nota))) return false;
+  const id = await crearPost(h.id, h.v.join("\n"), "Haiku", "Poesía", "");
+  if (!id) { nota.textContent = "No se pudo compartir."; return false; }
+  h.postId = id; await guardarHaiku(h);
+  nota.textContent = "Tu haiku está en el muro.";
+  return true;
+}
+function updateShareUI(){
+  const c = cur();
+  if (!c) return;
+  $("share-box").hidden = false;
+  $("share-open").textContent = c.postId ? "Actualizar en el muro" : "Compartir en el muro";
+  $("share-alias").hidden = !!(miPerfil && miPerfil.alias);
+}
+$("share-open").onclick = () => { $("share-form").hidden = false; $("share-open").hidden = true; $("share-note").textContent = ""; updateShareUI(); };
+$("share-cancel").onclick = () => { $("share-form").hidden = true; $("share-open").hidden = false; };
+$("share-go").onclick = async () => {
+  const c = cur(); c.text = text.value;
+  $("share-go").disabled = true;
+  const ok = await publicarEscrito(c, $("share-note"), $("share-alias-input").value);
+  $("share-go").disabled = false;
+  if (ok) { $("share-form").hidden = true; $("share-open").hidden = false; updateShareUI(); }
+};
+
+/* ================= Mis textos ================= */
+function renderMis(){
+  const lista = $("mis-lista"), nota = $("mis-estado");
+  lista.textContent = "";
+  const items = [];
+  hist.forEach(c => { if ((c.text || "").trim()) items.push({ kind:"escrito", ref:c, label:c.tipo || "Escrito", fecha:c.editado || c.creado, texto:c.text, postId:c.postId }); });
+  haikus.forEach(h => items.push({ kind:"haiku", ref:h, label:"Haiku", fecha:h.editado || h.creado, texto:h.v.join("\n"), postId:h.postId }));
+  guiones.forEach(g => {
+    const t = [g.logline, g.escenas].filter(x => (x || "").trim()).join("\n\n") || g.personaje || g.actos || "";
+    if (!(g.titulo || t).trim()) return;
+    items.push({ kind:"guion", ref:g, label:"Guión", titulo:g.titulo, fecha:g.editado || g.creado, texto:t });
+  });
+  items.sort((a, b) => b.fecha - a.fecha);
+  nota.textContent = items.length ? "" : "Todavía no escribiste nada. Tocá Crear para empezar.";
+  items.forEach(it => {
+    const card = el("article", "post-card");
+    const head = el("div");
+    head.append(el("span", "kind", it.label));
+    if (it.postId) head.append(" ", el("span", "genre", "En el muro"));
+    card.append(head, el("p", "meta", fechaDe(it.fecha)));
+    if (it.titulo) card.append(el("p", "consigna-mini", it.titulo));
+    card.append(el("p", "excerpt", excerpt(it.texto)));
+    const acts = el("div", "item-actions");
+    const avisos = el("p", "note"); avisos.setAttribute("aria-live", "polite");
+    const editar = el("button", "readmore", "Editar");
+    editar.onclick = () => {
+      if (it.kind === "escrito") { pos = hist.indexOf(it.ref); renderPrompt(false); abrirEscritura(); }
+      else if (it.kind === "haiku") editarHaiku(it.ref);
+      else editarGuion(it.ref);
+    };
+    acts.append(editar);
+    if (it.kind !== "guion" && !it.postId) {
+      const comp = el("button", "readmore", "Compartir");
+      comp.onclick = async () => {
+        comp.disabled = true;
+        const ok = it.kind === "haiku" ? await publicarHaiku(it.ref, avisos) : await publicarEscrito(it.ref, avisos);
+        comp.disabled = false;
+        if (ok) setTimeout(renderMis, 1200);
+      };
+      acts.append(comp);
+    }
+    if (it.postId) {
+      const ver = el("button", "readmore", "Ver en el muro");
+      ver.onclick = () => abrirPost(it.postId);
+      acts.append(ver);
+    }
+    const borrar = el("button", "danger", "Eliminar");
+    borrar.onclick = async () => {
+      const extra = it.postId ? " También se va a borrar del muro." : "";
+      if (!confirm("¿Eliminar este texto? No se puede deshacer." + extra)) return;
+      if (it.postId) await sb.from("posts").delete().eq("id", it.postId);
+      if (!(await borrarTextoDB(it.ref.id))) { avisos.textContent = "No se pudo eliminar."; return; }
+      if (it.kind === "escrito") {
+        const i = hist.indexOf(it.ref);
+        if (i >= 0) { hist.splice(i, 1); if (pos >= hist.length) pos = hist.length - 1; else if (i < pos) pos--; }
+      } else if (it.kind === "haiku") haikus = haikus.filter(x => x !== it.ref);
+      else { guiones = guiones.filter(x => x !== it.ref); if (guionActual === it.ref.id) guionActual = null; }
+      posts = posts.filter(x => x.id !== it.postId);
+      racha(); renderMis();
+    };
+    acts.append(borrar);
+    card.append(acts, avisos);
+    lista.append(card);
+  });
+}
+
+/* ================= Perfil ================= */
+const RED_IDS = { instagram:"r-instagram", x:"r-x", tiktok:"r-tiktok", facebook:"r-facebook", web:"r-web" };
+let fotoPendiente = undefined;   // undefined: sin cambios · null: quitar · {blob, vista}: nueva
+function pintarAvatarPerfil(){
+  const box = $("p-avatar"); box.textContent = "";
+  const foto = fotoPendiente === undefined ? miPerfil?.foto_url : (fotoPendiente ? fotoPendiente.vista : null);
+  if (fotoPendiente && fotoPendiente.vista) {
+    const img = el("img", "avatar"); img.src = fotoPendiente.vista; img.alt = ""; img.style.width = img.style.height = "88px";
+    box.append(img);
+  } else box.append(avatarEl($("p-alias").value || miPerfil?.alias, foto, 88));
+  $("p-foto-quitar").hidden = !foto;
+}
+function reducirFoto(file){
+  return new Promise((ok, mal) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const lado = 320, c = document.createElement("canvas");
+      c.width = c.height = lado;
+      const m = Math.min(img.naturalWidth, img.naturalHeight);
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, lado, lado);
+      ctx.drawImage(img, (img.naturalWidth - m) / 2, (img.naturalHeight - m) / 2, m, m, 0, 0, lado, lado);
+      URL.revokeObjectURL(url);
+      const vista = c.toDataURL("image/jpeg", 0.85);
+      c.toBlob(b => b ? ok({ blob:b, vista }) : mal(new Error("blob")), "image/jpeg", 0.85);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); mal(new Error("imagen")); };
+    img.src = url;
+  });
+}
+async function renderPerfil(){
+  if (!yo) return;
+  $("perfil-estado").textContent = "";
+  $("perfil-form").hidden = false;
+  $("baja-panel").hidden = true; $("baja-abrir").hidden = false;
+  $("p-alias").value = miPerfil?.alias || "";
+  $("p-email").value = yo.email || "";
+  const r = miPerfil?.redes || {};
+  Object.entries(RED_IDS).forEach(([k, id]) => { $(id).value = r[k] || ""; });
+  fotoPendiente = undefined;
+  pintarAvatarPerfil();
+  $("p-nota").textContent = "";
+  const escritos = hist.filter(c => (c.text || "").trim()).length + haikus.length + guiones.length;
+  const { count } = await sb.from("posts").select("id", { count:"exact", head:true }).eq("autor", yo.id);
+  const publicados = count || 0;
+  $("p-stats").textContent = `${escritos} ${escritos === 1 ? "texto escrito" : "textos escritos"} · ${publicados} ${publicados === 1 ? "publicado" : "publicados"} en el muro`;
+}
+$("p-foto-input").addEventListener("change", async e => {
+  const f = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  if (f.size > 15 * 1024 * 1024) { $("p-nota").textContent = "La imagen es muy pesada. Probá con una de menos de 15 MB."; return; }
+  try {
+    fotoPendiente = await reducirFoto(f);
+    pintarAvatarPerfil();
+    $("p-nota").textContent = "Tocá Guardar perfil para confirmar la foto.";
+  } catch(err) { $("p-nota").textContent = "No se pudo leer esa imagen. Probá con un JPG o PNG."; }
+});
+$("p-foto-quitar").onclick = () => { fotoPendiente = null; pintarAvatarPerfil(); $("p-nota").textContent = "Tocá Guardar perfil para confirmar."; };
+function rutaDeFoto(u){ return fotoValida(u) ? u.split("/storage/v1/object/public/avatars/")[1] : null; }
+$("p-guardar").onclick = async () => {
+  const nombre = $("p-alias").value.trim().slice(0, 30);
+  if (!nombre) { $("p-nota").textContent = "El nombre de usuario no puede quedar vacío."; $("p-alias").focus(); return; }
+  const redes = {};
+  REDES.forEach(({ k }) => { const h = limpiarHandle($(RED_IDS[k]).value); if (h) redes[k] = h; });
+  const w = limpiarWeb($("r-web").value); if (w) redes.web = w;
+  $("p-guardar").disabled = true;
+  const cambios = { alias:nombre, redes };
+  const vieja = rutaDeFoto(miPerfil?.foto_url);
+  try {
+    if (fotoPendiente && fotoPendiente.blob) {
+      const ruta = `${yo.id}/avatar-${Date.now()}.jpg`;
+      const { error } = await sb.storage.from("avatars").upload(ruta, fotoPendiente.blob, { contentType:"image/jpeg", cacheControl:"31536000" });
+      if (error) throw error;
+      cambios.foto_url = sb.storage.from("avatars").getPublicUrl(ruta).data.publicUrl;
+    } else if (fotoPendiente === null) cambios.foto_url = null;
+    const { error } = await sb.from("profiles").update(cambios).eq("id", yo.id);
+    if (error) throw error;
+    if (vieja && "foto_url" in cambios) sb.storage.from("avatars").remove([vieja]);
+    miPerfil = { ...miPerfil, ...cambios };
+    $("p-nota").textContent = "Perfil guardado.";
+    fotoPendiente = undefined; pintarAvatarPerfil(); renderAlias(); updateShareUI();
+  } catch(e) { console.error(e); $("p-nota").textContent = "No se pudo guardar el perfil. Revisá tu conexión."; }
+  $("p-guardar").disabled = false;
+};
+$("logout").onclick = async () => { await sb.auth.signOut(); };
+$("baja-abrir").onclick = () => { $("baja-panel").hidden = false; $("baja-abrir").hidden = true; $("baja-nota").textContent = ""; $("baja-cancelar").focus(); };
+$("baja-cancelar").onclick = () => { $("baja-panel").hidden = true; $("baja-abrir").hidden = false; };
+$("baja-confirmar").onclick = async () => {
+  $("baja-confirmar").disabled = true; $("baja-cancelar").disabled = true;
+  $("baja-nota").textContent = "Borrando tu cuenta…";
+  try {
+    const { data: archivos } = await sb.storage.from("avatars").list(yo.id);
+    if (archivos && archivos.length) await sb.storage.from("avatars").remove(archivos.map(a => `${yo.id}/${a.name}`));
+    const { error } = await sb.rpc("borrar_mi_cuenta");
+    if (error) throw error;
+    await sb.auth.signOut();
+    $("baja-panel").hidden = true; $("baja-abrir").hidden = false;
+    $("login-nota").textContent = "Tu cuenta se borró. Gracias por haber escrito con nosotros.";
+  } catch(e) {
+    console.error(e);
+    $("baja-nota").textContent = "No se pudo borrar la cuenta. Probá de nuevo o escribí a gustavo.derose@gmail.com.";
+  }
+  $("baja-confirmar").disabled = false; $("baja-cancelar").disabled = false;
+};
+
+/* ================= Sesión ================= */
+function mostrarLogin(){
+  yo = null; miPerfil = null; hist = []; haikus = []; guiones = []; posts = []; pos = -1; freshThisVisit = false;
+  document.body.classList.remove("cargando");
+  document.body.classList.add("sin-sesion");
+  $("login").hidden = false;
+  setModo("inicio", true);
+}
+async function cargarPerfil(){
+  for (let intento = 0; intento < 3; intento++) {
+    const { data } = await sb.from("profiles").select("*").eq("id", yo.id).maybeSingle();
+    if (data) return data;
+    await new Promise(r => setTimeout(r, 700));
+  }
+  return { id:yo.id, alias:null, foto_url:null, redes:{} };
+}
+async function entrar(user){
+  yo = user;
+  $("login").hidden = true;
+  document.body.classList.remove("sin-sesion");
+  document.body.classList.remove("cargando");
+  miPerfil = await cargarPerfil();
+  await cargarMisTextos();
+  show("muro");
+}
+/* ================= Acceso: iniciar sesión / registrarse ================= */
+let modo = "inicio", emailPendiente = "", recuperando = false;
+const MSJ = t => { $("login-nota").textContent = t || ""; };
+const emailOk = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+function setModo(m, conservarNota){
+  modo = m;
+  if (!conservarNota) MSJ("");
+  $("auth-inicio").hidden = m !== "inicio";
+  $("auth-panel").hidden = !(m === "login" || m === "registro");
+  $("auth-codigo").hidden = !(m === "codigo-registro" || m === "codigo-recuperar");
+  $("auth-olvide").hidden = m !== "olvide";
+  $("a-volver").hidden = m === "inicio";
+  if (m === "login" || m === "registro") {
+    const reg = m === "registro";
+    $("auth-titulo").textContent = reg ? "Crear cuenta" : "Iniciar sesión";
+    $("google-txt").textContent = reg ? "Registrarte con Google" : "Continuar con Google";
+    $("a-pass2-wrap").hidden = !reg;
+    $("a-pass").autocomplete = reg ? "new-password" : "current-password";
+    $("a-enviar").textContent = reg ? "Crear cuenta" : "Entrar";
+    $("a-olvide").hidden = reg;
+    $("a-alterna-txt").textContent = reg ? "¿Ya tenés cuenta?" : "¿No tenés cuenta?";
+    $("a-alterna").textContent = reg ? "Iniciá sesión" : "Registrate";
+    $("a-email").focus();
+  }
+  if (m === "codigo-registro" || m === "codigo-recuperar") {
+    const rec = m === "codigo-recuperar";
+    $("codigo-txt").textContent = rec
+      ? `Te mandamos un código a ${emailPendiente}. Escribilo acá junto con tu contraseña nueva.`
+      : `Te mandamos un código a ${emailPendiente}. Escribilo acá para confirmar que el email es tuyo.`;
+    $("rec-wrap").hidden = !rec;
+    $("a-confirmar").textContent = rec ? "Cambiar contraseña" : "Confirmar";
+    $("a-codigo").value = ""; $("a-codigo").focus();
+  }
+  if (m === "olvide") { $("o-email").value = $("a-email").value.trim(); $("o-email").focus(); }
+}
+$("a-ir-login").onclick = () => setModo("login");
+$("a-ir-registro").onclick = () => setModo("registro");
+$("a-alterna").onclick = () => setModo(modo === "registro" ? "login" : "registro");
+$("a-olvide").onclick = () => setModo("olvide");
+$("a-volver").onclick = () => setModo(modo === "codigo-registro" ? "registro" : (modo === "olvide" || modo === "codigo-recuperar") ? "login" : "inicio");
+$("a-mostrar").onchange = e => { ["a-pass","a-pass2"].forEach(id => { $(id).type = e.target.checked ? "text" : "password"; }); };
+
+$("login-google").onclick = async () => {
+  MSJ("");
+  const { error } = await sb.auth.signInWithOAuth({ provider:"google", options:{ redirectTo: location.origin + "/" } });
+  if (error) MSJ("No se pudo abrir el acceso con Google. Probá de nuevo.");
+};
+
+$("auth-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = $("a-email").value.trim().toLowerCase(), pass = $("a-pass").value;
+  if (!emailOk(email)) { MSJ("Revisá el email: parece que falta algo."); $("a-email").focus(); return; }
+  if (!pass) { MSJ("Escribí tu contraseña."); $("a-pass").focus(); return; }
+  const boton = $("a-enviar"); boton.disabled = true;
+  if (modo === "registro") {
+    if (pass.length < 8) { MSJ("La contraseña tiene que tener al menos 8 caracteres."); $("a-pass").focus(); boton.disabled = false; return; }
+    if (pass !== $("a-pass2").value) { MSJ("Las contraseñas no coinciden. Escribilas de nuevo."); $("a-pass2").focus(); boton.disabled = false; return; }
+    MSJ("Creando tu cuenta…");
+    const { data, error } = await sb.auth.signUp({ email, password:pass, options:{ emailRedirectTo: location.origin + "/" } });
+    boton.disabled = false;
+    if (error) { MSJ(/rate|seconds/i.test(error.message) ? "Esperá un minuto y probá de nuevo." : /password/i.test(error.message) ? "Esa contraseña es muy débil. Probá con una más larga o distinta." : "No se pudo crear la cuenta. Probá de nuevo en un rato."); return; }
+    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) { setModo("login"); $("a-email").value = email; MSJ("Ya hay una cuenta con ese email. Iniciá sesión."); return; }
+    if (data.session) return;               // si la confirmación estuviera desactivada, entra directo
+    emailPendiente = email;
+    setModo("codigo-registro");
+  } else {
+    MSJ("Entrando…");
+    const { error } = await sb.auth.signInWithPassword({ email, password:pass });
+    boton.disabled = false;
+    if (!error) { MSJ(""); return; }
+    if (/not confirmed/i.test(error.message)) {
+      emailPendiente = email;
+      await sb.auth.resend({ type:"signup", email });
+      setModo("codigo-registro", true);
+      MSJ("Todavía no confirmaste tu email. Te mandamos un código nuevo.");
+      return;
+    }
+    MSJ(/invalid/i.test(error.message) ? "El email o la contraseña no coinciden." : "No se pudo iniciar sesión. Probá de nuevo en un rato.");
+  }
+});
+
+$("auth-codigo").addEventListener("submit", async e => {
+  e.preventDefault();
+  const token = $("a-codigo").value.replace(/\D/g, "");
+  if (token.length < 6) { MSJ("El código tiene al menos 6 números. Revisalo en el email."); $("a-codigo").focus(); return; }
+  const boton = $("a-confirmar"); boton.disabled = true;
+  if (modo === "codigo-recuperar") {
+    const n1 = $("a-nueva").value, n2 = $("a-nueva2").value;
+    if (n1.length < 8) { MSJ("La contraseña nueva tiene que tener al menos 8 caracteres."); boton.disabled = false; $("a-nueva").focus(); return; }
+    if (n1 !== n2) { MSJ("Las contraseñas nuevas no coinciden."); boton.disabled = false; $("a-nueva2").focus(); return; }
+    recuperando = true;
+    MSJ("Verificando…");
+    const { data, error } = await sb.auth.verifyOtp({ email:emailPendiente, token, type:"recovery" });
+    if (error) { recuperando = false; boton.disabled = false; MSJ("El código no es válido o ya venció. Pedí uno nuevo."); return; }
+    const { error: e2 } = await sb.auth.updateUser({ password:n1 });
+    recuperando = false; boton.disabled = false;
+    if (e2) { MSJ("No se pudo cambiar la contraseña. Probá con otra."); return; }
+    ["a-nueva","a-nueva2"].forEach(id => $(id).value = "");
+    if (data && data.user) entrar(data.user);
+  } else {
+    MSJ("Verificando…");
+    const { error } = await sb.auth.verifyOtp({ email:emailPendiente, token, type:"signup" });
+    boton.disabled = false;
+    if (error) { MSJ("El código no es válido o ya venció. Pedí uno nuevo."); return; }
+    MSJ("¡Listo! Tu email quedó confirmado.");
+  }
+});
+$("a-reenviar").onclick = async () => {
+  if (!emailPendiente) return;
+  const { error } = modo === "codigo-recuperar"
+    ? await sb.auth.resetPasswordForEmail(emailPendiente)
+    : await sb.auth.resend({ type:"signup", email:emailPendiente });
+  MSJ(error ? "Esperá un minuto antes de pedir otro código." : "Te mandamos un código nuevo.");
+};
+$("auth-olvide").addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = $("o-email").value.trim().toLowerCase();
+  if (!emailOk(email)) { MSJ("Revisá el email: parece que falta algo."); return; }
+  $("o-enviar").disabled = true;
+  const { error } = await sb.auth.resetPasswordForEmail(email);
+  $("o-enviar").disabled = false;
+  if (error) { MSJ("Esperá un minuto y probá de nuevo."); return; }
+  emailPendiente = email;
+  setModo("codigo-recuperar");
+});
+sb.auth.onAuthStateChange((evento, sesion) => {
+  if (evento === "SIGNED_OUT") mostrarLogin();
+  else if (recuperando || evento === "PASSWORD_RECOVERY") return;
+  else if (sesion && sesion.user && (!yo || yo.id !== sesion.user.id)) entrar(sesion.user);
+});
+(async () => {
+  const { data:{ session } } = await sb.auth.getSession();
+  if (session && session.user) { if (!yo) entrar(session.user); }
+  else mostrarLogin();
+})();
+
+</script>
+</body>
+</html>
