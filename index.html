@@ -1635,8 +1635,22 @@ $("baja-confirmar").onclick = async () => {
 };
 
 /* ================= Sesión ================= */
+function limpiarPantalla(){
+  // Borra de la pantalla todo lo que pertenecía a la sesión anterior
+  ["muro-lista","mis-lista","post-body","p-avatar","alias-row"].forEach(id => { $(id).textContent = ""; });
+  ["p-alias","p-email","r-instagram","r-x","r-tiktok","r-facebook","r-web","text","h1","h2","h3",
+   "g-titulo","g-logline","g-personaje","g-actos","g-escenas","share-alias-input","c-texto"].forEach(id => { const e = $(id); if (e) e.value = ""; });
+  ["p-stats","p-nota","streak","mis-estado","muro-estado","w-saved-msg","saved","share-note","h-note","g-saved","note","prompt","kind","genre","twist","origin","mini-prompt","mini-twist","h-prompt"].forEach(id => { const e = $(id); if (e) e.textContent = ""; });
+  $("muro-vacio").hidden = true;
+  $("perfil-form").hidden = true;
+  VISTAS.forEach(x => $("v-" + x).hidden = true);
+  vistaActual = "muro"; abierto = null; editandoHaiku = null; guionActual = null; fotoPendiente = undefined;
+  clearTimeout(saveT); clearTimeout(gT); clearInterval(tick); tick = null;
+}
 function mostrarLogin(){
-  yo = null; miPerfil = null; hist = []; haikus = []; guiones = []; posts = []; pos = -1; freshThisVisit = false;
+  yo = null; miPerfil = null; hist = []; haikus = []; guiones = []; posts = []; misVotos = {}; pos = -1; freshThisVisit = false; entrandoId = null;
+  limpiarPantalla();
+  ["a-pass","a-pass2","a-codigo","a-nueva","a-nueva2"].forEach(id => { $(id).value = ""; });
   document.body.classList.remove("cargando");
   document.body.classList.add("sin-sesion");
   $("login").hidden = false;
@@ -1650,13 +1664,23 @@ async function cargarPerfil(){
   }
   return { id:yo.id, alias:null, foto_url:null, redes:{} };
 }
+let entrandoId = null;
 async function entrar(user){
-  yo = user;
+  if (entrandoId === user.id || (yo && yo.id === user.id)) return;
+  entrandoId = user.id;
+  limpiarPantalla();
+  yo = user; miPerfil = null; hist = []; haikus = []; guiones = []; posts = []; misVotos = {}; pos = -1;
+  if (!$("login").hidden) MSJ("Entrando…");
+  const perfil = await cargarPerfil();
+  if (!yo || yo.id !== user.id) return;          // cambió la sesión mientras cargaba
+  miPerfil = perfil;
+  await cargarMisTextos();
+  if (!yo || yo.id !== user.id) return;
+  entrandoId = null;
+  MSJ("");
   $("login").hidden = true;
   document.body.classList.remove("sin-sesion");
   document.body.classList.remove("cargando");
-  miPerfil = await cargarPerfil();
-  await cargarMisTextos();
   show("muro");
 }
 /* ================= Acceso: iniciar sesión / registrarse ================= */
@@ -1787,11 +1811,11 @@ $("auth-olvide").addEventListener("submit", async e => {
 sb.auth.onAuthStateChange((evento, sesion) => {
   if (evento === "SIGNED_OUT") mostrarLogin();
   else if (recuperando || evento === "PASSWORD_RECOVERY") return;
-  else if (sesion && sesion.user && (!yo || yo.id !== sesion.user.id)) entrar(sesion.user);
+  else if (sesion && sesion.user) entrar(sesion.user);
 });
 (async () => {
   const { data:{ session } } = await sb.auth.getSession();
-  if (session && session.user) { if (!yo) entrar(session.user); }
+  if (session && session.user) entrar(session.user);
   else mostrarLogin();
 })();
 
