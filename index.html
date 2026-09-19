@@ -180,6 +180,12 @@ body.sin-sesion{padding-bottom:0}
 .alterna{margin:0; text-align:center; font-size:.92rem; color:var(--muted)}
 .auth-caja .email-link{margin-top:-.25rem; align-self:center}
 #a-volver{margin:0}
+.reporte-panel{background:var(--sheet); border:1px solid var(--rule); border-radius:8px; padding:.9rem 1rem; margin:.75rem 0}
+.reporte-titulo{margin:0 0 .5rem; font-weight:600}
+.reporte-opciones{display:flex; flex-direction:column; gap:.15rem; margin-bottom:.6rem}
+.reporte-opcion{display:flex; align-items:center; gap:.5rem; min-height:36px; font-size:.95rem}
+.fila-mod{display:flex; gap:1.25rem; flex-wrap:wrap; align-items:center}
+.aviso-suspension{background:var(--sheet); border-left:4px solid #9B2C2C; padding:.75rem 1rem; margin:0 0 1.25rem; font-size:.95rem}
 .fill-label{display:block; font-weight:600; margin:1rem 0 .4rem}
 .brand{font-family:"Special Elite","Courier New",monospace; font-size:clamp(2rem,8vw,2.6rem); line-height:1.1; margin:0; background:none; border:0; padding:0; cursor:pointer; display:inline-flex; align-items:center; gap:.3em; color:var(--text)}
 .b-blu{color:var(--ink); padding:0 .12em; background-image:linear-gradient(var(--mark),var(--mark)); background-repeat:no-repeat; background-size:100% 55%; background-position:0 90%}
@@ -563,6 +569,14 @@ en otro balcón           (5)</div>
       
     </div>
   </section>
+  <!-- Moderación -->
+  <section id="v-admin" hidden>
+    <button class="back" id="admin-volver">‹ Volver al perfil</button>
+    <h1 class="page-title">Moderación</h1>
+    <p class="note" id="admin-estado"></p>
+    <div id="admin-lista"></div>
+  </section>
+
   <!-- Mis textos -->
   <section id="v-mis" hidden>
     <h1 class="page-title">Mis textos</h1>
@@ -605,6 +619,7 @@ en otro balcón           (5)</div>
       <p class="note" id="p-nota" aria-live="polite"></p>
     </div>
     <p class="meta" id="p-stats" style="margin-top:2rem"></p>
+    <div class="actions" id="admin-caja" hidden style="margin-top:1rem"><button class="btn btn-ghost btn-sm" id="admin-abrir">Moderación</button></div>
     <p class="perfil-legal"><a href="/privacidad">Privacidad</a> · <a href="/terminos">Condiciones del servicio</a></p>
     <div class="baja">
       <button class="danger" id="baja-abrir">Desactivar cuenta</button>
@@ -987,8 +1002,8 @@ async function borrarTextoDB(id){
 }
 
 /* ================= Navegación ================= */
-const VISTAS = ["home","prompt","write","guion","haiku","muro","post","mis","perfil"];
-const NAV_DE = { muro:"inicio", post:"inicio", home:"crear", prompt:"crear", write:"crear", guion:"crear", haiku:"crear", mis:"mis", perfil:"perfil" };
+const VISTAS = ["home","prompt","write","guion","haiku","muro","post","mis","perfil","admin"];
+const NAV_DE = { muro:"inicio", post:"inicio", home:"crear", prompt:"crear", write:"crear", guion:"crear", haiku:"crear", mis:"mis", perfil:"perfil", admin:"perfil" };
 let vistaActual = "muro";
 function marcarNav(n){
   ["inicio","crear","mis","perfil"].forEach(x => {
@@ -1004,6 +1019,7 @@ function show(v){
   if (v === "mis") renderMis();
   if (v === "perfil") renderPerfil();
   if (v === "muro") cargarMuro();
+  if (v === "admin") renderAdmin();
   VISTAS.forEach(x => $("v-" + x).hidden = x !== v);
   try { window.scrollTo(0, 0); } catch(e) {}
 }
@@ -1252,6 +1268,11 @@ let posts = [], misVotos = {}, abierto = null, cargandoMuro = false;
 function renderAlias(){
   const row = $("alias-row");
   row.textContent = "";
+  if (yo && miPerfil && miPerfil.suspendido) {
+    row.hidden = false;
+    row.append(el("p", "aviso-suspension", "Tu cuenta está suspendida por no respetar las condiciones del servicio: podés leer y escribir tus textos, pero no publicar, comentar ni valorar. Si creés que es un error, escribí a gustavo.derose@gmail.com."));
+    return;
+  }
   if (!yo || (miPerfil && miPerfil.alias)) { row.hidden = true; return; }
   row.hidden = false;
   const b = el("button", "linkbtn", "Elegilo en tu perfil");
@@ -1373,6 +1394,21 @@ async function renderPost(){
     const bb = el("button", "linkbtn", "Elegí tu nombre de usuario en Perfil"); bb.onclick = () => show("perfil");
     const pp = el("p", "note", "Para comentar necesitás un nombre de usuario. "); pp.append(bb); box.append(pp);
   }
+  if (!esMio) {
+    const mod = el("div", "fila-mod");
+    const rep = el("button", "danger", "Reportar publicación");
+    rep.onclick = () => panelReporte(zonaRep, { post_id:p.id }, "esta publicación");
+    mod.append(rep);
+    if (esAdmin) {
+      const b = el("button", "danger", "Borrar (admin)");
+      b.onclick = async () => { if (await borrarComoAdmin("posts", p.id)) { posts = posts.filter(x => x.id !== p.id); abierto = null; show("muro"); } };
+      const su = el("button", "danger", p.suspendido ? "Reactivar autor (admin)" : "Suspender autor (admin)");
+      su.onclick = async () => { if (await suspender(p.autor, !p.suspendido)) { await cargarMuro(); renderPost(); } };
+      mod.append(b, su);
+    }
+    const zonaRep = el("div");
+    box.append(mod, zonaRep);
+  }
   if (esMio) {
     const del = el("button", "danger", "Borrar mi publicación");
     del.onclick = async () => {
@@ -1400,6 +1436,17 @@ async function cargarComentarios(p, lista, titulo){
       const del = el("button", "danger", "Borrar");
       del.onclick = async () => { const { error } = await sb.from("comentarios").delete().eq("id", c.id); if (!error) { cargarComentarios(p, lista, titulo); cargarMuro(); } };
       d.append(del);
+    } else {
+      const fila = el("div", "fila-mod");
+      const rep = el("button", "danger", "Reportar");
+      rep.onclick = () => panelReporte(d, { comentario_id:c.id }, "este comentario");
+      fila.append(rep);
+      if (esAdmin) {
+        const del = el("button", "danger", "Borrar (admin)");
+        del.onclick = async () => { if (await borrarComoAdmin("comentarios", c.id)) { cargarComentarios(p, lista, titulo); cargarMuro(); } };
+        fila.append(del);
+      }
+      d.append(fila);
     }
     lista.append(d);
   });
@@ -1563,6 +1610,8 @@ async function renderPerfil(){
   $("perfil-estado").textContent = "";
   $("perfil-form").hidden = false;
   $("baja-panel").hidden = true; $("baja-abrir").hidden = false;
+  $("admin-caja").hidden = !esAdmin;
+  if (esAdmin) contarReportes();
   $("p-alias").value = miPerfil?.alias || "";
   $("p-email").value = yo.email || "";
   const r = miPerfil?.redes || {};
@@ -1634,10 +1683,126 @@ $("baja-confirmar").onclick = async () => {
   $("baja-confirmar").disabled = false; $("baja-cancelar").disabled = false;
 };
 
+/* ================= Moderación ================= */
+let esAdmin = false;
+const MOTIVOS = [
+  ["ofensivo", "Discrimina u ofende"],
+  ["acoso", "Acoso o amenazas"],
+  ["spam", "Spam o publicidad"],
+  ["plagio", "No es un texto propio (plagio)"],
+  ["sexual", "Contenido sexual inapropiado"],
+  ["otro", "Otro motivo"]
+];
+const MOTIVO_TXT = Object.fromEntries(MOTIVOS);
+function panelReporte(destino, objetivo, que){
+  // destino: elemento donde se inserta; objetivo: {post_id} o {comentario_id}
+  if (destino.querySelector(".reporte-panel")) return;
+  const panel = el("div", "reporte-panel");
+  const nombre = "motivo-" + Math.random().toString(36).slice(2, 8);
+  panel.append(el("p", "reporte-titulo", `¿Por qué reportás ${que}?`));
+  const opciones = el("div", "reporte-opciones");
+  MOTIVOS.forEach(([valor, texto]) => {
+    const lab = el("label", "reporte-opcion");
+    const r = document.createElement("input"); r.type = "radio"; r.name = nombre; r.value = valor;
+    lab.append(r, " " + texto);
+    opciones.append(lab);
+  });
+  const det = el("textarea", "fill"); det.maxLength = 500; det.placeholder = "Si querés, contanos más (opcional)"; det.style.minHeight = "4rem";
+  const nota = el("p", "note"); nota.setAttribute("aria-live", "polite");
+  const enviar = el("button", "btn btn-primary btn-sm", "Enviar reporte");
+  const cancelar = el("button", "btn btn-ghost btn-sm", "Cancelar");
+  cancelar.onclick = () => panel.remove();
+  enviar.onclick = async () => {
+    const elegido = panel.querySelector(`input[name="${nombre}"]:checked`);
+    if (!elegido) { nota.textContent = "Elegí un motivo."; return; }
+    enviar.disabled = true;
+    const { error } = await sb.from("reportes").insert({ autor:yo.id, motivo:elegido.value, detalle:det.value.trim() || null, ...objetivo });
+    enviar.disabled = false;
+    if (error && error.code === "23505") { nota.textContent = "Ya lo habías reportado. Lo vamos a revisar."; return; }
+    if (error) { nota.textContent = "No se pudo enviar el reporte. Probá de nuevo."; return; }
+    panel.textContent = "";
+    panel.append(el("p", "note", "Gracias por avisar. Lo vamos a revisar."));
+  };
+  const acts = el("div", "actions"); acts.style.marginTop = ".5rem"; acts.append(enviar, cancelar);
+  panel.append(opciones, det, acts, nota);
+  destino.append(panel);
+  panel.querySelector("input").focus();
+}
+async function borrarComoAdmin(tabla, id){
+  if (!confirm("¿Borrar este contenido como administrador? No se puede deshacer.")) return false;
+  const { error } = await sb.from(tabla).delete().eq("id", id);
+  if (error) { alert("No se pudo borrar."); return false; }
+  return true;
+}
+async function suspender(usuario, valor){
+  const pregunta = valor ? "¿Suspender a esta persona? No va a poder publicar, comentar ni votar." : "¿Reactivar la cuenta de esta persona?";
+  if (!confirm(pregunta)) return false;
+  const { error } = await sb.rpc("suspender_usuario", { usuario, valor });
+  if (error) { alert("No se pudo cambiar la suspensión."); return false; }
+  return true;
+}
+
+/* Panel de moderación */
+async function contarReportes(){
+  if (!esAdmin) return;
+  const { count } = await sb.from("reportes").select("id", { count:"exact", head:true }).eq("estado", "pendiente");
+  const n = count || 0;
+  $("admin-abrir").textContent = n ? `Moderación · ${n} ${n === 1 ? "reporte pendiente" : "reportes pendientes"}` : "Moderación";
+}
+async function renderAdmin(){
+  const lista = $("admin-lista"), nota = $("admin-estado");
+  lista.textContent = "";
+  if (!esAdmin) { nota.textContent = "Esta sección es solo para administradores."; return; }
+  nota.textContent = "Cargando reportes…";
+  const { data, error } = await sb.from("reportes")
+    .select("id, motivo, detalle, created_at, post_id, comentario_id, reportero:profiles!reportes_autor_fkey(alias), post:posts(id, texto, tipo, autor, perfil:profiles(alias, suspendido)), comentario:comentarios(id, texto, post_id, autor, perfil:profiles(alias, suspendido))")
+    .eq("estado", "pendiente").order("created_at", { ascending:false }).limit(200);
+  if (error) { console.error(error); nota.textContent = "No se pudieron cargar los reportes."; return; }
+  nota.textContent = data.length ? "" : "No hay reportes pendientes. Todo tranquilo por el muro.";
+  data.forEach(r => {
+    const c = r.post || r.comentario;
+    const esPost = !!r.post;
+    const card = el("article", "post-card");
+    const head = el("div");
+    head.append(el("span", "kind", esPost ? "Publicación" : "Comentario"), " ", el("span", "genre", MOTIVO_TXT[r.motivo] || r.motivo));
+    card.append(head);
+    card.append(el("p", "meta", `Reportado por ${r.reportero?.alias || "alguien"} · ${fechaDe(r.created_at)}`));
+    if (r.detalle) card.append(el("p", "consigna-mini", "“" + r.detalle + "”"));
+    if (!c) { card.append(el("p", "note", "El contenido ya no existe.")); }
+    else {
+      const autor = c.perfil || {};
+      card.append(el("p", "meta", `Autor: ${autor.alias || "Anónimo"}${autor.suspendido ? " (suspendido)" : ""}`));
+      card.append(el("p", "excerpt", excerpt(c.texto)));
+    }
+    const acts = el("div", "item-actions");
+    const aviso = el("p", "note"); aviso.setAttribute("aria-live", "polite");
+    if (c) {
+      const ver = el("button", "readmore", esPost ? "Ver publicación" : "Ver en su publicación");
+      ver.onclick = () => abrirPost(esPost ? c.id : c.post_id);
+      const borrar = el("button", "readmore", "Borrar contenido");
+      borrar.onclick = async () => { if (await borrarComoAdmin(esPost ? "posts" : "comentarios", c.id)) { renderAdmin(); contarReportes(); } };
+      const susp = el("button", "readmore", c.perfil?.suspendido ? "Reactivar autor" : "Suspender autor");
+      susp.onclick = async () => { if (await suspender(c.autor, !c.perfil?.suspendido)) renderAdmin(); };
+      acts.append(ver, borrar, susp);
+    }
+    const descartar = el("button", "danger", "Descartar reporte");
+    descartar.onclick = async () => {
+      const { error } = await sb.from("reportes").update({ estado:"descartado" }).eq("id", r.id);
+      if (error) { aviso.textContent = "No se pudo descartar."; return; }
+      renderAdmin(); contarReportes();
+    };
+    acts.append(descartar);
+    card.append(acts, aviso);
+    lista.append(card);
+  });
+}
+$("admin-abrir").onclick = () => show("admin");
+$("admin-volver").onclick = () => show("perfil");
+
 /* ================= Sesión ================= */
 function limpiarPantalla(){
   // Borra de la pantalla todo lo que pertenecía a la sesión anterior
-  ["muro-lista","mis-lista","post-body","p-avatar","alias-row"].forEach(id => { $(id).textContent = ""; });
+  ["muro-lista","mis-lista","post-body","p-avatar","alias-row","admin-lista"].forEach(id => { $(id).textContent = ""; });
   ["p-alias","p-email","r-instagram","r-x","r-tiktok","r-facebook","r-web","text","h1","h2","h3",
    "g-titulo","g-logline","g-personaje","g-actos","g-escenas","share-alias-input","c-texto"].forEach(id => { const e = $(id); if (e) e.value = ""; });
   ["p-stats","p-nota","streak","mis-estado","muro-estado","w-saved-msg","saved","share-note","h-note","g-saved","note","prompt","kind","genre","twist","origin","mini-prompt","mini-twist","h-prompt"].forEach(id => { const e = $(id); if (e) e.textContent = ""; });
@@ -1648,6 +1813,7 @@ function limpiarPantalla(){
   clearTimeout(saveT); clearTimeout(gT); clearInterval(tick); tick = null;
 }
 function mostrarLogin(){
+  esAdmin = false; $("admin-caja").hidden = true;
   yo = null; miPerfil = null; hist = []; haikus = []; guiones = []; posts = []; misVotos = {}; pos = -1; freshThisVisit = false; entrandoId = null;
   limpiarPantalla();
   ["a-pass","a-pass2","a-codigo","a-nueva","a-nueva2"].forEach(id => { $(id).value = ""; });
@@ -1674,6 +1840,8 @@ async function entrar(user){
   const perfil = await cargarPerfil();
   if (!yo || yo.id !== user.id) return;          // cambió la sesión mientras cargaba
   miPerfil = perfil;
+  const adm = await sb.rpc("es_admin");
+  esAdmin = !adm.error && adm.data === true;
   await cargarMisTextos();
   if (!yo || yo.id !== user.id) return;
   entrandoId = null;
