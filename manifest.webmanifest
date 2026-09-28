@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "Tinta Blu",
+  "short_name": "Tinta Blu",
+  "description": "Red social para escritores: consignas de taller para destrabar la escritura, un muro para compartir tus textos y lectores que te valoran y comentan.",
+  "lang": "es",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#E6EAE1",
+  "theme_color": "#22306B",
+  "categories": ["books", "education", "social"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
