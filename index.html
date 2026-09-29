@@ -220,11 +220,54 @@ body.sin-sesion{padding-bottom:0}
 body.publico .sheet-menu{bottom:1.25rem}
 @media (prefers-reduced-motion: reduce){ .btn-compartir{transition:none} }
 .red-punto{width:9px; height:9px; border-radius:50%; flex:none}
-body.publico .bottom-nav{display:none}
+body.publico .bottom-nav, body.publico .head-acciones{display:none}
 body.publico{padding-bottom:2.5rem}
 .cta-publico{background:var(--sheet); border:1px solid var(--rule); border-radius:4px 18px 4px 4px; padding:1.5rem 1.25rem; margin-top:2.5rem; text-align:center}
 .cta-publico h2{margin-top:0}
 .cta-publico p{margin:.25rem auto 1.25rem; max-width:34ch}
+.head-acciones{display:flex; gap:.35rem}
+.icono-head{position:relative; background:none; border:0; padding:.5rem; min-width:44px; min-height:44px; color:var(--ink); cursor:pointer; border-radius:999px}
+.icono-head svg{width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; display:block}
+.icono-head:hover{background:var(--sheet)}
+.badge{position:absolute; top:6px; right:6px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; background:#9B2C2C; color:#fff; font-size:.68rem; font-weight:700; line-height:17px; text-align:center; font-family:var(--sans)}
+.titulo-fila{display:flex; justify-content:space-between; align-items:baseline; gap:1rem}
+.titulo-fila .page-title{margin-bottom:1.25rem}
+/* Perfil de otra persona */
+.perfil-cabecera{display:flex; align-items:center; gap:1rem; margin-bottom:1rem}
+.perfil-nombre{font-family:var(--serif); font-weight:400; color:var(--ink); font-size:1.6rem; margin:0}
+.cifras{display:flex; gap:1.5rem; margin:.75rem 0 1.25rem; font-size:.95rem; color:var(--muted)}
+.cifras b{display:block; color:var(--text); font-family:var(--serif); font-size:1.25rem; font-weight:400}
+.acciones-perfil{display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.5rem}
+.btn-seguir{border-radius:999px; padding:.7rem 1.4rem; min-height:44px; font:inherit; font-weight:600; border:2px solid var(--ink); background:var(--ink); color:var(--sheet); cursor:pointer}
+.btn-seguir.siguiendo{background:transparent; color:var(--ink)}
+.autor-link{background:none; border:0; padding:0; font:inherit; color:inherit; text-align:left; cursor:pointer; display:flex; align-items:center; gap:.6rem}
+.autor-link:hover b{text-decoration:underline}
+/* Notificaciones */
+.noti{display:flex; gap:.75rem; align-items:flex-start; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--rule); padding:.9rem .25rem; cursor:pointer; color:var(--text); font:inherit}
+.noti:hover{background:var(--sheet)}
+.noti.nueva{background:rgba(240,214,74,.14)}
+.noti-txt{flex:1; min-width:0}
+.noti-txt p{margin:0; font-size:.98rem}
+.noti-txt small{color:var(--muted); font-size:.85rem}
+/* Mensajes */
+.chat-fila{display:flex; gap:.75rem; align-items:center; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--rule); padding:.9rem .25rem; cursor:pointer; color:var(--text); font:inherit}
+.chat-fila:hover{background:var(--sheet)}
+.chat-fila .cf{flex:1; min-width:0}
+.chat-fila b{display:block; font-weight:600}
+.chat-fila small{display:block; color:var(--muted); font-size:.88rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.chat-fila .punto{width:9px; height:9px; border-radius:50%; background:var(--ink); flex:none}
+.chat-cabecera{display:flex; align-items:center; gap:.75rem; padding-bottom:.9rem; border-bottom:1px solid var(--rule); margin-bottom:1rem}
+.chat-cabecera b{font-family:var(--serif); font-weight:400; font-size:1.3rem; color:var(--ink)}
+.chat-hilo{display:flex; flex-direction:column; justify-content:flex-end; gap:.6rem; min-height:calc(100vh - 24rem); min-height:calc(100dvh - 24rem); padding-bottom:1rem}
+.burbuja{max-width:82%; padding:.65rem .9rem; border-radius:16px; font-family:var(--read); font-size:1.02rem; line-height:1.5; white-space:pre-wrap; overflow-wrap:anywhere}
+.burbuja.mia{align-self:flex-end; background:var(--ink); color:var(--sheet); border-bottom-right-radius:4px}
+.burbuja.suya{align-self:flex-start; background:var(--sheet); border:1px solid var(--rule); border-bottom-left-radius:4px}
+.burbuja time{display:block; font-family:var(--sans); font-size:.72rem; opacity:.7; margin-top:.25rem}
+.dia{align-self:center; font-size:.82rem; color:var(--muted); margin:.5rem 0}
+.chat-form{display:flex; gap:.5rem; align-items:flex-end; position:sticky; bottom:calc(76px + env(safe-area-inset-bottom)); background:var(--paper); padding:.7rem 0 .4rem; margin-top:.4rem}
+.chat-texto{flex:1; min-width:0; width:auto; min-height:0; height:2.75rem; max-height:7rem; overflow-y:auto; resize:none; background:var(--sheet); color:var(--text); border:1px solid var(--rule); border-radius:18px; padding:.65rem .9rem; font-family:var(--read); font-size:1.02rem; line-height:1.45; background-image:none}
+.chat-texto:focus{outline:none; border-color:var(--ink)}
+.chat-form .btn{flex:none}
 .fill-label{display:block; font-weight:600; margin:1rem 0 .4rem}
 .brand{font-family:"Special Elite","Courier New",monospace; font-size:clamp(2rem,8vw,2.6rem); line-height:1.1; margin:0; background:none; border:0; padding:0; cursor:pointer; display:inline-flex; align-items:center; gap:.3em; color:var(--text)}
 .b-blu{color:var(--ink); padding:0 .12em; background-image:linear-gradient(var(--mark),var(--mark)); background-repeat:no-repeat; background-size:100% 55%; background-position:0 90%}
@@ -375,7 +418,16 @@ textarea:focus{outline:none; border-color:var(--ink)}
 <div class="wrap">
   <header>
     <button class="brand" id="home-link" aria-label="Tinta Blu, volver al inicio"><span class="b-tinta">tinta</span> <span class="b-blu">blu</span><span class="b-cursor" aria-hidden="true"></span></button>
-    <div class="streak" id="streak"></div>
+    <div class="head-acciones">
+      <button class="icono-head" id="ir-notis" aria-label="Notificaciones">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M13.7 20a2 2 0 0 1-3.4 0"/></svg>
+        <span class="badge" id="badge-notis" hidden></span>
+      </button>
+      <button class="icono-head" id="ir-chats" aria-label="Mensajes">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-9l-5 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        <span class="badge" id="badge-chats" hidden></span>
+      </button>
+    </div>
   </header>
 
   <!-- Muro -->
@@ -616,6 +668,43 @@ en otro balcón           (5)</div>
       
     </div>
   </section>
+  <!-- Perfil de otra persona -->
+  <section id="v-usuario" hidden>
+    <button class="back" id="usuario-volver">‹ Volver</button>
+    <div id="usuario-body"></div>
+  </section>
+
+  <!-- Notificaciones -->
+  <section id="v-notis" hidden>
+    <div class="titulo-fila">
+      <h1 class="page-title">Notificaciones</h1>
+      <button class="linkbtn" id="notis-limpiar" hidden>Marcar todas</button>
+    </div>
+    <p class="note" id="notis-estado"></p>
+    <div id="notis-lista"></div>
+  </section>
+
+  <!-- Mensajes -->
+  <section id="v-chats" hidden>
+    <h1 class="page-title">Mensajes</h1>
+    <p class="note" id="chats-estado"></p>
+    <div id="chats-lista"></div>
+    <div id="chats-solicitudes"></div>
+  </section>
+
+  <!-- Conversación -->
+  <section id="v-chat" hidden>
+    <button class="back" id="chat-volver">‹ Mensajes</button>
+    <div class="chat-cabecera" id="chat-cabecera"></div>
+    <p class="note" id="chat-aviso" aria-live="polite"></p>
+    <div class="chat-hilo" id="chat-hilo"></div>
+    <form class="chat-form" id="chat-form">
+      <label class="sr-only" for="chat-texto">Tu mensaje</label>
+      <textarea class="chat-texto" id="chat-texto" rows="1" maxlength="4000" placeholder="Escribí un mensaje…"></textarea>
+      <button type="submit" class="btn btn-primary btn-sm" id="chat-enviar">Enviar</button>
+    </form>
+  </section>
+
   <!-- Moderación -->
   <section id="v-admin" hidden>
     <button class="back" id="admin-volver">‹ Volver al perfil</button>
@@ -667,6 +756,7 @@ en otro balcón           (5)</div>
       <p class="note" id="p-nota" aria-live="polite"></p>
     </div>
     <p class="meta" id="p-stats" style="margin-top:2rem"></p>
+    <p class="meta" id="streak"></p>
     <div class="actions" id="admin-caja" hidden style="margin-top:1rem"><button class="btn btn-ghost btn-sm" id="admin-abrir">Moderación</button></div>
     <p class="perfil-legal"><a href="/privacidad">Privacidad</a> · <a href="/terminos">Condiciones del servicio</a></p>
     <div class="baja">
@@ -1062,7 +1152,7 @@ async function borrarTextoDB(id){
 }
 
 /* ================= Navegación ================= */
-const VISTAS = ["home","prompt","write","guion","haiku","muro","post","mis","perfil","admin"];
+const VISTAS = ["home","prompt","write","guion","haiku","muro","post","mis","perfil","admin","usuario","notis","chats","chat"];
 const NAV_DE = { muro:"inicio", post:"inicio", home:"crear", prompt:"crear", write:"crear", guion:"crear", haiku:"crear", mis:"mis", perfil:"perfil", admin:"perfil" };
 let vistaActual = "muro";
 function marcarNav(n){
@@ -1080,6 +1170,9 @@ function show(v){
   if (v === "perfil") renderPerfil();
   if (v === "muro") cargarMuro();
   if (v === "admin") renderAdmin();
+  if (v === "notis") renderNotis();
+  if (v === "chats") renderChats();
+  if (v !== "chat") { chatAbierto = null; ultimoMensajeVisto = null; }
   VISTAS.forEach(x => $("v-" + x).hidden = x !== v);
   try { window.scrollTo(0, 0); } catch(e) {}
 }
@@ -1389,9 +1482,16 @@ function avatarEl(nombre, foto, size){
   d.style.width = d.style.height = size + "px"; d.style.fontSize = Math.round(size * 0.42) + "px";
   return d;
 }
-function autorLinea(nombre, foto, fecha, size, tag){
-  const row = el("div", "author");
+function autorLinea(nombre, foto, fecha, size, tag, uid){
   const meta = el(tag || "p", "meta"); meta.append(el("b", null, nombre || "Anónimo"), " · " + fechaDe(fecha));
+  if (uid && yo && uid !== yo.id && !publico) {
+    const row = el("button", "author autor-link");
+    row.type = "button";
+    row.append(avatarEl(nombre, foto, size), meta);
+    row.onclick = e => { e.stopPropagation(); verUsuario(uid); };
+    return row;
+  }
+  const row = el("div", "author");
   row.append(avatarEl(nombre, foto, size), meta);
   return row;
 }
@@ -1441,31 +1541,32 @@ async function cargarMuro(){
   renderMuro();
   if (abierto && vistaActual === "post") renderPost();
 }
+function tarjetaMuro(p){
+  const card = el("article", "post-card");
+  const head = el("div");
+  head.append(el("span", "kind", p.tipo || "Texto libre"));
+  if (p.genero) head.append(" ", el("span", "genre", p.genero));
+  const meta = autorLinea(p.alias, p.foto_url, p.created_at, 32, null, p.autor);
+  if (p.titulo) head.append(el("p", "consigna-mini", p.titulo));
+  const ex = el("p", "excerpt", excerpt(p.texto));
+  const foot = el("div", "card-foot");
+  const info = el("span");
+  if (p.votos) info.append(el("span", "stars", estrellas(p.promedio)), ` ${coma(p.promedio)} (${p.votos})`);
+  else info.append("Sin valoraciones");
+  info.append(` · ${p.comentarios} ${p.comentarios === 1 ? "comentario" : "comentarios"}`);
+  const more = el("button", "readmore", "Leer completo ›");
+  more.onclick = () => abrirPost(p.id);
+  foot.append(info, more);
+  card.append(head, meta, ex, foot);
+  return card;
+}
 function renderMuro(){
   const lista = $("muro-lista");
   lista.textContent = "";
   $("muro-estado").textContent = "";
   $("muro-vacio").hidden = posts.length > 0;
   renderAlias();
-  posts.forEach(p => {
-    const card = el("article", "post-card");
-    const head = el("div");
-    head.append(el("span", "kind", p.tipo || "Texto libre"));
-    if (p.genero) head.append(" ", el("span", "genre", p.genero));
-    const meta = autorLinea(p.alias, p.foto_url, p.created_at, 32);
-    if (p.titulo) head.append(el("p", "consigna-mini", p.titulo));
-    const ex = el("p", "excerpt", excerpt(p.texto));
-    const foot = el("div", "card-foot");
-    const info = el("span");
-    if (p.votos) info.append(el("span", "stars", estrellas(p.promedio)), ` ${coma(p.promedio)} (${p.votos})`);
-    else info.append("Sin valoraciones");
-    info.append(` · ${p.comentarios} ${p.comentarios === 1 ? "comentario" : "comentarios"}`);
-    const more = el("button", "readmore", "Leer completo ›");
-    more.onclick = () => abrirPost(p.id);
-    foot.append(info, more);
-    card.append(head, meta, ex, foot);
-    lista.append(card);
-  });
+  posts.forEach(p => lista.append(tarjetaMuro(p)));
 }
 $("orden").onchange = cargarMuro;
 $("vacio-crear").onclick = () => show("home");
@@ -1554,7 +1655,7 @@ async function renderPost(){
   const head = el("div");
   head.append(el("span", "kind", p.tipo || "Texto libre"));
   if (p.genero) head.append(" ", el("span", "genre", p.genero));
-  box.append(head, autorLinea(p.alias, p.foto_url, p.created_at, 44));
+  box.append(head, autorLinea(p.alias, p.foto_url, p.created_at, 44, null, p.autor));
   const redes = linksRedes(p.redes); if (redes) box.append(redes);
   if (p.titulo) box.append(el("h2", "block-title", p.titulo));
   if (p.consigna) box.append(el("p", "consigna-mini", "Consigna: " + p.consigna));
@@ -1655,7 +1756,7 @@ async function cargarComentarios(p, lista, titulo){
   lista.textContent = "";
   data.forEach(c => {
     const d = el("div", "comment");
-    d.append(autorLinea(c.perfil?.alias, c.perfil?.foto_url, c.created_at, 28, "span"), el("p", null, c.texto));
+    d.append(autorLinea(c.perfil?.alias, c.perfil?.foto_url, c.created_at, 28, "span", c.autor), el("p", null, c.texto));
     if (yo && c.autor === yo.id) {
       const del = el("button", "danger", "Borrar");
       del.onclick = async () => { const { error } = await sb.from("comentarios").delete().eq("id", c.id); if (!error) { cargarComentarios(p, lista, titulo); cargarMuro(); } };
@@ -2032,6 +2133,235 @@ async function renderAdmin(){
 $("admin-abrir").onclick = () => show("admin");
 $("admin-volver").onclick = () => show("perfil");
 
+
+/* ================= Perfiles, seguidores, notificaciones y mensajes ================= */
+let usuarioAbierto = null, chatAbierto = null, chatOtro = null;
+let latidoBadges = null, latidoChat = null;
+let volverDe = "muro";
+
+/* ---- Perfil de otra persona ---- */
+async function verUsuario(id){
+  if (!id || publico) return;
+  if (yo && id === yo.id) { show("perfil"); return; }
+  volverDe = (vistaActual === "usuario") ? volverDe : vistaActual;
+  usuarioAbierto = id;
+  show("usuario");
+  $("usuario-body").textContent = "";
+  $("usuario-body").append(el("p", "note", "Cargando…"));
+  const [perfil, sigo, textos] = await Promise.all([
+    sb.from("perfiles").select("*").eq("id", id).maybeSingle(),
+    sb.from("seguidores").select("seguido").eq("seguidor", yo.id).eq("seguido", id).maybeSingle(),
+    sb.from("muro").select("*").eq("autor", id).order("created_at", { ascending:false }).limit(50)
+  ]);
+  if (usuarioAbierto !== id) return;
+  renderUsuario(perfil.data, !!sigo.data, textos.data || []);
+}
+function renderUsuario(u, sigo, textos){
+  const box = $("usuario-body");
+  box.textContent = "";
+  if (!u) { box.append(el("p", "note", "No encontramos a esta persona.")); return; }
+  const cab = el("div", "perfil-cabecera");
+  cab.append(avatarEl(u.alias, u.foto_url, 72));
+  cab.append(el("h1", "perfil-nombre", u.alias || "Anónimo"));
+  box.append(cab);
+  if (u.suspendido) box.append(el("p", "aviso-suspension", "Esta cuenta está suspendida."));
+  const redes = linksRedes(u.redes); if (redes) box.append(redes);
+
+  const cifras = el("div", "cifras");
+  [["publicaciones", u.publicaciones], ["seguidores", u.seguidores], ["siguiendo", u.siguiendo]].forEach(([nombre, n]) => {
+    const c = el("span"); c.append(el("b", null, String(n)), " " + nombre); cifras.append(c);
+  });
+  box.append(cifras);
+
+  const acciones = el("div", "acciones-perfil");
+  const aviso = el("p", "note"); aviso.setAttribute("aria-live", "polite");
+  const bSeguir = el("button", "btn-seguir" + (sigo ? " siguiendo" : ""), sigo ? "Siguiendo" : "Seguir");
+  bSeguir.onclick = async () => {
+    bSeguir.disabled = true;
+    const ahora = !sigo;
+    const { error } = ahora
+      ? await sb.from("seguidores").insert({ seguidor:yo.id, seguido:u.id })
+      : await sb.from("seguidores").delete().eq("seguidor", yo.id).eq("seguido", u.id);
+    bSeguir.disabled = false;
+    if (error) { aviso.textContent = "No se pudo cambiar. Probá de nuevo."; return; }
+    sigo = ahora;
+    bSeguir.textContent = sigo ? "Siguiendo" : "Seguir";
+    bSeguir.classList.toggle("siguiendo", sigo);
+    const cif = cifras.querySelectorAll("b")[1];
+    cif.textContent = String(Math.max(0, Number(cif.textContent) + (sigo ? 1 : -1)));
+  };
+  const bChat = el("button", "btn-seguir siguiendo", "Mensaje");
+  bChat.onclick = () => abrirConversacionCon(u.id, u.alias, u.foto_url);
+  acciones.append(bSeguir, bChat);
+  box.append(acciones, aviso);
+
+  box.append(el("h2", "block-title", textos.length ? "Sus textos en el muro" : "Todavía no publicó nada"));
+  textos.forEach(p => box.append(tarjetaMuro(p)));
+}
+$("usuario-volver").onclick = () => { usuarioAbierto = null; show(volverDe === "usuario" ? "muro" : volverDe); };
+
+/* ---- Notificaciones ---- */
+const TEXTO_NOTI = {
+  seguimiento: "te empezó a seguir",
+  comentario: "comentó tu texto",
+  valoracion: "valoró tu texto",
+  publicacion: "publicó un texto nuevo"
+};
+async function renderNotis(){
+  const lista = $("notis-lista"), nota = $("notis-estado");
+  if (!yo) return;
+  nota.textContent = lista.childNodes.length ? "" : "Cargando…";
+  const { data, error } = await sb.from("notificaciones")
+    .select("id, tipo, leida, created_at, post_id, actor, perfil:profiles!notificaciones_actor_fkey(alias, foto_url)")
+    .eq("para", yo.id).order("created_at", { ascending:false }).limit(100);
+  if (error) { nota.textContent = "No se pudieron cargar las notificaciones."; return; }
+  lista.textContent = "";
+  nota.textContent = data.length ? "" : "Todavía no tenés notificaciones. Van a aparecer acá cuando alguien te siga, te comente o valore un texto tuyo.";
+  $("notis-limpiar").hidden = !data.some(n => !n.leida);
+  data.forEach(n => {
+    const fila = el("button", "noti" + (n.leida ? "" : " nueva"));
+    fila.append(avatarEl(n.perfil?.alias, n.perfil?.foto_url, 38));
+    const txt = el("div", "noti-txt");
+    const p = el("p"); p.append(el("b", null, n.perfil?.alias || "Alguien"), " " + (TEXTO_NOTI[n.tipo] || ""));
+    txt.append(p, el("small", null, fechaDe(n.created_at)));
+    fila.append(txt);
+    fila.onclick = async () => {
+      if (!n.leida) { await sb.from("notificaciones").update({ leida:true }).eq("id", n.id); n.leida = true; actualizarBadges(); }
+      if (n.post_id) abrirPost(n.post_id); else verUsuario(n.actor);
+    };
+    lista.append(fila);
+  });
+  actualizarBadges();
+}
+$("notis-limpiar").onclick = async () => {
+  await sb.from("notificaciones").update({ leida:true }).eq("para", yo.id).eq("leida", false);
+  renderNotis(); actualizarBadges();
+};
+
+/* ---- Lista de conversaciones ---- */
+function filaChat(c){
+  const fila = el("button", "chat-fila");
+  fila.append(avatarEl(c.otro_alias, c.otro_foto, 44));
+  const cf = el("div", "cf");
+  cf.append(el("b", null, c.otro_alias || "Anónimo"));
+  const previo = c.ultimo_texto ? ((c.ultimo_autor === yo.id ? "Vos: " : "") + c.ultimo_texto) : "Conversación nueva";
+  cf.append(el("small", null, previo));
+  fila.append(cf);
+  if (c.sin_leer) fila.append(el("span", "punto"));
+  fila.onclick = () => abrirChat(c.id, c.otro, c.otro_alias, c.otro_foto);
+  return fila;
+}
+async function renderChats(){
+  const lista = $("chats-lista"), sol = $("chats-solicitudes"), nota = $("chats-estado");
+  if (!yo) return;
+  const { data, error } = await sb.from("mis_chats").select("*").order("ultimo", { ascending:false }).limit(200);
+  if (error) { nota.textContent = "No se pudieron cargar los mensajes."; return; }
+  actualizarBadges();
+  lista.textContent = ""; sol.textContent = "";
+  const abiertas = data.filter(c => c.aceptada || c.iniciada_por === yo.id);
+  const pedidos = data.filter(c => !c.aceptada && c.iniciada_por !== yo.id);
+  nota.textContent = data.length ? "" : "Todavía no tenés mensajes. Entrá al perfil de alguien y tocá “Mensaje” para escribirle.";
+  abiertas.forEach(c => lista.append(filaChat(c)));
+  if (pedidos.length) {
+    sol.append(el("h2", "block-title", "Solicitudes"));
+    sol.append(el("p", "note", "Mensajes de gente que no seguís. Si respondés, la conversación pasa arriba."));
+    pedidos.forEach(c => sol.append(filaChat(c)));
+  }
+}
+
+/* ---- Conversación ---- */
+async function abrirConversacionCon(otroId, alias, foto){
+  const { data, error } = await sb.rpc("abrir_conversacion", { otro: otroId });
+  if (error) { alert("No se pudo abrir la conversación."); return; }
+  abrirChat(data, otroId, alias, foto);
+}
+function abrirChat(id, otroId, alias, foto){
+  chatAbierto = id; chatOtro = otroId;
+  const cab = $("chat-cabecera"); cab.textContent = "";
+  const b = el("button", "autor-link");
+  b.append(avatarEl(alias, foto, 40), el("b", null, alias || "Anónimo"));
+  b.onclick = () => verUsuario(otroId);
+  cab.append(b);
+  $("chat-hilo").textContent = "";
+  $("chat-texto").value = "";
+  $("chat-aviso").textContent = "";
+  show("chat");
+  cargarMensajes(true);
+}
+$("chat-volver").onclick = () => { chatAbierto = null; show("chats"); };
+
+function diaDe(v){ return new Date(aMs(v)).toLocaleDateString("es-AR", { day:"numeric", month:"long" }); }
+const hora = v => new Date(aMs(v)).toLocaleTimeString("es-AR", { hour:"2-digit", minute:"2-digit" });
+let ultimoMensajeVisto = null;
+async function cargarMensajes(bajar){
+  if (!chatAbierto) return;
+  const id = chatAbierto;
+  const { data, error } = await sb.from("mensajes").select("id, autor, texto, created_at, leido")
+    .eq("conversacion", id).order("created_at", { ascending:true }).limit(500);
+  if (error || chatAbierto !== id) return;
+  const firma = data.length ? data[data.length - 1].id + ":" + data.length : "0";
+  if (firma !== ultimoMensajeVisto) {
+    ultimoMensajeVisto = firma;
+    const hilo = $("chat-hilo");
+    hilo.textContent = "";
+    let dia = "";
+    data.forEach(m => {
+      const d = diaDe(m.created_at);
+      if (d !== dia) { dia = d; hilo.append(el("p", "dia", d)); }
+      const mio = m.autor === yo.id;
+      const bu = el("div", "burbuja " + (mio ? "mia" : "suya"), m.texto);
+      const t = el("time", null, hora(m.created_at));
+      bu.append(t);
+      hilo.append(bu);
+    });
+    if (!data.length) hilo.append(el("p", "note", "Todavía no hay mensajes. Escribí el primero."));
+    bajar = true;
+  }
+  if (bajar) { try { $("chat-hilo").lastElementChild?.scrollIntoView({ block:"end" }); } catch(e) {} }
+  const sinLeer = data.filter(m => !m.leido && m.autor !== yo.id).map(m => m.id);
+  if (sinLeer.length) { await sb.from("mensajes").update({ leido:true }).in("id", sinLeer); actualizarBadges(); }
+}
+$("chat-texto").addEventListener("input", e => {
+  e.target.style.height = "auto";
+  e.target.style.height = Math.min(Math.max(e.target.scrollHeight, 44), 112) + "px";
+});
+$("chat-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const texto = $("chat-texto").value.trim();
+  if (!texto || !chatAbierto) return;
+  $("chat-enviar").disabled = true;
+  const { error } = await sb.from("mensajes").insert({ conversacion:chatAbierto, autor:yo.id, texto });
+  $("chat-enviar").disabled = false;
+  if (error) { $("chat-aviso").textContent = "No se pudo enviar. Revisá tu conexión."; return; }
+  $("chat-texto").value = ""; $("chat-texto").style.height = ""; $("chat-aviso").textContent = "";
+  await cargarMensajes(true);
+});
+
+/* ---- Avisos en la campana y el sobre ---- */
+function pintarBadge(id, n){
+  const b = $(id);
+  b.textContent = n > 9 ? "9+" : String(n);
+  b.hidden = !n;
+}
+async function actualizarBadges(){
+  if (!yo || publico) return;
+  const [notis, chats] = await Promise.all([
+    sb.from("notificaciones").select("id", { count:"exact", head:true }).eq("para", yo.id).eq("leida", false),
+    sb.from("mis_chats").select("sin_leer")
+  ]);
+  pintarBadge("badge-notis", notis.count || 0);
+  pintarBadge("badge-chats", (chats.data || []).reduce((a, c) => a + (c.sin_leer || 0), 0));
+}
+function arrancarLatidos(){
+  clearInterval(latidoBadges); clearInterval(latidoChat);
+  actualizarBadges();
+  latidoBadges = setInterval(actualizarBadges, 60000);
+  latidoChat = setInterval(() => { if (vistaActual === "chat") cargarMensajes(false); }, 5000);
+}
+function pararLatidos(){ clearInterval(latidoBadges); clearInterval(latidoChat); latidoBadges = latidoChat = null; }
+$("ir-notis").onclick = () => show("notis");
+$("ir-chats").onclick = () => show("chats");
+
 /* ================= Lectura pública (link compartido) ================= */
 function postCompartido(){
   const t = new URLSearchParams(location.search).get("t");
@@ -2063,9 +2393,9 @@ function salirPublico(){
 /* ================= Sesión ================= */
 function limpiarPantalla(){
   // Borra de la pantalla todo lo que pertenecía a la sesión anterior
-  ["muro-lista","mis-lista","post-body","p-avatar","alias-row","admin-lista"].forEach(id => { $(id).textContent = ""; });
+  ["muro-lista","mis-lista","post-body","p-avatar","alias-row","admin-lista","usuario-body","notis-lista","chats-lista","chats-solicitudes","chat-hilo","chat-cabecera"].forEach(id => { $(id).textContent = ""; });
   ["p-alias","p-email","r-instagram","r-x","r-tiktok","r-facebook","r-web","text","h1","h2","h3",
-   "w-titulo","g-titulo","g-logline","g-personaje","g-actos","g-escenas","share-alias-input","c-texto"].forEach(id => { const e = $(id); if (e) e.value = ""; });
+   "w-titulo","chat-texto","g-titulo","g-logline","g-personaje","g-actos","g-escenas","share-alias-input","c-texto"].forEach(id => { const e = $(id); if (e) e.value = ""; });
   ["p-stats","p-nota","p-redes-vista","streak","mis-estado","muro-estado","w-saved-msg","saved","share-note","h-note","g-saved","note","prompt","kind","genre","twist","origin","mini-prompt","mini-twist","h-prompt"].forEach(id => { const e = $(id); if (e) e.textContent = ""; });
   $("muro-vacio").hidden = true;
   $("perfil-form").hidden = true;
@@ -2075,6 +2405,8 @@ function limpiarPantalla(){
 }
 function mostrarLogin(){
   esAdmin = false; publico = false; document.body.classList.remove("publico");
+  pararLatidos(); usuarioAbierto = null; chatAbierto = null; chatOtro = null;
+  pintarBadge("badge-notis", 0); pintarBadge("badge-chats", 0);
   $("admin-caja").hidden = true;
   yo = null; miPerfil = null; hist = []; haikus = []; guiones = []; posts = []; misVotos = {}; pos = -1; freshThisVisit = false; entrandoId = null;
   limpiarPantalla();
@@ -2113,6 +2445,7 @@ async function entrar(user){
   $("login").hidden = true;
   document.body.classList.remove("sin-sesion");
   document.body.classList.remove("cargando");
+  arrancarLatidos();
   const compartido = postCompartido();
   if (compartido) { limpiarUrl(); await abrirPost(compartido); }
   else show("muro");
