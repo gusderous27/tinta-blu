@@ -49,12 +49,16 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
+/* El navegador del celular achica toda la página si algo se pasa de ancho.
+   Con esto nunca hay desborde horizontal y la escala no se rompe. */
+html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
 body{
   background:var(--paper); color:var(--text); font-family:var(--sans);
   font-size:1rem; line-height:1.5; min-height:100vh;
   -webkit-font-smoothing:antialiased;
+  max-width:100%; overflow-x:hidden; overflow-x:clip;
 }
-.wrap{max-width:640px; margin:0 auto; padding:1.25rem 1.25rem 3rem}
+.wrap{max-width:640px; margin:0 auto; padding:1.25rem 1.25rem 3rem; overflow-wrap:break-word}
 header{display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:2rem}
 .tabs{display:none}
 .tab{background:none; border:0; padding:.5rem 0; margin-bottom:-1px; color:var(--muted); font-weight:500; border-bottom:3px solid transparent}
@@ -164,8 +168,8 @@ body.sin-sesion{padding-bottom:0}
 .google-btn{display:inline-flex; align-items:center; gap:.75rem; background:var(--sheet); color:var(--text); border:1px solid var(--rule); border-radius:999px; padding:.9rem 1.5rem; font-weight:600; font-size:1rem; min-height:52px; margin-top:.5rem}
 .google-btn:hover{border-color:var(--ink)}
 .google-btn svg{width:20px; height:20px}
-.login-intro{font-family:var(--read); font-size:min(1.05rem, calc((100vw - 2.5rem) / 30)); color:var(--text); margin:0; line-height:1.55}
-.login-intro span{display:block; white-space:nowrap}
+.login-intro{font-family:var(--read); font-size:min(1.05rem, calc((100vw - 3rem) / 29)); color:var(--text); margin:0; line-height:1.55; max-width:100%}
+.login-intro span{display:block; text-wrap:balance}
 .legal{font-size:.82rem; color:var(--muted); max-width:34ch; margin:0}
 .legal a, .perfil-legal a{color:var(--ink)}
 .perfil-legal{font-size:.85rem; color:var(--muted); margin-top:1rem}
@@ -1155,6 +1159,61 @@ async function borrarTextoDB(id){
 const VISTAS = ["home","prompt","write","guion","haiku","muro","post","mis","perfil","admin","usuario","notis","chats","chat"];
 const NAV_DE = { muro:"inicio", post:"inicio", home:"crear", prompt:"crear", write:"crear", guion:"crear", haiku:"crear", mis:"mis", perfil:"perfil", admin:"perfil" };
 let vistaActual = "muro";
+
+/* ---- Recordar dónde estabas si se actualiza la página ----
+   El celular recarga sola la app al tirar hacia abajo. Guardamos la pantalla
+   (y hasta dónde habías bajado) para volver ahí en vez de caer en el muro. */
+const LLAVE_DONDE = "tinta-blu:donde";
+let restaurando = false;
+function guardarDonde(){
+  if (!yo || publico || restaurando) return;
+  const d = { v:vistaActual, y:Math.round(window.scrollY || 0) };
+  if (vistaActual === "post") d.id = abierto;
+  else if (vistaActual === "usuario") d.id = usuarioAbierto;
+  else if (vistaActual === "chat") { d.id = chatAbierto; d.otro = chatOtro; d.alias = chatAlias; d.foto = chatFoto; }
+  else if (vistaActual === "write" || vistaActual === "prompt") { const c = cur(); if (c) d.id = c.id; }
+  else if (vistaActual === "haiku") d.id = editandoHaiku && editandoHaiku.id;
+  else if (vistaActual === "guion") d.id = guionActual && guionActual.id;
+  if (!d.id) delete d.id;
+  try { sessionStorage.setItem(LLAVE_DONDE, JSON.stringify(d)); } catch(e) {}
+}
+function olvidarDonde(){ try { sessionStorage.removeItem(LLAVE_DONDE); } catch(e) {} }
+function leerDonde(){
+  try { const d = JSON.parse(sessionStorage.getItem(LLAVE_DONDE) || "null");
+        return (d && VISTAS.includes(d.v)) ? d : null; } catch(e) { return null; }
+}
+async function restaurarDonde(){
+  const d = leerDonde();
+  if (!d || d.v === "muro") return false;
+  restaurando = true;
+  let ok = false;
+  try {
+    if (d.v === "post") ok = d.id ? !!(await abrirPost(d.id)) : false;
+    else if (d.v === "usuario") ok = d.id ? !!(await verUsuario(d.id)) : false;
+    else if (d.v === "chat") { if (d.id && d.otro) { abrirChat(d.id, d.otro, d.alias, d.foto); ok = true; } }
+    else if (d.v === "write" || d.v === "prompt") {
+      const i = d.id ? hist.findIndex(c => c.id === d.id) : -1;
+      if (i >= 0) { pos = i; if (!hist[i].libre) renderPrompt(false); if (d.v === "write") abrirEscritura(); else show("prompt"); ok = true; }
+    }
+    else if (d.v === "haiku") { const h = haikus.find(x => x.id === d.id); if (h) { editarHaiku(h); ok = true; } }
+    else if (d.v === "guion") { const g = guiones.find(x => x.id === d.id); if (g) { editarGuion(g); ok = true; } }
+    else if (d.v === "admin") { if (esAdmin) { show("admin"); ok = true; } }
+    else { show(d.v); ok = true; }
+  } catch(e) { ok = false; }
+  restaurando = false;
+  if (!ok) return false;
+  if (d.y) { try { window.scrollTo(0, d.y); } catch(e) {}
+             setTimeout(() => { try { window.scrollTo(0, d.y); } catch(e) {} }, 350); }
+  guardarDonde();
+  return true;
+}
+let guardarDondeT = null;
+window.addEventListener("scroll", () => {
+  clearTimeout(guardarDondeT);
+  guardarDondeT = setTimeout(guardarDonde, 250);
+}, { passive:true });
+window.addEventListener("pagehide", guardarDonde);
+document.addEventListener("visibilitychange", () => { if (document.hidden) guardarDonde(); });
 function marcarNav(n){
   ["inicio","crear","mis","perfil"].forEach(x => {
     if (x === n) $("n-" + x).setAttribute("aria-current", "page");
@@ -1174,7 +1233,8 @@ function show(v){
   if (v === "chats") renderChats();
   if (v !== "chat") { chatAbierto = null; ultimoMensajeVisto = null; }
   VISTAS.forEach(x => $("v-" + x).hidden = x !== v);
-  try { window.scrollTo(0, 0); } catch(e) {}
+  if (!restaurando) { try { window.scrollTo(0, 0); } catch(e) {} }
+  guardarDonde();
 }
 function abrirCrear(){
   marcarNav("crear");
@@ -1577,8 +1637,10 @@ async function abrirPost(id){
     const { data } = await sb.from("muro").select("*").eq("id", id).maybeSingle();
     if (data) posts.push(data);
   }
+  if (!posts.find(x => x.id === id)) { abierto = null; return false; }
   show("post");
   renderPost();
+  return true;
 }
 $("post-back").onclick = () => { if (publico) { salirPublico(); return; } abierto = null; show("muro"); };
 
@@ -2135,15 +2197,15 @@ $("admin-volver").onclick = () => show("perfil");
 
 
 /* ================= Perfiles, seguidores, notificaciones y mensajes ================= */
-let usuarioAbierto = null, chatAbierto = null, chatOtro = null;
+let usuarioAbierto = null, chatAbierto = null, chatOtro = null, chatAlias = null, chatFoto = null;
 let latidoBadges = null, latidoChat = null;
 let volverDe = "muro";
 
 /* ---- Perfil de otra persona ---- */
 async function verUsuario(id){
-  if (!id || publico) return;
-  if (yo && id === yo.id) { show("perfil"); return; }
-  volverDe = (vistaActual === "usuario") ? volverDe : vistaActual;
+  if (!id || publico) return false;
+  if (yo && id === yo.id) { show("perfil"); return true; }
+  volverDe = (restaurando || vistaActual === "usuario") ? "muro" : vistaActual;
   usuarioAbierto = id;
   show("usuario");
   $("usuario-body").textContent = "";
@@ -2153,8 +2215,9 @@ async function verUsuario(id){
     sb.from("seguidores").select("seguido").eq("seguidor", yo.id).eq("seguido", id).maybeSingle(),
     sb.from("muro").select("*").eq("autor", id).order("created_at", { ascending:false }).limit(50)
   ]);
-  if (usuarioAbierto !== id) return;
+  if (usuarioAbierto !== id) return true;
   renderUsuario(perfil.data, !!sigo.data, textos.data || []);
+  return true;
 }
 function renderUsuario(u, sigo, textos){
   const box = $("usuario-body");
@@ -2276,7 +2339,7 @@ async function abrirConversacionCon(otroId, alias, foto){
   abrirChat(data, otroId, alias, foto);
 }
 function abrirChat(id, otroId, alias, foto){
-  chatAbierto = id; chatOtro = otroId;
+  chatAbierto = id; chatOtro = otroId; chatAlias = alias || null; chatFoto = foto || null;
   const cab = $("chat-cabecera"); cab.textContent = "";
   const b = el("button", "autor-link");
   b.append(avatarEl(alias, foto, 40), el("b", null, alias || "Anónimo"));
@@ -2405,7 +2468,8 @@ function limpiarPantalla(){
 }
 function mostrarLogin(){
   esAdmin = false; publico = false; document.body.classList.remove("publico");
-  pararLatidos(); usuarioAbierto = null; chatAbierto = null; chatOtro = null;
+  olvidarDonde();
+  pararLatidos(); usuarioAbierto = null; chatAbierto = null; chatOtro = null; chatAlias = null; chatFoto = null;
   pintarBadge("badge-notis", 0); pintarBadge("badge-chats", 0);
   $("admin-caja").hidden = true;
   yo = null; miPerfil = null; hist = []; haikus = []; guiones = []; posts = []; misVotos = {}; pos = -1; freshThisVisit = false; entrandoId = null;
@@ -2447,8 +2511,8 @@ async function entrar(user){
   document.body.classList.remove("cargando");
   arrancarLatidos();
   const compartido = postCompartido();
-  if (compartido) { limpiarUrl(); await abrirPost(compartido); }
-  else show("muro");
+  if (compartido) { limpiarUrl(); olvidarDonde(); if (!await abrirPost(compartido)) show("muro"); }
+  else if (!await restaurarDonde()) show("muro");
 }
 /* ================= Acceso: iniciar sesión / registrarse ================= */
 let modo = "inicio", emailPendiente = "", recuperando = false;
