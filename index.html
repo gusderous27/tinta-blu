@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <title>Tinta Blu — consignas de escritura creativa</title>
 <meta name="description" content="Tinta Blu: consignas de taller para destrabar la escritura. Escribí, guardá y compartí tus textos con otros escritores.">
 <meta name="theme-color" content="#22306B">
@@ -1163,6 +1163,16 @@ let vistaActual = "muro";
 /* ---- Recordar dónde estabas si se actualiza la página ----
    El celular recarga sola la app al tirar hacia abajo. Guardamos la pantalla
    (y hasta dónde habías bajado) para volver ahí en vez de caer en el muro. */
+/* Si el navegador alcanzó a achicar la escala antes de que cargara todo,
+   esto lo obliga a recalcularla y volver a 1. */
+function reajustarViewport(){
+  const m = document.querySelector('meta[name="viewport"]');
+  if (!m) return;
+  const normal = "width=device-width, initial-scale=1, minimum-scale=1";
+  m.setAttribute("content", normal + ", maximum-scale=1");
+  setTimeout(() => m.setAttribute("content", normal), 80);
+}
+
 const LLAVE_DONDE = "tinta-blu:donde";
 let restaurando = false;
 function guardarDonde(){
@@ -2478,6 +2488,7 @@ function mostrarLogin(){
   document.body.classList.remove("cargando");
   document.body.classList.add("sin-sesion");
   $("login").hidden = false;
+  reajustarViewport();
   setModo("inicio", true);
 }
 async function cargarPerfil(){
@@ -2509,6 +2520,7 @@ async function entrar(user){
   $("login").hidden = true;
   document.body.classList.remove("sin-sesion");
   document.body.classList.remove("cargando");
+  reajustarViewport();
   arrancarLatidos();
   const compartido = postCompartido();
   if (compartido) { limpiarUrl(); olvidarDonde(); if (!await abrirPost(compartido)) show("muro"); }
